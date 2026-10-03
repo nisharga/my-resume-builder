@@ -8,9 +8,11 @@
     "scheme": "myresumebuilder",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "com.nisharga.myresumebuilder"
     },
     "android": {
+      "package": "com.nisharga.myresumebuilder",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
