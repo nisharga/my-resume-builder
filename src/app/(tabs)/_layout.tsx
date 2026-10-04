@@ -18,6 +18,8 @@ function ElevatedPlusIcon() {
   );
 }
 
+const TAB_BAR_HEIGHT = Platform.OS === "ios" ? 82 : 108;
+
 export default function TabsLayout() {
   return (
     <Tabs
@@ -75,8 +77,6 @@ export default function TabsLayout() {
     </Tabs>
   );
 }
-
-const TAB_BAR_HEIGHT = Platform.OS === "ios" ? 82 : 70;
 
 const styles = StyleSheet.create({
   tabBar: {

@@ -1,13 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ResumesScreen() {
   return (
-    <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
-      <View style={styles.content}>
-        <Text style={styles.title}>All CVs</Text>
-      </View>
-    </SafeAreaView>
+    <View style={styles.content}>
+      <Text style={styles.title}>All CVs</Text>
+    </View>
   );
 }
 
