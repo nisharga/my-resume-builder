@@ -1,12 +1,21 @@
 import { Tabs } from "expo-router";
-import { FileText, Home, LayoutTemplate, Plus, User } from "lucide-react-native";
-import { StyleSheet, View } from "react-native";
+import {
+  FileText,
+  Home,
+  LayoutTemplate,
+  Plus,
+  User,
+} from "lucide-react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const PRIMARY = "#ff0000";
+const PRIMARY = "#0000ff";
 
-// Fixed content height: icon (24) + label (11) + gaps (~23) = 58
 const CONTENT_HEIGHT = 58;
+
+function NoRippleTabButton(props: any) {
+  return <Pressable {...props} android_ripple={null} style={props.style} />;
+}
 
 function ElevatedPlusIcon() {
   return (
@@ -18,11 +27,6 @@ function ElevatedPlusIcon() {
 
 export default function TabsLayout() {
   const insets = useSafeAreaInsets();
-
-  // Adapts to every Android nav mode and iOS home indicator automatically:
-  // - Emulator 3-button nav  → insets.bottom ≈ 48 → height = 106
-  // - Phone gesture nav      → insets.bottom ≈ 16 → height = 74
-  // - iPhone home indicator  → insets.bottom ≈ 34 → height = 92
   const tabBarHeight = CONTENT_HEIGHT + insets.bottom;
 
   return (
@@ -31,14 +35,13 @@ export default function TabsLayout() {
         headerShown: false,
         tabBarActiveTintColor: PRIMARY,
         tabBarInactiveTintColor: "#9CA3AF",
+        tabBarButton: NoRippleTabButton,
         tabBarStyle: {
           backgroundColor: "#FFFFFF",
           borderTopWidth: 1,
           borderTopColor: "#E5E7EB",
           height: tabBarHeight,
           paddingTop: 8,
-          // Setting paddingBottom = insets.bottom tells React Navigation
-          // we already handled the inset — it won't add another layer on top
           paddingBottom: insets.bottom,
           overflow: "visible",
         },
@@ -75,7 +78,9 @@ export default function TabsLayout() {
         name="resumes"
         options={{
           title: "My CV",
-          tabBarIcon: ({ color, size }) => <FileText size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <FileText size={size} color={color} />
+          ),
         }}
       />
 
@@ -97,17 +102,14 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   plusWrapper: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     backgroundColor: PRIMARY,
     justifyContent: "center",
     alignItems: "center",
     marginTop: -40,
-    shadowColor: PRIMARY,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.4,
-    shadowRadius: 12,
-    elevation: 8,
+    borderColor: "white",
+    borderWidth: 4,
   },
 });
