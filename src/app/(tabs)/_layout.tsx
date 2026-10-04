@@ -1,14 +1,12 @@
 import { Tabs } from "expo-router";
-import {
-  FileText,
-  Home,
-  LayoutTemplate,
-  Plus,
-  User,
-} from "lucide-react-native";
-import { Platform, StyleSheet, View } from "react-native";
+import { FileText, Home, LayoutTemplate, Plus, User } from "lucide-react-native";
+import { StyleSheet, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const PRIMARY = "#ff0000";
+
+// Fixed content height: icon (24) + label (11) + gaps (~23) = 58
+const CONTENT_HEIGHT = 58;
 
 function ElevatedPlusIcon() {
   return (
@@ -18,16 +16,32 @@ function ElevatedPlusIcon() {
   );
 }
 
-const TAB_BAR_HEIGHT = Platform.OS === "ios" ? 82 : 108;
-
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
+
+  // Adapts to every Android nav mode and iOS home indicator automatically:
+  // - Emulator 3-button nav  → insets.bottom ≈ 48 → height = 106
+  // - Phone gesture nav      → insets.bottom ≈ 16 → height = 74
+  // - iPhone home indicator  → insets.bottom ≈ 34 → height = 92
+  const tabBarHeight = CONTENT_HEIGHT + insets.bottom;
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: PRIMARY,
         tabBarInactiveTintColor: "#9CA3AF",
-        tabBarStyle: styles.tabBar,
+        tabBarStyle: {
+          backgroundColor: "#FFFFFF",
+          borderTopWidth: 1,
+          borderTopColor: "#E5E7EB",
+          height: tabBarHeight,
+          paddingTop: 8,
+          // Setting paddingBottom = insets.bottom tells React Navigation
+          // we already handled the inset — it won't add another layer on top
+          paddingBottom: insets.bottom,
+          overflow: "visible",
+        },
         tabBarLabelStyle: styles.label,
       }}
     >
@@ -61,9 +75,7 @@ export default function TabsLayout() {
         name="resumes"
         options={{
           title: "My CV",
-          tabBarIcon: ({ color, size }) => (
-            <FileText size={size} color={color} />
-          ),
+          tabBarIcon: ({ color, size }) => <FileText size={size} color={color} />,
         }}
       />
 
@@ -79,16 +91,6 @@ export default function TabsLayout() {
 }
 
 const styles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: "#FFFFFF",
-    borderTopWidth: 1,
-    borderTopColor: "#E5E7EB",
-    height: TAB_BAR_HEIGHT,
-    paddingTop: 8,
-    // Extra bottom gap for Android gesture nav bar
-    paddingBottom: Platform.OS === "ios" ? 0 : 14,
-    overflow: "visible", // Required so the elevated button renders above the bar
-  },
   label: {
     fontSize: 11,
     fontWeight: "500",
@@ -101,7 +103,6 @@ const styles = StyleSheet.create({
     backgroundColor: PRIMARY,
     justifyContent: "center",
     alignItems: "center",
-    // Pulls the circle up above the tab bar
     marginTop: -40,
     shadowColor: PRIMARY,
     shadowOffset: { width: 0, height: 6 },
