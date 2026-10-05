@@ -1,26 +1,54 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from "expo-router";
+import { LanguageProvider } from "@/src/context/LanguageContext";
+import { ThemeProvider } from "@/src/context/ThemeContext";
+import { initStorage } from "@/src/constants/storage";
+import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
-import { useColorScheme } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { useEffect, useState } from "react";
 
-// Tells Expo Router to open at (tabs) directly — no redirect needed at startup
+// Keeps (tabs) underneath deep-linked screens so "back" returns to tabs
 export const unstable_settings = {
   initialRouteName: "(tabs)",
 };
 
 SplashScreen.preventAutoHideAsync();
+SplashScreen.setOptions({ duration: 300, fade: true });
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const [appReady, setAppReady] = useState(false);
+
+  const [fontsLoaded, fontError] = useFonts({
+    // "Inter-Regular": require("../assets/fonts/Inter-Regular.ttf"),
+  });
 
   useEffect(() => {
-    SplashScreen.hideAsync();
+    async function prepare() {
+      try {
+        await initStorage();
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppReady(true);
+      }
+    }
+    prepare();
   }, []);
 
+  const isReady = appReady && (fontsLoaded || !!fontError);
+
+  useEffect(() => {
+    if (isReady) SplashScreen.hideAsync();
+  }, [isReady]);
+
+  if (!isReady) return null;
+
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{ headerShown: false }} />
+    <ThemeProvider>
+      <LanguageProvider>
+        <StatusBar style="auto" />
+        <Stack screenOptions={{ headerShown: false }} />
+      </LanguageProvider>
     </ThemeProvider>
   );
 }

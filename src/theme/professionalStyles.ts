@@ -1,7 +1,6 @@
-import { StyleSheet } from 'react-native';
-import colors from './colors';
-import { designTokens } from './theme';
-
+import { StyleSheet } from "react-native";
+import { colors } from "./colors";
+import { designTokens } from "./theme";
 
 /**
  * Professional UX Styles - Reusable Components
@@ -31,9 +30,9 @@ export const professionalStyles = StyleSheet.create({
 
   // === HEADERS ===
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: designTokens.spacing.md,
     paddingVertical: designTokens.spacing.md,
     backgroundColor: colors.surface,
@@ -44,14 +43,14 @@ export const professionalStyles = StyleSheet.create({
 
   headerTitle: {
     fontSize: designTokens.fontSize.xl,
-    fontFamily: 'Poppins-Bold',
+    fontFamily: "Poppins-Bold",
     color: colors.text.primary,
     letterSpacing: designTokens.letterSpacing.tight,
   },
 
   headerSubtitle: {
     fontSize: designTokens.fontSize.sm,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
     color: colors.text.secondary,
     lineHeight: designTokens.fontSize.sm * designTokens.lineHeight.normal,
   },
@@ -59,8 +58,8 @@ export const professionalStyles = StyleSheet.create({
   backButton: {
     width: designTokens.touchTarget.small,
     height: designTokens.touchTarget.small,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: designTokens.borderRadius.md,
   },
 
@@ -84,9 +83,9 @@ export const professionalStyles = StyleSheet.create({
   },
 
   cardHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: designTokens.spacing.sm,
     paddingBottom: designTokens.spacing.sm,
     borderBottomWidth: 1,
@@ -95,14 +94,14 @@ export const professionalStyles = StyleSheet.create({
 
   cardTitle: {
     fontSize: designTokens.fontSize.md,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     color: colors.text.primary,
     letterSpacing: designTokens.letterSpacing.normal,
   },
 
   cardSubtitle: {
     fontSize: designTokens.fontSize.sm,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
     color: colors.text.secondary,
     lineHeight: designTokens.fontSize.sm * designTokens.lineHeight.normal,
     marginTop: designTokens.spacing.xs,
@@ -115,14 +114,14 @@ export const professionalStyles = StyleSheet.create({
     paddingHorizontal: designTokens.spacing.xl,
     paddingVertical: designTokens.spacing.md,
     minHeight: designTokens.touchTarget.medium,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     ...designTokens.shadows.md,
   },
 
   primaryButtonText: {
     fontSize: designTokens.fontSize.md,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     color: colors.text.white,
     letterSpacing: designTokens.letterSpacing.wide,
   },
@@ -133,34 +132,34 @@ export const professionalStyles = StyleSheet.create({
     paddingHorizontal: designTokens.spacing.xl,
     paddingVertical: designTokens.spacing.md,
     minHeight: designTokens.touchTarget.medium,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderWidth: 1,
     borderColor: colors.primary,
   },
 
   secondaryButtonText: {
     fontSize: designTokens.fontSize.md,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     color: colors.primary,
     letterSpacing: designTokens.letterSpacing.wide,
   },
 
   outlineButton: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     borderRadius: designTokens.borderRadius.md,
     paddingHorizontal: designTokens.spacing.lg,
     paddingVertical: designTokens.spacing.sm,
     minHeight: designTokens.touchTarget.small,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderWidth: 1,
     borderColor: colors.border,
   },
 
   outlineButtonText: {
     fontSize: designTokens.fontSize.sm,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-Medium",
     color: colors.text.primary,
   },
 
@@ -171,7 +170,7 @@ export const professionalStyles = StyleSheet.create({
 
   inputLabel: {
     fontSize: designTokens.fontSize.sm,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-Medium",
     color: colors.text.primary,
     marginBottom: designTokens.spacing.xs,
   },
@@ -182,7 +181,7 @@ export const professionalStyles = StyleSheet.create({
     paddingHorizontal: designTokens.spacing.md,
     paddingVertical: designTokens.spacing.sm,
     fontSize: designTokens.fontSize.md,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
     color: colors.text.primary,
     borderWidth: 1,
     borderColor: colors.border,
@@ -201,7 +200,7 @@ export const professionalStyles = StyleSheet.create({
   // === TEXT STYLES ===
   heading1: {
     fontSize: designTokens.fontSize.xxl,
-    fontFamily: 'Poppins-Bold',
+    fontFamily: "Poppins-Bold",
     color: colors.text.primary,
     letterSpacing: designTokens.letterSpacing.tight,
     lineHeight: designTokens.fontSize.xxl * designTokens.lineHeight.tight,
@@ -209,7 +208,7 @@ export const professionalStyles = StyleSheet.create({
 
   heading2: {
     fontSize: designTokens.fontSize.xl,
-    fontFamily: 'Poppins-Bold',
+    fontFamily: "Poppins-Bold",
     color: colors.text.primary,
     letterSpacing: designTokens.letterSpacing.tight,
     lineHeight: designTokens.fontSize.xl * designTokens.lineHeight.tight,
@@ -217,7 +216,7 @@ export const professionalStyles = StyleSheet.create({
 
   heading3: {
     fontSize: designTokens.fontSize.lg,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     color: colors.text.primary,
     letterSpacing: designTokens.letterSpacing.normal,
     lineHeight: designTokens.fontSize.lg * designTokens.lineHeight.normal,
@@ -225,21 +224,21 @@ export const professionalStyles = StyleSheet.create({
 
   bodyText: {
     fontSize: designTokens.fontSize.md,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
     color: colors.text.primary,
     lineHeight: designTokens.fontSize.md * designTokens.lineHeight.normal,
   },
 
   bodyTextSecondary: {
     fontSize: designTokens.fontSize.sm,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
     color: colors.text.secondary,
     lineHeight: designTokens.fontSize.sm * designTokens.lineHeight.normal,
   },
 
   caption: {
     fontSize: designTokens.fontSize.xs,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
     color: colors.text.light,
     lineHeight: designTokens.fontSize.xs * designTokens.lineHeight.normal,
   },
@@ -247,22 +246,22 @@ export const professionalStyles = StyleSheet.create({
   // === STATES ===
   loadingContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: designTokens.spacing.xl,
   },
 
   loadingText: {
     fontSize: designTokens.fontSize.sm,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-Medium",
     color: colors.text.secondary,
     marginTop: designTokens.spacing.md,
   },
 
   emptyState: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: designTokens.spacing.xxl,
   },
 
@@ -273,64 +272,64 @@ export const professionalStyles = StyleSheet.create({
 
   emptyStateTitle: {
     fontSize: designTokens.fontSize.lg,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     color: colors.text.primary,
     marginBottom: designTokens.spacing.sm,
-    textAlign: 'center',
+    textAlign: "center",
   },
 
   emptyStateText: {
     fontSize: designTokens.fontSize.sm,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
     color: colors.text.secondary,
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: designTokens.fontSize.sm * designTokens.lineHeight.relaxed,
   },
 
   errorContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: designTokens.spacing.md,
-    backgroundColor: '#FFF5F5',
+    backgroundColor: "#FFF5F5",
     borderRadius: designTokens.borderRadius.md,
     borderLeftWidth: 4,
-    borderLeftColor: '#E53E3E',
+    borderLeftColor: "#E53E3E",
     marginBottom: designTokens.spacing.md,
   },
 
   errorText: {
     flex: 1,
     fontSize: designTokens.fontSize.sm,
-    fontFamily: 'Poppins-Medium',
-    color: '#C53030',
+    fontFamily: "Poppins-Medium",
+    color: "#C53030",
     marginLeft: designTokens.spacing.sm,
     lineHeight: designTokens.fontSize.sm * designTokens.lineHeight.normal,
   },
 
   successContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: designTokens.spacing.md,
-    backgroundColor: '#F0FFF4',
+    backgroundColor: "#F0FFF4",
     borderRadius: designTokens.borderRadius.md,
     borderLeftWidth: 4,
-    borderLeftColor: '#48BB78',
+    borderLeftColor: "#48BB78",
     marginBottom: designTokens.spacing.md,
   },
 
   successText: {
     flex: 1,
     fontSize: designTokens.fontSize.sm,
-    fontFamily: 'Poppins-Medium',
-    color: '#2F855A',
+    fontFamily: "Poppins-Medium",
+    color: "#2F855A",
     marginLeft: designTokens.spacing.sm,
     lineHeight: designTokens.fontSize.sm * designTokens.lineHeight.normal,
   },
 
   // === LISTS ===
   listItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: designTokens.spacing.md,
     backgroundColor: colors.surface,
     borderBottomWidth: 1,
@@ -345,14 +344,14 @@ export const professionalStyles = StyleSheet.create({
 
   listItemTitle: {
     fontSize: designTokens.fontSize.md,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-Medium",
     color: colors.text.primary,
     marginBottom: designTokens.spacing.xs,
   },
 
   listItemSubtitle: {
     fontSize: designTokens.fontSize.sm,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
     color: colors.text.secondary,
     lineHeight: designTokens.fontSize.sm * designTokens.lineHeight.normal,
   },
@@ -367,7 +366,7 @@ export const professionalStyles = StyleSheet.create({
 
   badgeText: {
     fontSize: designTokens.fontSize.xs,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     color: colors.text.white,
     letterSpacing: designTokens.letterSpacing.wide,
   },
@@ -394,11 +393,10 @@ export const professionalStyles = StyleSheet.create({
 
   sectionTitle: {
     fontSize: designTokens.fontSize.md,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     color: colors.text.primary,
     letterSpacing: designTokens.letterSpacing.wide,
   },
 });
 
 export default professionalStyles;
-
