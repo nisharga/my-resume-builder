@@ -3,6 +3,7 @@ import {
   FileText,
   Home,
   LayoutTemplate,
+  LucideIcon,
   Plus,
   User,
 } from "lucide-react-native";
@@ -24,6 +25,21 @@ function ElevatedPlusIcon() {
     </View>
   );
 }
+
+type TabConfig = {
+  name: string;
+  title: string;
+  icon?: LucideIcon;
+  isCenter?: boolean; // the elevated "+" button
+};
+
+export const TABS: TabConfig[] = [
+  { name: "index", title: "Home", icon: Home },
+  { name: "templates", title: "Templates", icon: LayoutTemplate },
+  { name: "create-resume", title: "", isCenter: true },
+  { name: "resumes", title: "My CV", icon: FileText },
+  { name: "profile", title: "Profile", icon: User },
+];
 
 export default function TabsLayout() {
   const insets = useSafeAreaInsets();
@@ -48,49 +64,21 @@ export default function TabsLayout() {
         tabBarLabelStyle: styles.label,
       }}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
-        }}
-      />
-
-      <Tabs.Screen
-        name="templates"
-        options={{
-          title: "Templates",
-          tabBarIcon: ({ color, size }) => (
-            <LayoutTemplate size={size} color={color} />
-          ),
-        }}
-      />
-
-      <Tabs.Screen
-        name="create-resume"
-        options={{
-          title: "",
-          tabBarIcon: () => <ElevatedPlusIcon />,
-        }}
-      />
-
-      <Tabs.Screen
-        name="resumes"
-        options={{
-          title: "My CV",
-          tabBarIcon: ({ color, size }) => (
-            <FileText size={size} color={color} />
-          ),
-        }}
-      />
-
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profile",
-          tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
-        }}
-      />
+      {TABS.map(({ name, title, icon: Icon, isCenter }) => (
+        <Tabs.Screen
+          key={name}
+          name={name}
+          options={{
+            title,
+            tabBarIcon: ({ color, size }) =>
+              isCenter ? (
+                <ElevatedPlusIcon />
+              ) : Icon ? (
+                <Icon size={size} color={color} />
+              ) : null,
+          }}
+        />
+      ))}
     </Tabs>
   );
 }
