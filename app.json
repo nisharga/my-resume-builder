@@ -4,7 +4,7 @@
     "slug": "my-resume-builder",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.svg",
+    "icon": "./assets/icon.png",
     "scheme": "myresumebuilder",
     "userInterfaceStyle": "automatic",
     "ios": {
@@ -14,7 +14,7 @@
       "package": "com.nisharga.myresumebuilder",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/icon.svg"
+        "foregroundImage": "./assets/adaptive-icon.png"
       },
       "predictiveBackGestureEnabled": false
     },
