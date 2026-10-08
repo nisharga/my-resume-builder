@@ -104,7 +104,7 @@ export default function ProfileScreen() {
       </View>
 
       <View className="my-bg p-4">
-        <Text className="text-foreground">Hello from bg-background</Text>
+        <Text className="my-text">Hello from bg-background</Text>
       </View>
     </SafeAreaView>
   );

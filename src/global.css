@@ -51,6 +51,9 @@
 
 @layer utilities {
   .my-bg {
-    @apply bg-orange-500 dark:bg-blue-500 text-5xl font-medium;
+    @apply bg-orange-500 dark:bg-blue-500;
+  }
+  .my-text {
+    @apply text-base font-medium;
   }
 }
