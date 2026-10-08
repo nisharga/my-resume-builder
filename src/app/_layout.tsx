@@ -1,6 +1,6 @@
+import { initStorage } from "@/src/constants/storage";
 import { LanguageProvider } from "@/src/context/LanguageContext";
 import { ThemeProvider } from "@/src/context/ThemeContext";
-import { initStorage } from "@/src/constants/storage";
 import { OverlayProvider } from "@gluestack-ui/core/overlay/creator";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
@@ -8,6 +8,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import "../../src/global.css";
 
 // Keeps (tabs) underneath deep-linked screens so "back" returns to tabs
 export const unstable_settings = {
