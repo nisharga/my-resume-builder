@@ -15,13 +15,14 @@ export const useLanguage = () => {
 };
 
 export const LanguageProvider = ({ children }: any) => {
-  const [language, setLanguage] = useState(() => {
-    return storage.getString(LANGUAGE_KEY) ?? 'en';
+  const [language, setLanguage] = useState<'en' | 'bn'>(() => {
+    const saved = storage.getString(LANGUAGE_KEY);
+    return (saved === 'en' || saved === 'bn') ? saved : 'en';
   });
 
   const translations = useMemo(() => getLanguageTranslations(language), [language]);
 
-  const changeLanguage = (newLanguage: string) => {
+  const changeLanguage = (newLanguage: 'en' | 'bn') => {
     setLanguage(newLanguage);
     storage.set(LANGUAGE_KEY, newLanguage);
   };
