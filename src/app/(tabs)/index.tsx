@@ -1,191 +1,108 @@
-import { Button, ButtonText } from "@/components/ui/button";
-import {
-  FormControl,
-  FormControlError,
-  FormControlErrorText,
-  FormControlLabel,
-  FormControlLabelText,
-} from "@/components/ui/form-control";
-import { Input, InputField } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { LucideSalad } from "lucide-react-native";
-import { Controller, useForm } from "react-hook-form";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { useLanguage } from "@/src/context/LanguageContext";
+import { useTheme } from "@/src/context/ThemeContext";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { z } from "zod";
-
-// 1. Validation Schema
-const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, "Email is required")
-    .email("Please enter a valid email address"),
-  password: z
-    .string()
-    .min(1, "Password is required")
-    .min(6, "Password must be at least 6 characters"),
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function HomeScreen() {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  // 2. Submit Handler — logs data to console when valid
-  const onSubmit = (data: LoginFormData) => {
-    console.log("Form Data:", data);
-  };
+  const { language, changeLanguage, t } = useLanguage();
+  const { isDarkMode, toggleTheme } = useTheme();
 
   return (
-    <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
-      <KeyboardAvoidingView
-        style={styles.flex}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-          keyboardShouldPersistTaps="handled"
-        >
-          <View style={styles.formContainer}>
-            <Text style={styles.title}>Login</Text>
+    <SafeAreaView
+      className="flex-1 bg-background"
+      edges={["top", "left", "right"]}
+    >
+      <View className="flex-1 p-5 gap-4">
 
-            {/* Email Input */}
-            <Controller
-              control={control}
-              name="email"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <FormControl
-                  isInvalid={Boolean(errors.email)}
-                  style={styles.formControl}
-                >
-                  <FormControlLabel>
-                    <FormControlLabelText className="text-base font-normal text-[#111000]/80">
-                      Email
-                    </FormControlLabelText>
-                  </FormControlLabel>
-                  <Input className="flex flex-row justify-center items-center">
-                    <LucideSalad color="#009989" />
-                    <InputField
-                      placeholder="Enter your email"
-                      keyboardType="email-address"
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      value={value}
-                    />
-                  </Input>
+        {/* Demo translations */}
+        <View className="rounded-xl border border-border bg-card p-4 gap-2">
+          <Text className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+            greeting
+          </Text>
+          <Text className="text-2xl font-bold text-foreground">{t("greeting")}</Text>
 
-                  {errors.email?.message ? (
-                    <FormControlError>
-                      <FormControlErrorText>
-                        {errors.email.message}
-                      </FormControlErrorText>
-                    </FormControlError>
-                  ) : null}
-                </FormControl>
-              )}
-            />
+          <View className="h-px bg-border my-1" />
 
-            {/* Password Input */}
-            <Controller
-              control={control}
-              name="password"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <FormControl
-                  isInvalid={Boolean(errors.password)}
-                  style={styles.formControl}
-                >
-                  <FormControlLabel>
-                    <FormControlLabelText>Password</FormControlLabelText>
-                  </FormControlLabel>
-                  <Input>
-                    <InputField
-                      placeholder="Enter your password"
-                      secureTextEntry
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      value={value}
-                    />
-                  </Input>
+          <Text className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+            howAreYou
+          </Text>
+          <Text className="text-2xl font-bold text-foreground">{t("howAreYou")}</Text>
 
-                  {errors.password?.message ? (
-                    <FormControlError>
-                      <FormControlErrorText>
-                        {errors.password.message}
-                      </FormControlErrorText>
-                    </FormControlError>
-                  ) : null}
-                </FormControl>
-              )}
-            />
+          <View className="h-px bg-border my-1" />
 
-            {/* Submit Button */}
-            <Button
-              style={styles.button}
-              disabled={isSubmitting}
-              onPress={handleSubmit(onSubmit)}
+          <Text className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+            goodMorning
+          </Text>
+          <Text className="text-2xl font-bold text-foreground">{t("goodMorning")}</Text>
+        </View>
+
+        {/* Language Switcher */}
+        <View className="rounded-xl border border-border bg-card p-4 gap-3">
+          <Text className="text-[15px] font-semibold text-foreground">{t("language")}</Text>
+          <View className="flex-row gap-3">
+            <TouchableOpacity
+              className={`px-5 py-2 rounded-full border ${
+                language === "en"
+                  ? "bg-primary border-primary"
+                  : "border-border"
+              }`}
+              onPress={() => changeLanguage("en")}
             >
-              {isSubmitting ? (
-                <Spinner size="small" color="#FFFFFF" />
-              ) : (
-                <ButtonText>Submit</ButtonText>
-              )}
-            </Button>
+              <Text
+                className={`text-sm font-medium ${
+                  language === "en" ? "text-primary-foreground" : "text-muted-foreground"
+                }`}
+              >
+                English
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className={`px-5 py-2 rounded-full border ${
+                language === "bn"
+                  ? "bg-primary border-primary"
+                  : "border-border"
+              }`}
+              onPress={() => changeLanguage("bn")}
+            >
+              <Text
+                className={`text-sm font-medium ${
+                  language === "bn" ? "text-primary-foreground" : "text-muted-foreground"
+                }`}
+              >
+                বাংলা
+              </Text>
+            </TouchableOpacity>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </View>
+
+        {/* Theme Switcher */}
+        <View className="rounded-xl border border-border bg-card p-4 gap-3">
+          <Text className="text-[15px] font-semibold text-foreground">{t("theme")}</Text>
+          <TouchableOpacity
+            className="flex-row items-center gap-3"
+            onPress={toggleTheme}
+          >
+            {/* Track */}
+            <View
+              className={`w-[50px] h-7 rounded-full justify-center px-[3px] ${
+                isDarkMode ? "bg-primary" : "bg-muted"
+              }`}
+            >
+              {/* Thumb */}
+              <View
+                className={`w-[22px] h-[22px] rounded-full bg-background ${
+                  isDarkMode ? "self-end" : "self-start"
+                }`}
+              />
+            </View>
+            <Text className="text-[15px] font-medium text-foreground">
+              {isDarkMode ? t("darkMode") : t("lightMode")}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+      </View>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-  flex: {
-    flex: 1,
-  },
-  scrollContent: {
-    flexGrow: 1,
-    justifyContent: "center",
-  },
-  formContainer: {
-    paddingHorizontal: 24,
-    paddingVertical: 24,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "700",
-    color: "#111827",
-    marginBottom: 24,
-  },
-  formControl: {
-    marginBottom: 16,
-  },
-  button: {
-    marginTop: 12,
-    height: 48,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

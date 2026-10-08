@@ -110,12 +110,14 @@ export const ThemeProvider = ({ children }: any) => {
   const toggleTheme = () => {
     const next = !isDarkMode;
     setIsDarkMode(next);
+    Appearance.setColorScheme(next ? "dark" : "light");
     storage.set(THEME_KEY, next ? "dark" : "light");
   };
 
   const setTheme = (mode: string) => {
     const isDark = mode === "dark";
     setIsDarkMode(isDark);
+    Appearance.setColorScheme(isDark ? "dark" : "light");
     storage.set(THEME_KEY, mode);
   };
 

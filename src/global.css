@@ -111,3 +111,7 @@
   --color-accent: rgb(var(--accent));
   --color-accent-foreground: rgb(var(--accent-foreground));
 }
+
+.my-bg {
+  @apply bg-orange-500;
+}

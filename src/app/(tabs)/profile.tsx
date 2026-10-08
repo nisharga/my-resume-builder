@@ -102,6 +102,10 @@ export default function ProfileScreen() {
           </TouchableOpacity>
         </View>
       </View>
+
+      <View className="bg-background">
+        <Text className="text-text">Hello</Text>
+      </View>
     </SafeAreaView>
   );
 }
