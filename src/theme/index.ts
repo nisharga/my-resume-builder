@@ -1,6 +1,7 @@
+export * from "../i18n";
 export * from "./colors";
-export * from "./i18n";
+export * from "./font";
 export * from "./professionalStyles";
 export * from "./responsive";
 export * from "./theme";
-export * from "./font";
+
