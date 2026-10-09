@@ -2,6 +2,7 @@ import { initStorage } from "@/src/constants/storage";
 import { LanguageProvider } from "@/src/context/LanguageContext";
 import { ThemeProvider } from "@/src/context/ThemeContext";
 import { OverlayProvider } from "@gluestack-ui/core/overlay/creator";
+import { ToastProvider } from "@gluestack-ui/core/toast/creator";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -49,12 +50,14 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <OverlayProvider>
-        <ThemeProvider>
-          <LanguageProvider>
-            <StatusBar style="auto" />
-            <Stack screenOptions={{ headerShown: false }} />
-          </LanguageProvider>
-        </ThemeProvider>
+        <ToastProvider>
+          <ThemeProvider>
+            <LanguageProvider>
+              <StatusBar style="auto" />
+              <Stack screenOptions={{ headerShown: false }} />
+            </LanguageProvider>
+          </ThemeProvider>
+        </ToastProvider>
       </OverlayProvider>
     </GestureHandlerRootView>
   );
