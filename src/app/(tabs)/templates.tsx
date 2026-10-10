@@ -8,18 +8,20 @@ import {
   useToast,
 } from "@/components/ui/toast";
 import { Button, ButtonText } from "@/components/ui/button";
-import { useState } from "react";
+import { useState } from "react";  
+import ResumesScreen from "./resumes"; 
+import { APP_NAME } from "@/src/config/env";
 
-export default function TemplatesScreen() {
+export default function TemplatesScreen() { 
   const toast = useToast();
   const [toastId, setToastId] = useState(0);
   const handleToast = () => {
-    if (!toast.isActive(toastId)) {
+    if (!toast.isActive(toastId as any)) {
       showNewToast();
     }
   };
   const showNewToast = () => {
-    const newId = Math.random();
+    const newId = Math.random().toString();
     console.log(newId);
     setToastId(newId);
     toast.show({
@@ -46,7 +48,9 @@ export default function TemplatesScreen() {
       </Button>
 
       <View style={styles.content}>
-        <Text style={styles.title}>Templates</Text>
+        <Text style={styles.title}>
+          Base URL is: {APP_NAME}
+        </Text>
       </View>
 
       <View style={styles.icons}>
