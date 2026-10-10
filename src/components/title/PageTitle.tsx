@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, ViewStyle } from "react-native";
 import { type LucideIcon } from "lucide-react-native";
 import { useTheme } from "@/src/context";
-import { fontFamily } from "@/src/theme";
+import { fontFamily } from "@/styles/theme";
 
 interface PageTitleProps {
   title: string;
@@ -10,18 +10,29 @@ interface PageTitleProps {
   containerStyle?: ViewStyle;
 }
 
-const PageTitle: React.FC<PageTitleProps> = ({ title, Icon, containerStyle }) => {
+const PageTitle: React.FC<PageTitleProps> = ({
+  title,
+  Icon,
+  containerStyle,
+}) => {
   const { colors } = useTheme();
 
   return (
     <View style={[styles.headerArea, containerStyle]}>
       <View style={styles.headerLeft}>
         {Icon && (
-          <View style={[styles.headerIconBg, { backgroundColor: colors.primary + "14" }]}>
+          <View
+            style={[
+              styles.headerIconBg,
+              { backgroundColor: colors.primary + "14" },
+            ]}
+          >
             <Icon size={20} color={colors.primary} />
           </View>
         )}
-        <Text style={[styles.headerTitle, { color: colors.text }]}>{title}</Text>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>
+          {title}
+        </Text>
       </View>
     </View>
   );

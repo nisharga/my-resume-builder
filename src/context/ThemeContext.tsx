@@ -1,4 +1,4 @@
-import { colors, darkColors } from "@/src/theme";
+import { colors, darkColors } from "../styles/colors";
 import { createContext, useContext, useState } from "react";
 import { Appearance } from "react-native";
 import { storage } from "../config/storage";

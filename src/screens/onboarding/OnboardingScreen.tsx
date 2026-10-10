@@ -1,7 +1,7 @@
 import { setOnboardingCompleted } from "@/config";
 import { useLanguage } from "@/src/context";
 import { setOnboarded } from "@/src/redux/features/authSlice";
-import { colors } from "@/src/theme";
+import { colors } from "@/styles/theme";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StatusBar, StyleSheet, Text, View } from "react-native";

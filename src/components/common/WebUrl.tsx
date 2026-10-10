@@ -1,10 +1,18 @@
 import { useLanguage } from "@/src/context";
-import { colors } from "@/src/theme";
+import { colors } from "@/styles/theme";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-const WebUrl = ({ url, title, label }: { url: string; title: string; label: string }) => {
+const WebUrl = ({
+  url,
+  title,
+  label,
+}: {
+  url: string;
+  title: string;
+  label: string;
+}) => {
   const { t } = useLanguage();
   const router = useRouter();
   return (
@@ -19,7 +27,10 @@ const WebUrl = ({ url, title, label }: { url: string; title: string; label: stri
         });
       }}
     >
-      <Text style={[styles.footerLink, { color: colors.primary }]}> {label} </Text>
+      <Text style={[styles.footerLink, { color: colors.primary }]}>
+        {" "}
+        {label}{" "}
+      </Text>
     </TouchableOpacity>
   );
 };

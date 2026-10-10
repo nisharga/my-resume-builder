@@ -1,9 +1,14 @@
 import { useLanguage, useTheme } from "@/src/context";
-import { spacing } from "@/src/theme";
+import { spacing } from "@/styles/theme";
 import { ArrowLeft } from "lucide-react-native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const ComponentHeader = ({ title, onSeeAll, showSeeAll = true, onBack }: any) => {
+const ComponentHeader = ({
+  title,
+  onSeeAll,
+  showSeeAll = true,
+  onBack,
+}: any) => {
   const { colors } = useTheme();
   const { t } = useLanguage();
 
