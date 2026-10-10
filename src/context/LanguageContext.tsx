@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import { storage } from "../config/storage";
-import { getLanguageTranslations } from "../i18n";
+import { getLanguageTranslations } from "../services/i18n";
 
 const LanguageContext = createContext<any>(null);
 
