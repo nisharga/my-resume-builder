@@ -1,7 +1,7 @@
 import { colors, darkColors } from "@/src/theme";
 import { createContext, useContext, useState } from "react";
 import { Appearance } from "react-native";
-import { storage } from "../constants/storage";
+import { storage } from "../config/storage";
 
 const ThemeContext = createContext<any>(null);
 

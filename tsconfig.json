@@ -4,13 +4,8 @@
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "paths": {
-      "@/*": [
-        "./src/*",
-        "./*"
-      ],
-      "@/assets/*": [
-        "./assets/*"
-      ]
+      "@/*": ["./src/*", "./*"],
+      "@/assets/*": ["./assets/*"]
     }
   },
   "include": [

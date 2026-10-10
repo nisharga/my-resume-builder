@@ -1,7 +1,12 @@
-import { getAccessToken, getRefreshToken, setAccessToken, setRefreshToken } from "@/src/constants";
+import {
+  getAccessToken,
+  getRefreshToken,
+  setAccessToken,
+  setRefreshToken,
+} from "@/config";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Toast from "react-native-toast-message";
-import { API_ENDPOINTS, BASE_API_URL } from "../../constants/config";
+import { API_ENDPOINTS, BASE_API_URL } from "../../config/apiConfig";
 import { logoutUser } from "./logout";
 
 /**
@@ -30,13 +35,16 @@ const baseQuery = fetchBaseQuery({
     // 1. Check if token exists first
     if (token) {
       // 2. Ensure it's a string and handle potential object return from storage
-      const rawToken = typeof token === "object" ? token?.accessToken || token?.token : token;
+      const rawToken =
+        typeof token === "object" ? token?.accessToken || token?.token : token;
 
       if (rawToken && typeof rawToken === "string") {
         const cleanToken = rawToken.replace(/['"]+/g, "");
 
         // 3. Now it is safe to call .startsWith
-        const authToken = cleanToken.startsWith("Bearer ") ? cleanToken : `Bearer ${cleanToken}`;
+        const authToken = cleanToken.startsWith("Bearer ")
+          ? cleanToken
+          : `Bearer ${cleanToken}`;
 
         headers.set("Authorization", authToken);
       }

@@ -1,18 +1,18 @@
+import { setOnboardingCompleted } from "@/config";
 import { useLanguage } from "@/src/context";
+import { setOnboarded } from "@/src/redux/features/authSlice";
 import { colors } from "@/src/theme";
+import { useRouter } from "expo-router";
 import React from "react";
 import { StatusBar, StyleSheet, Text, View } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch } from "react-redux";
 import {
   DealsIllustration,
   DeliveryIllustration,
   DiscoverIllustration,
 } from "./OnboardingIllustrations";
-import { setOnboardingCompleted } from "@/src/constants";
-import { useRouter } from "expo-router";
-import { useDispatch } from "react-redux";
-import { setOnboarded } from "@/src/redux/features/authSlice";
 
 const OnboardingScreen = () => {
   const router = useRouter();

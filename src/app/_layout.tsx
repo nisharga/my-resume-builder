@@ -1,4 +1,4 @@
-import { initStorage } from "@/src/constants/storage";
+import { initStorage } from "@/src/config";
 import { LanguageProvider } from "@/src/context/LanguageContext";
 import { ThemeProvider } from "@/src/context/ThemeContext";
 import { OverlayProvider } from "@gluestack-ui/core/overlay/creator";
