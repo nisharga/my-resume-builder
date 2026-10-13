@@ -8,11 +8,11 @@ import {
   useToast,
 } from "@/components/ui/toast";
 import { Button, ButtonText } from "@/components/ui/button";
-import { useState } from "react";  
-import ResumesScreen from "./resumes"; 
+import { useState } from "react";
+import ResumesScreen from "./resumes";
 import { APP_NAME } from "@/src/config/env";
 
-export default function TemplatesScreen() { 
+export default function TemplatesScreen() {
   const toast = useToast();
   const [toastId, setToastId] = useState(0);
   const handleToast = () => {
@@ -48,10 +48,19 @@ export default function TemplatesScreen() {
       </Button>
 
       <View style={styles.content}>
-        <Text style={styles.title}>
-          Base URL is: {APP_NAME}
-        </Text>
+        <Text style={styles.title}>Base URL is: {APP_NAME}</Text>
       </View>
+
+      <Text className="font-inter text-2xl font-bold">Regular</Text>
+      <Text className="font-inter-medium text-2xl">Medium</Text>
+      <Text className="font-inter-semibold text-2xl">SemiBold</Text>
+      <Text className="font-inter-bold text-2xl">Bold</Text>
+
+      <Text style={styles.buttonText}>Inline Boldxxx</Text>
+      <Text style={{ fontFamily: "Inter-Bold", fontSize: 24 }}>
+        Inline Boldxxx
+      </Text>
+      <Text className="font-inter-bold text-2xl">Class Bold</Text>
 
       <View style={styles.icons}>
         <Icons.CheckCircle width={32} height={32} fill="#1FD191" />
@@ -66,6 +75,11 @@ export default function TemplatesScreen() {
 }
 
 const styles = StyleSheet.create({
+  buttonText: {
+    color: "#000",
+    fontFamily: "Inter-Bold",
+    fontSize: 24,
+  },
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",

@@ -32,6 +32,17 @@
           "image": "./assets/splash-icon.png",
           "imageWidth": 76
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Inter/Inter-Regular.ttf",
+            "./assets/fonts/Inter/Inter-Medium.ttf",
+            "./assets/fonts/Inter/Inter-SemiBold.ttf",
+            "./assets/fonts/Inter/Inter-Bold.ttf"
+          ]
+        }
       ]
     ],
     "experiments": {

@@ -3,6 +3,15 @@
 @import "tailwindcss/utilities.css";
 @import "nativewind/theme";
 
+
+/* Fonts: the same in light and dark mode */
+@theme {
+  --font-inter: "Inter-Regular";
+  --font-inter-medium: "Inter-Medium";
+  --font-inter-semibold: "Inter-SemiBold";
+  --font-inter-bold: "Inter-Bold";
+}
+
 /* Light mode — direct hex values so react-native-css inlines them at build time */
 @theme inline {
   --color-background: #ffffff;

@@ -1,4 +1,8 @@
 export const useCustomFonts = {
+  "Inter-Regular": require("../../assets/fonts/Inter/Inter-Regular.ttf"),
+  "Inter-Medium": require("../../assets/fonts/Inter/Inter-Medium.ttf"),
+  "Inter-SemiBold": require("../../assets/fonts/Inter/Inter-SemiBold.ttf"),
+  "Inter-Bold": require("../../assets/fonts/Inter/Inter-Bold.ttf"),
   "Poppins-Black": require("../../assets/fonts/Poppins/Poppins-Black.ttf"),
   "Poppins-BlackItalic": require("../../assets/fonts/Poppins/Poppins-BlackItalic.ttf"),
   "Poppins-Bold": require("../../assets/fonts/Poppins/Poppins-Bold.ttf"),
@@ -17,17 +21,4 @@ export const useCustomFonts = {
   "Poppins-SemiBoldItalic": require("../../assets/fonts/Poppins/Poppins-SemiBoldItalic.ttf"),
   "Poppins-Thin": require("../../assets/fonts/Poppins/Poppins-Thin.ttf"),
   "Poppins-ThinItalic": require("../../assets/fonts/Poppins/Poppins-ThinItalic.ttf"),
-};
-
-// Use this object for your styles to avoid typos
-export const fontFamily = {
-  primary: "Poppins-Regular",
-  black: "Poppins-Black",
-  bold: "Poppins-Bold",
-  extraBold: "Poppins-ExtraBold",
-  medium: "Poppins-Medium",
-  regular: "Poppins-Regular",
-  semiBold: "Poppins-SemiBold",
-  light: "Poppins-Light",
-  thin: "Poppins-Thin",
 };
