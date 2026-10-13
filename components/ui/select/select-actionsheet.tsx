@@ -39,6 +39,7 @@ const MotionView = Motion.View as React.ComponentType<IMotionViewProps>;
 
 const StyledMotionView = styled(MotionView, { className: "style" });
 const StyledAnimatedPressable = styled(AnimatedPressable, { className: "style" });
+// @ts-ignore – union type too complex for this nativewind version
 const StyledScrollView = styled(ScrollView, {
   className: "style",
   contentContainerClassName: "contentContainerStyle",

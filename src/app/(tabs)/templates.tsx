@@ -1,12 +1,7 @@
 import { Icons } from "@/src/components/Icons";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  Toast,
-  ToastTitle,
-  ToastDescription,
-  useToast,
-} from "@/components/ui/toast";
+import { Toast, ToastTitle, ToastDescription, useToast } from "@/components/ui/toast";
 import { Button, ButtonText } from "@/components/ui/button";
 import { useState } from "react";
 import ResumesScreen from "./resumes";
@@ -14,7 +9,7 @@ import { APP_NAME } from "@/src/config/env";
 
 export default function TemplatesScreen() {
   const toast = useToast();
-  const [toastId, setToastId] = useState(0);
+  const [toastId, setToastId] = useState<string>("");
   const handleToast = () => {
     if (!toast.isActive(toastId as any)) {
       showNewToast();
@@ -33,9 +28,7 @@ export default function TemplatesScreen() {
         return (
           <Toast nativeID={uniqueToastId} action="muted" variant="solid">
             <ToastTitle>Hello!</ToastTitle>
-            <ToastDescription>
-              This is a customized toast message.
-            </ToastDescription>
+            <ToastDescription>This is a customized toast message.</ToastDescription>
           </Toast>
         );
       },
@@ -57,9 +50,7 @@ export default function TemplatesScreen() {
       <Text className="font-inter-bold text-2xl">Bold</Text>
 
       <Text style={styles.buttonText}>Inline Boldxxx</Text>
-      <Text style={{ fontFamily: "Inter-Bold", fontSize: 24 }}>
-        Inline Boldxxx
-      </Text>
+      <Text style={{ fontFamily: "Inter-Bold", fontSize: 24 }}>Inline Boldxxx</Text>
       <Text className="font-inter-bold text-2xl">Class Bold</Text>
 
       <View style={styles.icons}>

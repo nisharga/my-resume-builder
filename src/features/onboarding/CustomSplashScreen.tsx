@@ -1,18 +1,12 @@
-import { LinearGradient } from 'expo-linear-gradient';
-import * as SplashScreen from 'expo-splash-screen';
-import React, { useEffect, useRef } from 'react';
-import {
-  Animated,
-  Dimensions,
-  Easing,
-  Image,
-  StatusBar,
-  StyleSheet,
-  View
-} from 'react-native';
+/* eslint-disable react-hooks/refs */
+import { LinearGradient } from "expo-linear-gradient";
+import * as SplashScreen from "expo-splash-screen";
+import React, { useEffect, useRef } from "react";
+import { Animated, Dimensions, Easing, Image, StatusBar, StyleSheet, View } from "react-native";
 // @ts-ignore
-import Logo from '../../assets/icon.png';
-const { width, height } = Dimensions.get('window');
+// eslint-disable-next-line import/no-unresolved
+import Logo from "../../assets/icon.png";
+const { width, height } = Dimensions.get("window");
 
 /**
  * Ultra-Premium Cinematic Splash Screen (Animated Typography Edition)
@@ -34,7 +28,7 @@ const CustomSplashScreen = ({ onFinish }: any) => {
   const ring2Opacity = useRef(new Animated.Value(0)).current;
 
   // Typography Animation (D-e-l-i-G-o)
-  const brandChars = ['D', 'e', 'l', 'i', 'G', 'o'];
+  const brandChars = ["D", "e", "l", "i", "G", "o"];
   const charAnims = useRef(brandChars.map(() => new Animated.Value(0))).current;
 
   useEffect(() => {
@@ -47,12 +41,22 @@ const CustomSplashScreen = ({ onFinish }: any) => {
     // 1. Background Circles Floating
     Animated.loop(
       Animated.sequence([
-        Animated.timing(bgCircle1, { toValue: 1, duration: 8000, easing: Easing.linear, useNativeDriver: true }),
-        Animated.timing(bgCircle1, { toValue: 0, duration: 8000, easing: Easing.linear, useNativeDriver: true }),
-      ])
+        Animated.timing(bgCircle1, {
+          toValue: 1,
+          duration: 8000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        Animated.timing(bgCircle1, {
+          toValue: 0,
+          duration: 8000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+      ]),
     ).start();
 
-    // 2. Main Sequence 
+    // 2. Main Sequence
     Animated.sequence([
       // Stage A: Logo Arrival
       Animated.parallel([
@@ -102,14 +106,17 @@ const CustomSplashScreen = ({ onFinish }: any) => {
         ]),
 
         // Staggered Typography Reveal
-        Animated.stagger(80, charAnims.map(charAnim => 
-          Animated.timing(charAnim, {
-            toValue: 1,
-            duration: 600,
-            easing: Easing.out(Easing.back(1.5)),
-            useNativeDriver: true,
-          })
-        )),
+        Animated.stagger(
+          80,
+          charAnims.map((charAnim) =>
+            Animated.timing(charAnim, {
+              toValue: 1,
+              duration: 600,
+              easing: Easing.out(Easing.back(1.5)),
+              useNativeDriver: true,
+            }),
+          ),
+        ),
       ]),
 
       // Stage C: Final Hold and Exit
@@ -134,60 +141,89 @@ const CustomSplashScreen = ({ onFinish }: any) => {
       <StatusBar backgroundColor="transparent" barStyle="light-content" translucent />
 
       {/* Primary Brand Gradient */}
-      <LinearGradient
-        colors={['#FF4B8B', '#DC3173', '#8A1448']}
-        style={StyleSheet.absoluteFill}
-      />
+      <LinearGradient colors={["#FF4B8B", "#DC3173", "#8A1448"]} style={StyleSheet.absoluteFill} />
 
       {/* Decorative Circles */}
-      <Animated.View style={[styles.bgCircle, { 
-        top: '20%', left: '10%', width: 200, height: 200, borderRadius: 100,
-        backgroundColor: 'rgba(255,255,255,0.05)',
-        transform: [{ scale: bgCircle1.interpolate({ inputRange: [0, 1], outputRange: [1, 1.2] }) }]
-      }]} />
+      <Animated.View
+        style={[
+          styles.bgCircle,
+          {
+            top: "20%",
+            left: "10%",
+            width: 200,
+            height: 200,
+            borderRadius: 100,
+            backgroundColor: "rgba(255,255,255,0.05)",
+            transform: [
+              { scale: bgCircle1.interpolate({ inputRange: [0, 1], outputRange: [1, 1.2] }) },
+            ],
+          },
+        ]}
+      />
 
       <View style={styles.centerStack}>
-        
         {/* Glow Bloom (Circular White Bloom) */}
-        <Animated.View style={[styles.logoBloom, {
-          width: LOGO_SIZE * 1.6,
-          height: LOGO_SIZE * 1.6,
-          borderRadius: LOGO_SIZE * 0.8,
-          opacity: logoBloom.interpolate({ inputRange: [0, 1], outputRange: [0, 0.5] }),
-          transform: [{ scale: logoScale }]
-        }]}>
+        <Animated.View
+          style={[
+            styles.logoBloom,
+            {
+              width: LOGO_SIZE * 1.6,
+              height: LOGO_SIZE * 1.6,
+              borderRadius: LOGO_SIZE * 0.8,
+              opacity: logoBloom.interpolate({ inputRange: [0, 1], outputRange: [0, 0.5] }),
+              transform: [{ scale: logoScale }],
+            },
+          ]}
+        >
           <LinearGradient
-            colors={['rgba(255,255,255,0.6)', 'transparent']}
+            colors={["rgba(255,255,255,0.6)", "transparent"]}
             style={StyleSheet.absoluteFill}
           />
         </Animated.View>
 
         {/* Ring 2 */}
-        <Animated.View style={[styles.glowRing, {
-          width: LOGO_SIZE, height: LOGO_SIZE, borderRadius: LOGO_SIZE/2,
-          opacity: ring2Opacity, transform: [{ scale: ring2Scale }]
-        }]} />
+        <Animated.View
+          style={[
+            styles.glowRing,
+            {
+              width: LOGO_SIZE,
+              height: LOGO_SIZE,
+              borderRadius: LOGO_SIZE / 2,
+              opacity: ring2Opacity,
+              transform: [{ scale: ring2Scale }],
+            },
+          ]}
+        />
 
         {/* Ring 1 */}
-        <Animated.View style={[styles.glowRing, {
-          width: LOGO_SIZE, height: LOGO_SIZE, borderRadius: LOGO_SIZE/2,
-          opacity: ring1Opacity, transform: [{ scale: ring1Scale }],
-          borderColor: 'rgba(255,255,255,0.8)',
-        }]} />
+        <Animated.View
+          style={[
+            styles.glowRing,
+            {
+              width: LOGO_SIZE,
+              height: LOGO_SIZE,
+              borderRadius: LOGO_SIZE / 2,
+              opacity: ring1Opacity,
+              transform: [{ scale: ring1Scale }],
+              borderColor: "rgba(255,255,255,0.8)",
+            },
+          ]}
+        />
 
         {/* Logo Wrapper (The Circular Mask) */}
-        <Animated.View style={[styles.logoWrapper, {
-          width: LOGO_SIZE,
-          height: LOGO_SIZE,
-          borderRadius: LOGO_SIZE / 2, // Circular Masking
-          opacity: logoOpacity,
-          transform: [{ scale: logoScale }]
-        }]}>
-          <Image
-            source={Logo}  
-            style={styles.logoImage}
-            resizeMode="cover" 
-          />
+        <Animated.View
+          style={[
+            styles.logoWrapper,
+            {
+              width: LOGO_SIZE,
+              height: LOGO_SIZE,
+              borderRadius: LOGO_SIZE / 2, // Circular Masking
+              opacity: logoOpacity,
+              transform: [{ scale: logoScale }],
+            },
+          ]}
+        >
+          <Image source={Logo} style={styles.logoImage} resizeMode="cover" />
           <View style={styles.logoBorder} />
         </Animated.View>
       </View>
@@ -201,16 +237,16 @@ const CustomSplashScreen = ({ onFinish }: any) => {
               style={[
                 styles.brandChar,
                 {
-                  opacity: charAnims[index],
+                  opacity: charAnims[index]!,
                   transform: [
                     {
-                      translateY: charAnims[index].interpolate({
+                      translateY: charAnims[index]!.interpolate({
                         inputRange: [0, 1],
                         outputRange: [20, 0],
                       }),
                     },
                     {
-                      scale: charAnims[index].interpolate({
+                      scale: charAnims[index]!.interpolate({
                         inputRange: [0, 1],
                         outputRange: [0.5, 1],
                       }),
@@ -224,7 +260,6 @@ const CustomSplashScreen = ({ onFinish }: any) => {
           ))}
         </View>
       </View>
-
     </Animated.View>
   );
 };
@@ -232,33 +267,33 @@ export default CustomSplashScreen;
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...StyleSheet.absoluteFill,
+    justifyContent: "center",
+    alignItems: "center",
     zIndex: 99999,
   },
   bgCircle: {
-    position: 'absolute',
+    position: "absolute",
   },
   centerStack: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 40,
   },
   logoBloom: {
-    position: 'absolute',
-    overflow: 'hidden',
+    position: "absolute",
+    overflow: "hidden",
   },
   glowRing: {
-    position: 'absolute',
+    position: "absolute",
     borderWidth: 1.5,
-    borderColor: 'rgba(255, 255, 255, 0.4)',
+    borderColor: "rgba(255, 255, 255, 0.4)",
   },
   logoWrapper: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    overflow: 'hidden', 
-    backgroundColor: '#DC3173', 
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    backgroundColor: "#DC3173",
     elevation: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 5 },
@@ -266,28 +301,28 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
   },
   logoBorder: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     borderRadius: 1000,
     borderWidth: 2,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: "rgba(255, 255, 255, 0.2)",
   },
   logoImage: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   footer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: height * 0.15,
-    alignItems: 'center',
+    alignItems: "center",
   },
   charContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   brandChar: {
     fontSize: 42,
-    fontFamily: 'Poppins-Bold',
-    color: '#FFFFFF',
-    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    fontFamily: "Poppins-Bold",
+    color: "#FFFFFF",
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
     textShadowOffset: { width: 0, height: 3 },
     textShadowRadius: 8,
     marginHorizontal: 1,

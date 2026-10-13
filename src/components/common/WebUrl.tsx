@@ -1,25 +1,17 @@
 import { useLanguage } from "@/src/context";
-import { colors } from "@/styles/theme";
+import { colors } from "@/styles/colors";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-const WebUrl = ({
-  url,
-  title,
-  label,
-}: {
-  url: string;
-  title: string;
-  label: string;
-}) => {
+const WebUrl = ({ url, title, label }: { url: string; title: string; label: string }) => {
   const { t } = useLanguage();
   const router = useRouter();
   return (
     <TouchableOpacity
       onPress={() => {
         router.push({
-          pathname: "/webview", // Absolute path to app/webview.tsx
+          pathname: "/webview" as any, // Absolute path to app/webview.tsx
           params: {
             url: url,
             title: title,
@@ -27,10 +19,7 @@ const WebUrl = ({
         });
       }}
     >
-      <Text style={[styles.footerLink, { color: colors.primary }]}>
-        {" "}
-        {label}{" "}
-      </Text>
+      <Text style={[styles.footerLink, { color: colors.primary }]}> {label} </Text>
     </TouchableOpacity>
   );
 };

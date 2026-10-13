@@ -5,23 +5,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function CreateResumeScreen() {
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
-      <View className="w-72 h-52 rounded-2xl overflow-hidden">
+      <View className="h-52 w-72 overflow-hidden rounded-2xl">
         {/* Colorful background so the glass effect is visible */}
         <View className="absolute inset-0 bg-indigo-500" />
-        <View className="absolute top-0 left-0 w-28 h-28 rounded-full bg-purple-400 -translate-x-6 -translate-y-6" />
-        <View className="absolute bottom-0 right-0 w-32 h-32 rounded-full bg-pink-400 translate-x-8 translate-y-8" />
-        <View className="absolute top-6 right-6 w-16 h-16 rounded-full bg-yellow-300 opacity-70" />
+        <View className="absolute top-0 left-0 h-28 w-28 -translate-x-6 -translate-y-6 rounded-full bg-purple-400" />
+        <View className="absolute right-0 bottom-0 h-32 w-32 translate-x-8 translate-y-8 rounded-full bg-pink-400" />
+        <View className="absolute top-6 right-6 h-16 w-16 rounded-full bg-yellow-300 opacity-70" />
 
         {/* Glass card */}
         <View className="flex-1 items-center justify-center p-4">
-          <GlassView
-            className="p-5 rounded-2xl items-center gap-1.5"
-            glassEffectStyle="clear"
-          >
-            <Text className="text-foreground/90 text-lg font-semibold">
-              Glass Effect
-            </Text>
-            <Text className="text-foreground/70 text-sm text-center">
+          <GlassView className="items-center gap-1.5 rounded-2xl p-5" glassEffectStyle="clear">
+            <Text className="text-lg font-semibold text-foreground/90">Glass Effect</Text>
+            <Text className="text-center text-sm text-foreground/70">
               Built with expo-glass-effect
             </Text>
           </GlassView>
@@ -35,15 +30,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-  },
-  content: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#111827",
   },
 });

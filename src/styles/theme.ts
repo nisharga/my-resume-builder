@@ -1,3 +1,10 @@
+export const fontFamily = {
+  regular: "Poppins-Regular",
+  medium: "Poppins-Medium",
+  semiBold: "Poppins-SemiBold",
+  bold: "Poppins-Bold",
+};
+
 export const theme = {
   fonts: {
     regular: "System",
@@ -40,3 +47,5 @@ export const theme = {
     },
   },
 };
+
+export const spacing = theme.spacing;

@@ -1,7 +1,7 @@
 import { setOnboardingCompleted } from "@/config";
 import { useLanguage } from "@/src/context";
 import { setOnboarded } from "@/src/redux/features/authSlice";
-import { colors } from "@/styles/theme";
+import { colors } from "@/styles/colors";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StatusBar, StyleSheet, Text, View } from "react-native";
@@ -117,10 +117,7 @@ const OnboardingScreen = () => {
   };
 
   return (
-    <SafeAreaView
-      style={styles.container}
-      edges={["top", "bottom", "left", "right"]}
-    >
+    <SafeAreaView style={styles.container} edges={["top", "bottom", "left", "right"]}>
       <StatusBar
         barStyle="light-content"
         backgroundColor="transparent"
