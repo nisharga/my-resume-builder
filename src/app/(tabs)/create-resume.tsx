@@ -1,8 +1,17 @@
 import { GlassView } from "@/components/ui/liquid-glass";
-import { StyleSheet, Text, View } from "react-native";
+import ReminderToggle from "../../components/core/ReminderToggle";
+import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as Haptics from "expo-haptics";
+import * as Clipboard from "expo-clipboard";
 
 export default function CreateResumeScreen() {
+  const handleCopy = async () => {
+    const summary = `Test Summary`;
+    await Clipboard.setStringAsync(summary);
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    Alert.alert("Copied!", "Test Summary");
+  };
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <View className="h-52 w-72 overflow-hidden rounded-2xl">
@@ -22,6 +31,18 @@ export default function CreateResumeScreen() {
           </GlassView>
         </View>
       </View>
+
+      <TouchableOpacity
+        onPress={() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)}
+      >
+        <Text>Haptices Virate</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={handleCopy}>
+        <Text>Copy Summary</Text>
+      </TouchableOpacity>
+
+      <ReminderToggle />
     </SafeAreaView>
   );
 }
@@ -30,5 +51,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
+    padding: 30,
   },
 });

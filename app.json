@@ -43,6 +43,14 @@
             "./assets/fonts/Inter/Inter-Bold.ttf"
           ]
         }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/favicon.png",
+          "color": "#DC3173",
+          "sounds": ["./assets/sounds/notification_sound.wav"]
+        }
       ]
     ],
     "experiments": {

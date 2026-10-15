@@ -1,14 +1,8 @@
-import { Tabs } from "expo-router";
-import {
-  FileText,
-  Home,
-  LayoutTemplate,
-  LucideIcon,
-  Plus,
-  User,
-} from "lucide-react-native";
+import { Tabs, useRouter } from "expo-router";
+import { FileText, Home, LayoutTemplate, LucideIcon, Plus, User } from "lucide-react-native";
 import { Pressable, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+// import * as Notifications from "expo-notifications";
 
 const PRIMARY = "#0000ff";
 
@@ -45,6 +39,23 @@ export default function TabsLayout() {
   const insets = useSafeAreaInsets();
   const tabBarHeight = CONTENT_HEIGHT + insets.bottom;
 
+  // ========== After Notification click Redireact screen ==========
+  // const router = useRouter();
+  // const response = Notifications.useLastNotificationResponse();
+
+  // useEffect(() => {
+  //   if (response && response.actionIdentifier === Notifications.DEFAULT_ACTION_IDENTIFIER) {
+  //     const data = response.notification.request.content.data;
+
+  //     if (data?.screen) {
+  //       // e.g., router.push("/meals/log")
+  //       router.push({
+  //         pathname: data.screen,
+  //       });
+  //     }
+  //   }
+  // }, [response]);
+
   return (
     <Tabs
       screenOptions={{
@@ -71,11 +82,7 @@ export default function TabsLayout() {
           options={{
             title,
             tabBarIcon: ({ color, size }) =>
-              isCenter ? (
-                <ElevatedPlusIcon />
-              ) : Icon ? (
-                <Icon size={size} color={color} />
-              ) : null,
+              isCenter ? <ElevatedPlusIcon /> : Icon ? <Icon size={size} color={color} /> : null,
           }}
         />
       ))}
