@@ -1,330 +1,85 @@
-/* eslint-disable react-hooks/refs */
-import { LinearGradient } from "expo-linear-gradient";
+import { colors } from "@/styles/colors";
 import * as SplashScreen from "expo-splash-screen";
-import React, { useEffect, useRef } from "react";
-import { Animated, Dimensions, Easing, Image, StatusBar, StyleSheet, View } from "react-native";
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved
-import Logo from "../../assets/icon.png";
-const { width, height } = Dimensions.get("window");
+import { FileText } from "lucide-react-native";
+import { useEffect } from "react";
+import { Text } from "react-native";
+import Animated, {
+  Easing,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from "react-native-reanimated";
 
-/**
- * Ultra-Premium Cinematic Splash Screen (Animated Typography Edition)
- */
-const CustomSplashScreen = ({ onFinish }: any) => {
-  // --- Animation Values ---
-  const logoScale = useRef(new Animated.Value(1)).current; // Start at full scale to match native splash icon
-  const logoOpacity = useRef(new Animated.Value(1)).current; // Start visible to avoid a flash of nothing
-  const logoBloom = useRef(new Animated.Value(0)).current;
-  const screenOpacity = useRef(new Animated.Value(1)).current;
+type Props = { onFinish: () => void };
 
-  // Background Depth Elements
-  const bgCircle1 = useRef(new Animated.Value(0)).current;
-
-  // Glow Rings
-  const ring1Scale = useRef(new Animated.Value(0.7)).current;
-  const ring1Opacity = useRef(new Animated.Value(0)).current;
-  const ring2Scale = useRef(new Animated.Value(0.7)).current;
-  const ring2Opacity = useRef(new Animated.Value(0)).current;
-
-  // Typography Animation (D-e-l-i-G-o)
-  const brandChars = ["D", "e", "l", "i", "G", "o"];
-  const charAnims = useRef(brandChars.map(() => new Animated.Value(0))).current;
+export default function CustomSplashScreen({ onFinish }: Props) {
+  const iconScale = useSharedValue(0.4);
+  const iconOpacity = useSharedValue(0);
+  const textOpacity = useSharedValue(0);
+  const textY = useSharedValue(20);
+  const screenOpacity = useSharedValue(1);
 
   useEffect(() => {
-    // Hide native splash on the very first painted frame of the custom splash
-    // This ensures seamless handoff: native splash → custom animated splash (no gap, no double)
     const frame = requestAnimationFrame(() => {
       SplashScreen.hideAsync().catch(() => {});
     });
 
-    // 1. Background Circles Floating
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(bgCircle1, {
-          toValue: 1,
-          duration: 8000,
-          easing: Easing.linear,
-          useNativeDriver: true,
-        }),
-        Animated.timing(bgCircle1, {
-          toValue: 0,
-          duration: 8000,
-          easing: Easing.linear,
-          useNativeDriver: true,
-        }),
-      ]),
-    ).start();
+    iconScale.value = withTiming(1, { duration: 600, easing: Easing.out(Easing.back(1.3)) });
+    iconOpacity.value = withTiming(1, { duration: 500 });
 
-    // 2. Main Sequence
-    Animated.sequence([
-      // Stage A: Logo Arrival
-      Animated.parallel([
-        Animated.timing(logoScale, {
-          toValue: 1,
-          duration: 1200,
-          easing: Easing.out(Easing.back(1.2)),
-          useNativeDriver: true,
-        }),
-        Animated.timing(logoOpacity, {
-          toValue: 1,
-          duration: 1, // Already 1, keep it there or slightly shimmer
-          useNativeDriver: true,
-        }),
-        Animated.timing(logoBloom, {
-          toValue: 1,
-          duration: 1500,
-          useNativeDriver: true,
-        }),
-      ]),
+    textOpacity.value = withDelay(450, withTiming(1, { duration: 500 }));
+    textY.value = withDelay(450, withTiming(0, { duration: 500, easing: Easing.out(Easing.ease) }));
 
-      // Stage B: Explosion of Rings
-      Animated.parallel([
-        Animated.sequence([
-          Animated.timing(ring1Opacity, { toValue: 0.5, duration: 500, useNativeDriver: true }),
-          Animated.timing(ring1Opacity, { toValue: 0, duration: 500, useNativeDriver: true }),
-        ]),
-        Animated.timing(ring1Scale, {
-          toValue: 4,
-          duration: 1000,
-          easing: Easing.out(Easing.quad),
-          useNativeDriver: true,
-        }),
-
-        Animated.delay(200),
-        Animated.parallel([
-          Animated.sequence([
-            Animated.timing(ring2Opacity, { toValue: 0.3, duration: 500, useNativeDriver: true }),
-            Animated.timing(ring2Opacity, { toValue: 0, duration: 500, useNativeDriver: true }),
-          ]),
-          Animated.timing(ring2Scale, {
-            toValue: 5,
-            duration: 1000,
-            easing: Easing.out(Easing.quad),
-            useNativeDriver: true,
-          }),
-        ]),
-
-        // Staggered Typography Reveal
-        Animated.stagger(
-          80,
-          charAnims.map((charAnim) =>
-            Animated.timing(charAnim, {
-              toValue: 1,
-              duration: 600,
-              easing: Easing.out(Easing.back(1.5)),
-              useNativeDriver: true,
-            }),
-          ),
-        ),
-      ]),
-
-      // Stage C: Final Hold and Exit
-      Animated.delay(1200),
-      Animated.timing(screenOpacity, {
-        toValue: 0,
-        duration: 800,
-        easing: Easing.inOut(Easing.quad),
-        useNativeDriver: true,
+    screenOpacity.value = withDelay(
+      2400,
+      withTiming(0, { duration: 600 }, (done) => {
+        "worklet";
+        if (done) runOnJS(onFinish)();
       }),
-    ]).start(() => {
-      if (onFinish) onFinish();
-    });
+    );
 
     return () => cancelAnimationFrame(frame);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const LOGO_SIZE = width * 0.38;
+  const iconStyle = useAnimatedStyle(() => ({
+    opacity: iconOpacity.value,
+    transform: [{ scale: iconScale.value }],
+  }));
+
+  const textStyle = useAnimatedStyle(() => ({
+    opacity: textOpacity.value,
+    transform: [{ translateY: textY.value }],
+  }));
+
+  const screenStyle = useAnimatedStyle(() => ({ opacity: screenOpacity.value }));
 
   return (
-    <Animated.View style={[styles.container, { opacity: screenOpacity }]}>
-      <StatusBar backgroundColor="transparent" barStyle="light-content" translucent />
+    <Animated.View
+      style={[screenStyle, { flex: 1, backgroundColor: colors.primary }]}
+      className="items-center justify-center"
+    >
+      {/* Decorative circles */}
+      <Animated.View className="absolute -top-16 -right-16 h-52 w-52 rounded-full bg-white/10" />
+      <Animated.View className="absolute -bottom-10 -left-10 h-44 w-44 rounded-full bg-white/10" />
 
-      {/* Primary Brand Gradient */}
-      <LinearGradient colors={["#FF4B8B", "#DC3173", "#8A1448"]} style={StyleSheet.absoluteFill} />
-
-      {/* Decorative Circles */}
+      {/* Icon card */}
       <Animated.View
-        style={[
-          styles.bgCircle,
-          {
-            top: "20%",
-            left: "10%",
-            width: 200,
-            height: 200,
-            borderRadius: 100,
-            backgroundColor: "rgba(255,255,255,0.05)",
-            transform: [
-              { scale: bgCircle1.interpolate({ inputRange: [0, 1], outputRange: [1, 1.2] }) },
-            ],
-          },
-        ]}
-      />
+        style={iconStyle}
+        className="mb-10 h-32 w-32 items-center justify-center rounded-[32px] bg-white/20"
+      >
+        <FileText size={56} color={colors.white} strokeWidth={1.5} />
+      </Animated.View>
 
-      <View style={styles.centerStack}>
-        {/* Glow Bloom (Circular White Bloom) */}
-        <Animated.View
-          style={[
-            styles.logoBloom,
-            {
-              width: LOGO_SIZE * 1.6,
-              height: LOGO_SIZE * 1.6,
-              borderRadius: LOGO_SIZE * 0.8,
-              opacity: logoBloom.interpolate({ inputRange: [0, 1], outputRange: [0, 0.5] }),
-              transform: [{ scale: logoScale }],
-            },
-          ]}
-        >
-          <LinearGradient
-            colors={["rgba(255,255,255,0.6)", "transparent"]}
-            style={StyleSheet.absoluteFill}
-          />
-        </Animated.View>
-
-        {/* Ring 2 */}
-        <Animated.View
-          style={[
-            styles.glowRing,
-            {
-              width: LOGO_SIZE,
-              height: LOGO_SIZE,
-              borderRadius: LOGO_SIZE / 2,
-              opacity: ring2Opacity,
-              transform: [{ scale: ring2Scale }],
-            },
-          ]}
-        />
-
-        {/* Ring 1 */}
-        <Animated.View
-          style={[
-            styles.glowRing,
-            {
-              width: LOGO_SIZE,
-              height: LOGO_SIZE,
-              borderRadius: LOGO_SIZE / 2,
-              opacity: ring1Opacity,
-              transform: [{ scale: ring1Scale }],
-              borderColor: "rgba(255,255,255,0.8)",
-            },
-          ]}
-        />
-
-        {/* Logo Wrapper (The Circular Mask) */}
-        <Animated.View
-          style={[
-            styles.logoWrapper,
-            {
-              width: LOGO_SIZE,
-              height: LOGO_SIZE,
-              borderRadius: LOGO_SIZE / 2, // Circular Masking
-              opacity: logoOpacity,
-              transform: [{ scale: logoScale }],
-            },
-          ]}
-        >
-          <Image source={Logo} style={styles.logoImage} resizeMode="cover" />
-          <View style={styles.logoBorder} />
-        </Animated.View>
-      </View>
-
-      {/* Animated Brand Title (Staggered Characters) */}
-      <View style={styles.footer}>
-        <View style={styles.charContainer}>
-          {brandChars.map((char, index) => (
-            <Animated.Text
-              key={index}
-              style={[
-                styles.brandChar,
-                {
-                  opacity: charAnims[index]!,
-                  transform: [
-                    {
-                      translateY: charAnims[index]!.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [20, 0],
-                      }),
-                    },
-                    {
-                      scale: charAnims[index]!.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [0.5, 1],
-                      }),
-                    },
-                  ],
-                },
-              ]}
-            >
-              {char}
-            </Animated.Text>
-          ))}
-        </View>
-      </View>
+      {/* Brand */}
+      <Animated.View style={textStyle} className="items-center gap-3">
+        <Text className="text-4xl font-bold tracking-tight text-white">CV Builder</Text>
+        <Text className="px-10 text-center text-base text-white/70">
+          Create Professional CVs in Minutes
+        </Text>
+      </Animated.View>
     </Animated.View>
   );
-};
-export default CustomSplashScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFill,
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 99999,
-  },
-  bgCircle: {
-    position: "absolute",
-  },
-  centerStack: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 40,
-  },
-  logoBloom: {
-    position: "absolute",
-    overflow: "hidden",
-  },
-  glowRing: {
-    position: "absolute",
-    borderWidth: 1.5,
-    borderColor: "rgba(255, 255, 255, 0.4)",
-  },
-  logoWrapper: {
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
-    backgroundColor: "#DC3173",
-    elevation: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
-  },
-  logoBorder: {
-    ...StyleSheet.absoluteFill,
-    borderRadius: 1000,
-    borderWidth: 2,
-    borderColor: "rgba(255, 255, 255, 0.2)",
-  },
-  logoImage: {
-    width: "100%",
-    height: "100%",
-  },
-  footer: {
-    position: "absolute",
-    bottom: height * 0.15,
-    alignItems: "center",
-  },
-  charContainer: {
-    flexDirection: "row",
-  },
-  brandChar: {
-    fontSize: 42,
-    fontFamily: "Poppins-Bold",
-    color: "#FFFFFF",
-    textShadowColor: "rgba(0, 0, 0, 0.2)",
-    textShadowOffset: { width: 0, height: 3 },
-    textShadowRadius: 8,
-    marginHorizontal: 1,
-  },
-});
+}

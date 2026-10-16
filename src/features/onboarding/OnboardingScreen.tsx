@@ -1,214 +1,120 @@
+import { Button } from "@/components";
 import { setOnboardingCompleted } from "@/config";
-import { useLanguage } from "@/context";
-import { setOnboarded } from "@/redux/features/authSlice";
 import { colors } from "@/styles/colors";
-import { useRouter } from "expo-router";
-import React from "react";
-import { StatusBar, StyleSheet, Text, View } from "react-native";
-import AppIntroSlider from "react-native-app-intro-slider";
+import { Briefcase, FileText, LayoutTemplate, type LucideIcon } from "lucide-react-native";
+import { useState } from "react";
+import { Pressable, Text, View } from "react-native";
+import Animated, { FadeInRight, FadeOutLeft } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useDispatch } from "react-redux";
-import {
-  DealsIllustration,
-  DeliveryIllustration,
-  DiscoverIllustration,
-} from "./OnboardingIllustrations";
 
-const OnboardingScreen = () => {
-  const router = useRouter();
-  const dispatch = useDispatch();
-
-  const completeOnboarding = async () => {
-    try {
-      // 1. Update Redux FIRST
-      // This tells the RootLayoutNav: "Hey, we are done here!"
-      dispatch(setOnboarded(true));
-
-      // 2. Persist it to disk
-      await setOnboardingCompleted();
-
-      // 3. REMOVE router.push/replace from here.
-      // Your RootLayoutNav useEffect will detect the Redux change
-      // and handle the redirect automatically.
-    } catch (error) {
-      console.error("Failed to complete onboarding", error);
-    }
-  };
-
-  const { t } = useLanguage();
-  // Define slides inside the component to respond to language changes
-  const slides = [
-    {
-      key: "deals",
-      title: t("onboarding.deals.title"),
-      text: t("onboarding.deals.text"),
-      illustration: DealsIllustration,
-      backgroundColor: colors.primary,
-    },
-    {
-      key: "deliver",
-      title: t("onboarding.deliver.title"),
-      text: t("onboarding.deliver.text"),
-      illustration: DeliveryIllustration,
-      backgroundColor: colors.primary,
-    },
-    {
-      key: "discover",
-      title: t("onboarding.discover.title"),
-      text: t("onboarding.discover.text"),
-      illustration: DiscoverIllustration,
-      backgroundColor: colors.primary,
-    },
-  ];
-
-  interface IProps {
-    key: string;
-    title: string;
-    text: string;
-    illustration: React.ComponentType;
-    backgroundColor: string;
-  }
-
-  const renderItem = ({ item }: { item: IProps }) => {
-    const IllustrationComponent = item.illustration;
-    return (
-      <View style={[styles.slide, { backgroundColor: item.backgroundColor }]}>
-        <View style={styles.content}>
-          <View style={styles.illustrationWrapper}>
-            <IllustrationComponent />
-          </View>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.text}>{item.text}</Text>
-        </View>
-      </View>
-    );
-  };
-
-  const onDonePress = async () => {
-    await completeOnboarding();
-  };
-
-  const onSkipPress = async () => {
-    await completeOnboarding();
-  };
-
-  const renderNextButton = () => {
-    return (
-      <View style={styles.buttonCircle}>
-        <Text style={styles.buttonText}>→</Text>
-      </View>
-    );
-  };
-
-  const renderDoneButton = () => {
-    return (
-      <View style={styles.buttonCircle}>
-        <Text style={styles.buttonText}>✓</Text>
-      </View>
-    );
-  };
-
-  const renderSkipButton = () => {
-    return (
-      <View style={styles.skipButton}>
-        <Text style={styles.skipButtonText}>{t("skip")}</Text>
-      </View>
-    );
-  };
-
-  return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom", "left", "right"]}>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
-        translucent={true}
-        animated={true}
-      />
-      <AppIntroSlider
-        data={slides}
-        renderItem={renderItem}
-        onDone={onDonePress}
-        onSkip={onSkipPress}
-        renderNextButton={renderNextButton}
-        renderDoneButton={renderDoneButton}
-        renderSkipButton={renderSkipButton}
-        showSkipButton
-        dotStyle={styles.dotStyle}
-        activeDotStyle={styles.activeDotStyle}
-      />
-    </SafeAreaView>
-  );
+type Slide = {
+  Icon: LucideIcon;
+  iconBg: string;
+  iconColor: string;
+  title: string;
+  description: string;
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.primary,
+const SLIDES: Slide[] = [
+  {
+    Icon: FileText,
+    iconBg: colors.accent,
+    iconColor: colors.primary,
+    title: "Build Your CV",
+    description: "Create stunning professional resumes in minutes with our easy-to-use builder.",
   },
-  slide: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+  {
+    Icon: LayoutTemplate,
+    iconBg: "#FFF7ED",
+    iconColor: colors.warning,
+    title: "Choose a Template",
+    description: "Pick from professionally designed templates that make you stand out.",
   },
-  content: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 24,
+  {
+    Icon: Briefcase,
+    iconBg: "#F0FDF4",
+    iconColor: colors.success,
+    title: "Get Hired",
+    description: "Download and share your CV to land your dream job.",
   },
-  illustrationWrapper: {
-    marginBottom: 40,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#fff",
-    marginBottom: 16,
-    textAlign: "center",
-    fontFamily: "Poppins-Bold",
-  },
-  text: {
-    fontSize: 18,
-    color: "#fff",
-    textAlign: "center",
-    fontFamily: "Poppins-Regular",
-  },
-  buttonCircle: {
-    width: 44,
-    height: 44,
-    backgroundColor: "rgba(255, 255, 255, 0.3)",
-    borderRadius: 22,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonText: {
-    color: colors.white,
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  skipButton: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  skipButtonText: {
-    color: colors.white,
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  dotStyle: {
-    backgroundColor: "rgba(255, 255, 255, 0.3)",
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 4,
-  },
-  activeDotStyle: {
-    backgroundColor: colors.white,
-    width: 24,
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 4,
-  },
-});
+];
 
-export default OnboardingScreen;
+type Props = { onComplete?: () => void };
+
+export default function OnboardingScreen({ onComplete }: Props) {
+  const [index, setIndex] = useState(0);
+
+  const isLast = index === SLIDES.length - 1;
+  const slide = SLIDES[index]!;
+  const { Icon } = slide;
+
+  async function finish() {
+    try {
+      await setOnboardingCompleted();
+      onComplete?.();
+    } catch (e) {
+      console.error("Failed to complete onboarding", e);
+    }
+  }
+
+  function goNext() {
+    if (isLast) {
+      finish();
+      return;
+    }
+    setIndex((i) => i + 1);
+  }
+
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }} edges={["top", "bottom"]}>
+      {/* Skip */}
+      <View className="flex-row justify-end px-6 pt-2">
+        {!isLast ? (
+          <Pressable onPress={finish} hitSlop={12}>
+            <Text className="text-base font-medium text-muted-foreground">Skip</Text>
+          </Pressable>
+        ) : (
+          <View className="h-6" />
+        )}
+      </View>
+
+      {/* Slide — key forces remount on index change, triggering enter/exit animations */}
+      <Animated.View
+        key={index}
+        entering={FadeInRight.duration(300)}
+        exiting={FadeOutLeft.duration(200)}
+        className="flex-1 items-center justify-center px-8"
+      >
+        <View
+          style={{ backgroundColor: slide.iconBg }}
+          className="mb-12 h-52 w-52 items-center justify-center rounded-[40px]"
+        >
+          <Icon size={88} color={slide.iconColor} strokeWidth={1.5} />
+        </View>
+
+        <Text className="mb-4 text-center text-3xl leading-tight font-bold text-heading">
+          {slide.title}
+        </Text>
+        <Text className="text-center text-base leading-relaxed text-body">{slide.description}</Text>
+      </Animated.View>
+
+      {/* Bottom controls */}
+      <View className="gap-5 px-6 pb-6">
+        {/* Dot indicators */}
+        <View className="flex-row justify-center gap-2">
+          {SLIDES.map((_, i) => (
+            <View
+              key={i}
+              style={{ backgroundColor: i === index ? colors.primary : colors.border }}
+              className={`h-2 rounded-full ${i === index ? "w-6" : "w-2"}`}
+            />
+          ))}
+        </View>
+
+        <Button onPress={goNext} className="rounded-2xl">
+          {isLast ? "Get Started" : "Next"}
+        </Button>
+      </View>
+    </SafeAreaView>
+  );
+}

@@ -1,4 +1,2 @@
-export { default as CustomSplashScreen } from './CustomSplashScreen';
-export * from './OnboardingIllustrations';
-export { default as OnboardingScreen } from './OnboardingScreen';
-
+export { default as CustomSplashScreen } from "./CustomSplashScreen";
+export { default as OnboardingScreen } from "./OnboardingScreen";

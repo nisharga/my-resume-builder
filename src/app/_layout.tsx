@@ -1,14 +1,16 @@
 import { useCustomFonts } from "../../assets/fonts";
-import { initStorage } from "@/config";
+import { checkOnboardingStatus, initStorage } from "@/config";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { CustomSplashScreen, OnboardingScreen } from "@/features/onboarding";
 import { OverlayProvider } from "@gluestack-ui/core/overlay/creator";
 import { ToastProvider } from "@gluestack-ui/core/toast/creator";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "../styles/global.css";
 
@@ -19,26 +21,51 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 SplashScreen.setOptions({ duration: 300, fade: true });
 
+type Phase = "loading" | "splash" | "onboarding" | "app";
+
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts(useCustomFonts);
+  const [phase, setPhase] = useState<Phase>("loading");
 
   useEffect(() => {
+    if (!fontsLoaded && !fontError) return;
     async function prepare() {
       try {
         await initStorage();
       } catch (e) {
         console.warn(e);
       } finally {
-        if (fontsLoaded || fontError) {
-          SplashScreen.hideAsync();
-        }
+        setPhase("splash");
       }
     }
     prepare();
   }, [fontsLoaded, fontError]);
 
-  if (!fontsLoaded && !fontError) {
-    return null;
+  function handleSplashFinish() {
+    const onboarded = checkOnboardingStatus();
+    setPhase(onboarded ? "app" : "onboarding");
+  }
+
+  function handleOnboardingComplete() {
+    setPhase("app");
+  }
+
+  if (phase === "loading") return null;
+
+  if (phase === "splash") {
+    return (
+      <View style={{ flex: 1 }}>
+        <CustomSplashScreen onFinish={handleSplashFinish} />
+      </View>
+    );
+  }
+
+  if (phase === "onboarding") {
+    return (
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <OnboardingScreen onComplete={handleOnboardingComplete} />
+      </GestureHandlerRootView>
+    );
   }
 
   return (
