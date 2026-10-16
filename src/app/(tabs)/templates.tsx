@@ -1,11 +1,11 @@
-import { Icons } from "@/src/components/Icons";
+import { Icons } from "@/components/Icons";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Toast, ToastTitle, ToastDescription, useToast } from "@/components/ui/toast";
 import { Button, ButtonText } from "@/components/ui/button";
 import { useState } from "react";
 import ResumesScreen from "./resumes";
-import { APP_NAME } from "@/src/config/env";
+import { APP_NAME } from "@/config/env";
 
 export default function TemplatesScreen() {
   const toast = useToast();

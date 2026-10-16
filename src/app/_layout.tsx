@@ -1,7 +1,7 @@
 import { useCustomFonts } from "../../assets/fonts";
-import { initStorage } from "@/src/config";
-import { LanguageProvider } from "@/src/context/LanguageContext";
-import { ThemeProvider } from "@/src/context/ThemeContext";
+import { initStorage } from "@/config";
+import { LanguageProvider } from "@/context/LanguageContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import { OverlayProvider } from "@gluestack-ui/core/overlay/creator";
 import { ToastProvider } from "@gluestack-ui/core/toast/creator";
 import { useFonts } from "expo-font";

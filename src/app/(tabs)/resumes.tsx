@@ -9,9 +9,9 @@ import {
   BottomSheetTrigger,
 } from "@/components/ui/bottomsheet";
 import { StyleSheet, Text, View } from "react-native";
-import { Button } from "../../components/core";
+import { Button } from "@/components/core";
 import { useState } from "react";
-import { Icons } from "@/src/components/Icons";
+import { Icons } from "@/components/Icons";
 
 export default function ResumesScreen() {
   const [loading, setLoading] = useState(false);

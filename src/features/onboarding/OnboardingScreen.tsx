@@ -1,6 +1,6 @@
 import { setOnboardingCompleted } from "@/config";
-import { useLanguage } from "@/src/context";
-import { setOnboarded } from "@/src/redux/features/authSlice";
+import { useLanguage } from "@/context";
+import { setOnboarded } from "@/redux/features/authSlice";
 import { colors } from "@/styles/colors";
 import { useRouter } from "expo-router";
 import React from "react";

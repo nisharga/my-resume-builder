@@ -1,4 +1,4 @@
-import { useLanguage } from "@/src/context";
+import { useLanguage } from "@/context";
 import { colors } from "@/styles/colors";
 import { useRouter } from "expo-router";
 import React from "react";

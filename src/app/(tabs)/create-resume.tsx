@@ -1,60 +1,133 @@
-import { GlassView } from "@/components/ui/liquid-glass";
-import Image from "../../components/core/Image";
-import ReminderToggle from "../../components/core/ReminderToggle";
-import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import * as Haptics from "expo-haptics";
-import * as Clipboard from "expo-clipboard";
+import { Image, Screen } from "@/components";
+import { Pressable, Text, View } from "react-native";
+
+const skills = [
+  "React Native",
+  "Expo",
+  "TypeScript",
+  "NativeWind",
+  "Node.js",
+  "REST API",
+  "Git",
+  "Figma",
+];
+
+const experience = [
+  {
+    role: "Senior Mobile Developer",
+    company: "Pathao",
+    time: "2024 - Present",
+    text: "Built and shipped features for a ride sharing app used by millions.",
+  },
+  {
+    role: "React Native Developer",
+    company: "bKash",
+    time: "2022 - 2024",
+    text: "Worked on payment flows, performance and offline support.",
+  },
+  {
+    role: "Frontend Developer",
+    company: "Brain Station 23",
+    time: "2020 - 2022",
+    text: "Built web dashboards with React and TypeScript.",
+  },
+];
+
+const education = [
+  { title: "BSc in Computer Science", place: "University of Dhaka", time: "2016 - 2020" },
+  { title: "HSC, Science", place: "Dhaka College", time: "2014 - 2016" },
+];
+
+const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <View className="mb-6 px-4">
+    <Text className="mb-3 text-lg font-bold text-gray-900">{title}</Text>
+    {children}
+  </View>
+);
 
 export default function CreateResumeScreen() {
-  const handleCopy = async () => {
-    const summary = `Test Summary`;
-    await Clipboard.setStringAsync(summary);
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    Alert.alert("Copied!", "Test Summary");
-  };
   return (
-    <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
-      <View className="h-52 w-72 overflow-hidden rounded-2xl">
-        {/* Colorful background so the glass effect is visible */}
-        <View className="absolute inset-0 bg-indigo-500" />
-        <View className="absolute top-0 left-0 h-28 w-28 -translate-x-6 -translate-y-6 rounded-full bg-purple-400" />
-        <View className="absolute right-0 bottom-0 h-32 w-32 translate-x-8 translate-y-8 rounded-full bg-pink-400" />
-        <View className="absolute top-6 right-6 h-16 w-16 rounded-full bg-yellow-300 opacity-70" />
-
-        {/* Glass card */}
-        <View className="flex-1 items-center justify-center p-4">
-          <GlassView className="items-center gap-1.5 rounded-2xl p-5" glassEffectStyle="clear">
-            <Text className="text-lg font-semibold text-foreground/90">Glass Effect</Text>
-            <Text className="text-center text-sm text-foreground/70">
-              Built with expo-glass-effect
-            </Text>
-          </GlassView>
+    <Screen
+      className="bg-white"
+      scroll
+      stickyHeaderIndices={[1]}
+      header={
+        <View className="flex-row items-center justify-between border-b border-gray-200 bg-white px-4 py-3">
+          <Text className="text-lg font-bold">Resume</Text>
+          <Text className="text-blue-600">Share</Text>
         </View>
+      }
+      footer={
+        <View className="border-t border-gray-200 bg-white p-4">
+          <Pressable className="items-center rounded-xl bg-black py-4">
+            <Text className="font-semibold text-white">Download CV</Text>
+          </Pressable>
+        </View>
+      }
+    >
+      <View className="items-center bg-gray-50 px-4 py-8">
+        <Image src="https://i.pravatar.cc/300?img=12" className="w-28 rounded-full" />
+        <Text className="mt-4 text-2xl font-bold">Rahim Ahmed</Text>
+        <Text className="mt-1 text-gray-500">React Native Developer · Dhaka</Text>
       </View>
 
-      <TouchableOpacity
-        onPress={() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)}
-      >
-        <Text>Haptices Virate</Text>
-      </TouchableOpacity>
+      <View className="flex-row justify-around border-b border-gray-200 bg-white py-3">
+        <Text className="font-semibold">5+ Years</Text>
+        <Text className="font-semibold">30 Projects</Text>
+        <Text className="font-semibold">Open to work</Text>
+      </View>
 
-      <TouchableOpacity onPress={handleCopy}>
-        <Text>Copy Summary</Text>
-      </TouchableOpacity>
+      <View className="pt-6">
+        <Section title="About">
+          <Text className="leading-6 text-gray-600">
+            Mobile developer focused on fast, clean and reusable React Native apps. I enjoy building
+            design systems and smooth user experiences.
+          </Text>
+        </Section>
 
-      <Image src="https://picsum.photos/200/120" className="mb-4 w-full rounded-xl" />
-      <Image src={require("../../../assets/icon.png")} className="h-40 w-20 rounded-lg" />
+        <Section title="Skills">
+          <View className="flex-row flex-wrap gap-2">
+            {skills.map((skill) => (
+              <Text key={skill} className="rounded-full bg-gray-100 px-3 py-1 text-gray-700">
+                {skill}
+              </Text>
+            ))}
+          </View>
+        </Section>
 
-      <ReminderToggle />
-    </SafeAreaView>
+        <Section title="Experience">
+          {experience.map((item) => (
+            <View key={item.company} className="mb-4 rounded-xl bg-gray-50 p-4">
+              <Text className="font-semibold">{item.role}</Text>
+              <Text className="text-gray-500">
+                {item.company} · {item.time}
+              </Text>
+              <Text className="mt-2 text-gray-600">{item.text}</Text>
+            </View>
+          ))}
+        </Section>
+
+        <Section title="Projects">
+          <Image src="https://picsum.photos/800/450" className="mb-3 w-full rounded-xl" />
+          <Image src="https://picsum.photos/1200/300" className="w-full rounded-xl" />
+        </Section>
+
+        <Section title="Education">
+          {education.map((item) => (
+            <View key={item.title} className="mb-3">
+              <Text className="font-semibold">{item.title}</Text>
+              <Text className="text-gray-500">
+                {item.place} · {item.time}
+              </Text>
+            </View>
+          ))}
+        </Section>
+
+        <Section title="Contact">
+          <Text className="text-gray-600">rahim@email.com</Text>
+          <Text className="text-gray-600">+880 1700-000000</Text>
+        </Section>
+      </View>
+    </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-    padding: 30,
-  },
-});

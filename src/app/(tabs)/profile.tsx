@@ -1,5 +1,5 @@
-import { useLanguage } from "@/src/context/LanguageContext";
-import { useTheme } from "@/src/context/ThemeContext";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -20,9 +20,7 @@ export default function ProfileScreen() {
     >
       <View style={styles.content}>
         {/* Demo translations */}
-        <View
-          style={[styles.card, { backgroundColor: card, borderColor: border }]}
-        >
+        <View style={[styles.card, { backgroundColor: card, borderColor: border }]}>
           <Text style={[styles.label, { color: sub }]}>greeting</Text>
           <Text style={[styles.value, { color: text }]}>{t("greeting")}</Text>
 
@@ -34,51 +32,27 @@ export default function ProfileScreen() {
           <View style={styles.divider} />
 
           <Text style={[styles.label, { color: sub }]}>goodMorning</Text>
-          <Text style={[styles.value, { color: text }]}>
-            {t("goodMorning")}
-          </Text>
+          <Text style={[styles.value, { color: text }]}>{t("goodMorning")}</Text>
         </View>
 
         {/* Language Switcher */}
-        <View
-          style={[styles.card, { backgroundColor: card, borderColor: border }]}
-        >
-          <Text style={[styles.sectionTitle, { color: text }]}>
-            {t("language")}
-          </Text>
+        <View style={[styles.card, { backgroundColor: card, borderColor: border }]}>
+          <Text style={[styles.sectionTitle, { color: text }]}>{t("language")}</Text>
           <View style={styles.row}>
             <TouchableOpacity
-              style={[
-                styles.pill,
-                language === "en" && styles.pillActive,
-                { borderColor: border },
-              ]}
+              style={[styles.pill, language === "en" && styles.pillActive, { borderColor: border }]}
               onPress={() => changeLanguage("en")}
             >
-              <Text
-                style={[
-                  styles.pillText,
-                  language === "en" && styles.pillTextActive,
-                ]}
-              >
+              <Text style={[styles.pillText, language === "en" && styles.pillTextActive]}>
                 English
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[
-                styles.pill,
-                language === "bn" && styles.pillActive,
-                { borderColor: border },
-              ]}
+              style={[styles.pill, language === "bn" && styles.pillActive, { borderColor: border }]}
               onPress={() => changeLanguage("bn")}
             >
-              <Text
-                style={[
-                  styles.pillText,
-                  language === "bn" && styles.pillTextActive,
-                ]}
-              >
+              <Text style={[styles.pillText, language === "bn" && styles.pillTextActive]}>
                 বাংলা
               </Text>
             </TouchableOpacity>
@@ -86,12 +60,8 @@ export default function ProfileScreen() {
         </View>
 
         {/* Theme Switcher */}
-        <View
-          style={[styles.card, { backgroundColor: card, borderColor: border }]}
-        >
-          <Text style={[styles.sectionTitle, { color: text }]}>
-            {t("theme")}
-          </Text>
+        <View style={[styles.card, { backgroundColor: card, borderColor: border }]}>
+          <Text style={[styles.sectionTitle, { color: text }]}>{t("theme")}</Text>
           <TouchableOpacity style={styles.themeToggle} onPress={toggleTheme}>
             <View style={[styles.track, isDarkMode && styles.trackActive]}>
               <View style={[styles.thumb, isDarkMode && styles.thumbActive]} />

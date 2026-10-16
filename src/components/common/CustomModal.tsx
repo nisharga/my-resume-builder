@@ -1,4 +1,4 @@
-import { useTheme } from "@/src/context";
+import { useTheme } from "@/context";
 import React, { useMemo } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 

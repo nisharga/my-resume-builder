@@ -1,5 +1,5 @@
-import { useLanguage } from "@/src/context/LanguageContext";
-import { useTheme } from "@/src/context/ThemeContext";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -8,43 +8,37 @@ export default function HomeScreen() {
   const { isDarkMode, toggleTheme } = useTheme();
 
   return (
-    <SafeAreaView
-      className="flex-1 bg-background"
-      edges={["top", "left", "right"]}
-    >
-      <View className="flex-1 p-5 gap-4">
-
+    <SafeAreaView className="flex-1 bg-background" edges={["top", "left", "right"]}>
+      <View className="flex-1 gap-4 p-5">
         {/* Demo translations */}
-        <View className="rounded-xl border border-border bg-card p-4 gap-2">
-          <Text className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+        <View className="bg-card gap-2 rounded-xl border border-border p-4">
+          <Text className="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
             greeting
           </Text>
           <Text className="text-2xl font-bold text-foreground">{t("greeting")}</Text>
 
-          <View className="h-px bg-border my-1" />
+          <View className="my-1 h-px bg-border" />
 
-          <Text className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+          <Text className="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
             howAreYou
           </Text>
           <Text className="text-2xl font-bold text-foreground">{t("howAreYou")}</Text>
 
-          <View className="h-px bg-border my-1" />
+          <View className="my-1 h-px bg-border" />
 
-          <Text className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+          <Text className="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
             goodMorning
           </Text>
           <Text className="text-2xl font-bold text-foreground">{t("goodMorning")}</Text>
         </View>
 
         {/* Language Switcher */}
-        <View className="rounded-xl border border-border bg-card p-4 gap-3">
+        <View className="bg-card gap-3 rounded-xl border border-border p-4">
           <Text className="text-[15px] font-semibold text-foreground">{t("language")}</Text>
           <View className="flex-row gap-3">
             <TouchableOpacity
-              className={`px-5 py-2 rounded-full border ${
-                language === "en"
-                  ? "bg-primary border-primary"
-                  : "border-border"
+              className={`rounded-full border px-5 py-2 ${
+                language === "en" ? "border-primary bg-primary" : "border-border"
               }`}
               onPress={() => changeLanguage("en")}
             >
@@ -58,10 +52,8 @@ export default function HomeScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
-              className={`px-5 py-2 rounded-full border ${
-                language === "bn"
-                  ? "bg-primary border-primary"
-                  : "border-border"
+              className={`rounded-full border px-5 py-2 ${
+                language === "bn" ? "border-primary bg-primary" : "border-border"
               }`}
               onPress={() => changeLanguage("bn")}
             >
@@ -77,21 +69,18 @@ export default function HomeScreen() {
         </View>
 
         {/* Theme Switcher */}
-        <View className="rounded-xl border border-border bg-card p-4 gap-3">
+        <View className="bg-card gap-3 rounded-xl border border-border p-4">
           <Text className="text-[15px] font-semibold text-foreground">{t("theme")}</Text>
-          <TouchableOpacity
-            className="flex-row items-center gap-3"
-            onPress={toggleTheme}
-          >
+          <TouchableOpacity className="flex-row items-center gap-3" onPress={toggleTheme}>
             {/* Track */}
             <View
-              className={`w-[50px] h-7 rounded-full justify-center px-[3px] ${
+              className={`h-7 w-[50px] justify-center rounded-full px-[3px] ${
                 isDarkMode ? "bg-primary" : "bg-muted"
               }`}
             >
               {/* Thumb */}
               <View
-                className={`w-[22px] h-[22px] rounded-full bg-background ${
+                className={`h-[22px] w-[22px] rounded-full bg-background ${
                   isDarkMode ? "self-end" : "self-start"
                 }`}
               />
@@ -101,7 +90,6 @@ export default function HomeScreen() {
             </Text>
           </TouchableOpacity>
         </View>
-
       </View>
     </SafeAreaView>
   );

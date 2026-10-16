@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { AlertCircle } from "lucide-react-native";
-import { useTheme } from "@/src/context";
+import { useTheme } from "@/context";
 import { fontFamily } from "@/styles/theme";
 
 interface ErrorMessageProps {
@@ -12,8 +12,7 @@ interface ErrorMessageProps {
 const ErrorMessage: React.FC<ErrorMessageProps> = ({ error, onRetry }) => {
   const { colors } = useTheme();
 
-  const message =
-    error?.data?.message || error?.error || "Something went wrong";
+  const message = error?.data?.message || error?.error || "Something went wrong";
 
   return (
     <View style={styles.container}>
