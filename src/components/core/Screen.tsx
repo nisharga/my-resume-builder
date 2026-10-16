@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import type { ReactNode } from "react";
 import { ScrollView } from "react-native";
 import Animated, {
@@ -12,9 +12,6 @@ import { SafeAreaView, type Edge } from "react-native-safe-area-context";
 
 type Props = {
   children: ReactNode;
-  /** Indices of scroll children that should stick when scrolled past */
-  stickyHeaderIndices?: number[];
-  /** Extra classes on the root container */
   className?: string;
   statusBar?: StatusBarStyle;
   edges?: Edge[];
@@ -22,11 +19,18 @@ type Props = {
 
 export default function Screen({
   children,
-  stickyHeaderIndices,
   className = "",
   statusBar = "auto",
   edges = ["top"],
 }: Props) {
+  // Auto-detect children that have sticky={true} and build stickyHeaderIndices
+  const stickyIndices = React.Children.toArray(children).reduce<number[]>((acc, child, index) => {
+    if (React.isValidElement(child) && (child.props as any).sticky === true) {
+      acc.push(index);
+    }
+    return acc;
+  }, []);
+
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(16);
 
@@ -41,21 +45,21 @@ export default function Screen({
   }));
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={edges} className={`bg-background`}>
-      <StatusBar style={statusBar} />
+    <Animated.View style={[{ flex: 1 }, animStyle]}>
+      <SafeAreaView style={{ flex: 1 }} edges={edges} className={`bg-background ${className}`}>
+        <StatusBar style={statusBar} />
 
-      <ScrollView
-        style={{ flex: 1 }}
-        contentContainerStyle={{ flexGrow: 1 }}
-        stickyHeaderIndices={stickyHeaderIndices}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-        bounces
-      >
-        <Animated.View className={className} style={[{ flex: 1 }, animStyle]}>
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          stickyHeaderIndices={stickyIndices.length > 0 ? stickyIndices : undefined}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          bounces
+        >
           {children}
-        </Animated.View>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </Animated.View>
   );
 }

@@ -16,7 +16,31 @@ import { Icons } from "@/components/Icons";
 export default function ResumesScreen() {
   const [loading, setLoading] = useState(false);
   return (
-    <Screen className="">
+    <Screen className="px-2">
+      <Header
+        title="Resume"
+        sticky={true}
+        className="z-20 mb-4 border-b-2 bg-transparent"
+        right={<Icons.ArrowRight />}
+        onRightPress={() => console.log("Right Press")}
+      />
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
+      <Text style={styles.title}>All CVs</Text>
       <Text style={styles.title}>All CVs</Text>
       <Text style={styles.title}>All CVs</Text>
       <Text style={styles.title}>All CVs</Text>

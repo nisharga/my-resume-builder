@@ -1,4 +1,4 @@
-import { Header, Image, Screen, Section } from "@/components";
+import { Header, Image, Screen, Section, StickyView } from "@/components";
 import { Text, View } from "react-native";
 
 const skills = [
@@ -40,16 +40,19 @@ const education = [
 
 export default function CreateResumeScreen() {
   return (
-    <Screen stickyHeaderIndices={[1]}>
-      {/* ── Nav header (index 0, scrolls away) ───────────────────── */}
+    <Screen>
+      {/* Scrolls away with content */}
       <Header title="Resume" right={<Text className="text-base text-primary">Share</Text>} />
 
-      {/* ── Stats bar (index 1, sticks) ───────────────────────────── */}
-      <View className="flex-row justify-around border-b border-border bg-background py-3">
+      {/* sticky — Screen auto-detects this and pins it */}
+      <StickyView
+        sticky
+        className="flex-row justify-around border-b border-border bg-background py-3"
+      >
         <Text className="font-semibold text-foreground">5+ Years</Text>
         <Text className="font-semibold text-foreground">30 Projects</Text>
         <Text className="font-semibold text-foreground">Open to work</Text>
-      </View>
+      </StickyView>
 
       {/* ── Profile hero ─────────────────────────────────────────── */}
       <View className="items-center bg-secondary/30 px-4 py-8">
