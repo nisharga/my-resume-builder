@@ -92,10 +92,8 @@ export default function OnboardingScreen({ onComplete }: Props) {
           <Icon size={88} color={slide.iconColor} strokeWidth={1.5} />
         </View>
 
-        <Text className="mb-4 text-center text-3xl leading-tight font-bold text-heading">
-          {slide.title}
-        </Text>
-        <Text className="text-center text-base leading-relaxed text-body">{slide.description}</Text>
+        <Text className="three-xl-medium mb-4 text-center">{slide.title}</Text>
+        <Text className="base-normal text-center">{slide.description}</Text>
       </Animated.View>
 
       {/* Bottom controls */}

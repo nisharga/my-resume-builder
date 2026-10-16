@@ -96,14 +96,14 @@
 
   /* ========= TextStyle ========= */
   .xss-normal {
-    @apply text-[12px] leading-[16px] font-normal text-body;
+    @apply text-[12px] leading-[16px] font-normal text-white;
   }
   .xs-normal {
     @apply text-[12px] leading-[16px] font-normal text-foreground;
   }
 
   .sm-normal {
-    @apply text-[14px] leading-[20px] font-normal text-foreground;
+    @apply text-[14px] leading-[20px] font-normal text-white;
   }
   .sm-normal-gray {
     @apply text-[14px] leading-[20px] font-normal text-body;
@@ -125,7 +125,7 @@
   }
 
   .base-normal {
-    @apply text-[16px] leading-[24px] font-normal text-primary;
+    @apply text-[16px] leading-[24px] font-normal text-body;
   }
   .base-medium {
     @apply font-inter-medium text-[16px] leading-[24px] text-foreground;
@@ -145,6 +145,9 @@
   }
   .three-xl-medium {
     @apply font-inter-bold text-[28px] leading-[34px] text-heading;
+  }
+  .four-xl-bold {
+    @apply text-4xl font-bold tracking-tight text-white;
   }
 
   /* ========== Text Hireriky ============= */
