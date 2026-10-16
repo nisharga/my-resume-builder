@@ -1,5 +1,5 @@
 import { Button } from "@/components";
-import { setOnboardingCompleted } from "@/config";
+import { setOnboardingCompleted } from "./storageOnboarding";
 import { colors } from "@/styles/colors";
 import { Briefcase, FileText, LayoutTemplate, type LucideIcon } from "lucide-react-native";
 import { useState } from "react";

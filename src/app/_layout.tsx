@@ -1,8 +1,8 @@
 import { useCustomFonts } from "../../assets/fonts";
-import { checkOnboardingStatus, initStorage } from "@/config";
+import { initStorage } from "@/config";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ThemeProvider } from "@/context/ThemeContext";
-import { CustomSplashScreen, OnboardingScreen } from "@/features/onboarding";
+import { checkOnboardingStatus, CustomSplashScreen, OnboardingScreen } from "@/features/onboarding";
 import { OverlayProvider } from "@gluestack-ui/core/overlay/creator";
 import { ToastProvider } from "@gluestack-ui/core/toast/creator";
 import { useFonts } from "expo-font";
@@ -41,8 +41,8 @@ export default function RootLayout() {
     prepare();
   }, [fontsLoaded, fontError]);
 
-  function handleSplashFinish() {
-    const onboarded = checkOnboardingStatus();
+  async function handleSplashFinish() {
+    const onboarded = await checkOnboardingStatus();
     setPhase(onboarded ? "app" : "onboarding");
   }
 
