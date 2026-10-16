@@ -5,7 +5,7 @@ import GorhomBottomSheet, {
   type BottomSheetBackdropProps,
   type BottomSheetHandleProps,
 } from "@gorhom/bottom-sheet";
-import { createContext, useContext, useRef, type ReactNode, type ComponentType } from "react";
+import { createContext, useContext, useRef, type FC, type ReactNode } from "react";
 import { Pressable, Text, type PressableProps, type TextProps } from "react-native";
 
 type SheetContextType = { ref: React.RefObject<GorhomBottomSheet | null> };
@@ -28,8 +28,8 @@ function BottomSheetTrigger({ children, ...props }: PressableProps & { children:
 type PortalProps = {
   children: ReactNode;
   snapPoints?: (string | number)[];
-  backdropComponent?: ComponentType<BottomSheetBackdropProps>;
-  handleComponent?: ComponentType<BottomSheetHandleProps>;
+  backdropComponent?: FC<BottomSheetBackdropProps>;
+  handleComponent?: FC<BottomSheetHandleProps> | null;
   className?: string;
 };
 
