@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    color: colors.text.white,
+    color: colors.white,
     fontSize: 24,
     fontWeight: "bold",
   },
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   skipButtonText: {
-    color: colors.text.white,
+    color: colors.white,
     fontSize: 16,
     fontWeight: "600",
   },
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   activeDotStyle: {
-    backgroundColor: colors.text.white,
+    backgroundColor: colors.white,
     width: 24,
     height: 8,
     borderRadius: 4,
