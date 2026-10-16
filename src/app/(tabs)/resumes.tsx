@@ -20,7 +20,7 @@ export default function ResumesScreen() {
       <Header
         title="Resume"
         sticky={true}
-        className="z-20! mb-4 border-b-2 bg-secondary!"
+        className="z-20! mb-4 border-b-2 bg-secondary! dark:bg-[#f1f2f5]!"
         right={<Icons.ArrowRight />}
         onRightPress={() => console.log("Right Press")}
       />

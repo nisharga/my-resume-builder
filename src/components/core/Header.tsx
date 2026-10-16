@@ -49,7 +49,10 @@ export default function Header({
       {/* Centre — title */}
       <View className="flex-1 items-center">
         {title ? (
-          <Text numberOfLines={1} className="text-[17px] font-semibold text-foreground">
+          <Text
+            numberOfLines={1}
+            className="text-[17px] font-semibold text-foreground dark:text-black"
+          >
             {title}
           </Text>
         ) : null}

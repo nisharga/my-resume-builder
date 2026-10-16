@@ -1,10 +1,8 @@
-import { Tabs, useRouter } from "expo-router";
+import { colors } from "@/styles/colors";
+import { Tabs } from "expo-router";
 import { FileText, Home, LayoutTemplate, LucideIcon, Plus, User } from "lucide-react-native";
 import { Pressable, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-// import * as Notifications from "expo-notifications";
-
-const PRIMARY = "#0000ff";
 
 const CONTENT_HEIGHT = 58;
 
@@ -15,7 +13,7 @@ function NoRippleTabButton(props: any) {
 function ElevatedPlusIcon() {
   return (
     <View style={styles.plusWrapper}>
-      <Plus size={26} color="#FFFFFF" strokeWidth={2.5} />
+      <Plus size={26} color={colors.white} strokeWidth={2.5} />
     </View>
   );
 }
@@ -24,7 +22,7 @@ type TabConfig = {
   name: string;
   title: string;
   icon?: LucideIcon;
-  isCenter?: boolean; // the elevated "+" button
+  isCenter?: boolean;
 };
 
 export const TABS: TabConfig[] = [
@@ -39,34 +37,17 @@ export default function TabsLayout() {
   const insets = useSafeAreaInsets();
   const tabBarHeight = CONTENT_HEIGHT + insets.bottom;
 
-  // ========== After Notification click Redireact screen ==========
-  // const router = useRouter();
-  // const response = Notifications.useLastNotificationResponse();
-
-  // useEffect(() => {
-  //   if (response && response.actionIdentifier === Notifications.DEFAULT_ACTION_IDENTIFIER) {
-  //     const data = response.notification.request.content.data;
-
-  //     if (data?.screen) {
-  //       // e.g., router.push("/meals/log")
-  //       router.push({
-  //         pathname: data.screen,
-  //       });
-  //     }
-  //   }
-  // }, [response]);
-
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: PRIMARY,
-        tabBarInactiveTintColor: "#9CA3AF",
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.mutedForeground,
         tabBarButton: NoRippleTabButton,
         tabBarStyle: {
-          backgroundColor: "#FFFFFF",
+          backgroundColor: colors.background,
           borderTopWidth: 1,
-          borderTopColor: "#E5E7EB",
+          borderTopColor: colors.border,
           height: tabBarHeight,
           paddingTop: 8,
           paddingBottom: insets.bottom,
@@ -100,11 +81,11 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-    backgroundColor: PRIMARY,
+    backgroundColor: colors.primary,
     justifyContent: "center",
     alignItems: "center",
     marginTop: -40,
-    borderColor: "white",
+    borderColor: colors.white,
     borderWidth: 4,
   },
 });
