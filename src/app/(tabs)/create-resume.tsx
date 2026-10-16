@@ -1,4 +1,5 @@
 import { GlassView } from "@/components/ui/liquid-glass";
+import Image from "../../components/core/Image";
 import ReminderToggle from "../../components/core/ReminderToggle";
 import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -41,6 +42,9 @@ export default function CreateResumeScreen() {
       <TouchableOpacity onPress={handleCopy}>
         <Text>Copy Summary</Text>
       </TouchableOpacity>
+
+      <Image src="https://picsum.photos/200/120" className="mb-4 w-full rounded-xl" />
+      <Image src={require("../../../assets/icon.png")} className="h-40 w-20 rounded-lg" />
 
       <ReminderToggle />
     </SafeAreaView>
