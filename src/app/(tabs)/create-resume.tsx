@@ -1,5 +1,5 @@
-import { Image, Screen } from "@/components";
-import { Pressable, Text, View } from "react-native";
+import { Header, Image, Screen, Section } from "@/components";
+import { Text, View } from "react-native";
 
 const skills = [
   "React Native",
@@ -38,48 +38,30 @@ const education = [
   { title: "HSC, Science", place: "Dhaka College", time: "2014 - 2016" },
 ];
 
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <View className="mb-6 px-4">
-    <Text className="mb-3 text-lg font-bold text-gray-900">{title}</Text>
-    {children}
-  </View>
-);
-
 export default function CreateResumeScreen() {
   return (
-    <Screen
-      className="bg-white"
-      scroll
-      stickyHeaderIndices={[1]}
-      header={
-        <View className="flex-row items-center justify-between border-b border-gray-200 bg-white px-4 py-3">
-          <Text className="text-lg font-bold">Resume</Text>
-          <Text className="text-blue-600">Share</Text>
-        </View>
-      }
-      footer={
-        <View className="border-t border-gray-200 bg-white p-4">
-          <Pressable className="items-center rounded-xl bg-black py-4">
-            <Text className="font-semibold text-white">Download CV</Text>
-          </Pressable>
-        </View>
-      }
-    >
-      <View className="items-center bg-gray-50 px-4 py-8">
+    <Screen stickyHeaderIndices={[1]}>
+      {/* ── Nav header (index 0, scrolls away) ───────────────────── */}
+      <Header title="Resume" right={<Text className="text-base text-primary">Share</Text>} />
+
+      {/* ── Stats bar (index 1, sticks) ───────────────────────────── */}
+      <View className="flex-row justify-around border-b border-border bg-background py-3">
+        <Text className="font-semibold text-foreground">5+ Years</Text>
+        <Text className="font-semibold text-foreground">30 Projects</Text>
+        <Text className="font-semibold text-foreground">Open to work</Text>
+      </View>
+
+      {/* ── Profile hero ─────────────────────────────────────────── */}
+      <View className="items-center bg-secondary/30 px-4 py-8">
         <Image src="https://i.pravatar.cc/300?img=12" className="w-28 rounded-full" />
-        <Text className="mt-4 text-2xl font-bold">Rahim Ahmed</Text>
-        <Text className="mt-1 text-gray-500">React Native Developer · Dhaka</Text>
+        <Text className="mt-4 text-2xl font-bold text-heading">Rahim Ahmed</Text>
+        <Text className="mt-1 text-body">React Native Developer · Dhaka</Text>
       </View>
 
-      <View className="flex-row justify-around border-b border-gray-200 bg-white py-3">
-        <Text className="font-semibold">5+ Years</Text>
-        <Text className="font-semibold">30 Projects</Text>
-        <Text className="font-semibold">Open to work</Text>
-      </View>
-
-      <View className="pt-6">
+      {/* ── Sections ─────────────────────────────────────────────── */}
+      <View className="pt-6 pb-10">
         <Section title="About">
-          <Text className="leading-6 text-gray-600">
+          <Text className="leading-6 text-body">
             Mobile developer focused on fast, clean and reusable React Native apps. I enjoy building
             design systems and smooth user experiences.
           </Text>
@@ -88,7 +70,7 @@ export default function CreateResumeScreen() {
         <Section title="Skills">
           <View className="flex-row flex-wrap gap-2">
             {skills.map((skill) => (
-              <Text key={skill} className="rounded-full bg-gray-100 px-3 py-1 text-gray-700">
+              <Text key={skill} className="rounded-full bg-secondary px-3 py-1 text-foreground">
                 {skill}
               </Text>
             ))}
@@ -97,12 +79,12 @@ export default function CreateResumeScreen() {
 
         <Section title="Experience">
           {experience.map((item) => (
-            <View key={item.company} className="mb-4 rounded-xl bg-gray-50 p-4">
-              <Text className="font-semibold">{item.role}</Text>
-              <Text className="text-gray-500">
+            <View key={item.company} className="mb-4 rounded-xl bg-secondary/30 p-4">
+              <Text className="font-semibold text-foreground">{item.role}</Text>
+              <Text className="text-body">
                 {item.company} · {item.time}
               </Text>
-              <Text className="mt-2 text-gray-600">{item.text}</Text>
+              <Text className="mt-2 text-body">{item.text}</Text>
             </View>
           ))}
         </Section>
@@ -115,8 +97,8 @@ export default function CreateResumeScreen() {
         <Section title="Education">
           {education.map((item) => (
             <View key={item.title} className="mb-3">
-              <Text className="font-semibold">{item.title}</Text>
-              <Text className="text-gray-500">
+              <Text className="font-semibold text-foreground">{item.title}</Text>
+              <Text className="text-body">
                 {item.place} · {item.time}
               </Text>
             </View>
@@ -124,8 +106,8 @@ export default function CreateResumeScreen() {
         </Section>
 
         <Section title="Contact">
-          <Text className="text-gray-600">rahim@email.com</Text>
-          <Text className="text-gray-600">+880 1700-000000</Text>
+          <Text className="text-body">rahim@email.com</Text>
+          <Text className="text-body">+880 1700-000000</Text>
         </Section>
       </View>
     </Screen>
