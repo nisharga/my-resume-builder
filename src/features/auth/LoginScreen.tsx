@@ -15,7 +15,7 @@ export default function LoginScreen() {
 
   const { control, handleSubmit } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "", rememberMe: false },
+    defaultValues: { email: "", password: "" },
   });
 
   const onSubmit = async (data: LoginFormData) => {
@@ -55,12 +55,10 @@ export default function LoginScreen() {
             placeholder="Enter your password"
           />
 
-          <View className="flex-row items-center justify-between">
-            <Text className="sm-gray">Remember me</Text>
-            <Pressable onPress={() => router.push("/(auth)/forgot-password")}>
-              <Text className="sm-medium">Forgot Password?</Text>
-            </Pressable>
-          </View>
+          {/* Forgot password */}
+          <Pressable onPress={() => router.push("/(auth)/forgot-password")} className="self-end">
+            <Text className="sm-medium">Forgot Password?</Text>
+          </Pressable>
         </View>
 
         {/* Submit */}
@@ -87,11 +85,12 @@ export default function LoginScreen() {
           </Pressable>
         </View>
 
-        {/* Sign up link */}
-        <View className="mt-auto flex-row justify-center gap-1 pt-8">
-          <Text className="sm-gray">Do not have an account?</Text>
+        {/* Footer */}
+        <View className="mt-auto items-center gap-2 pt-8">
           <Pressable onPress={() => router.push("/(auth)/signup")}>
-            <Text className="sm-medium">Create an account</Text>
+            <Text className="sm-gray">
+              Don&apos;t have an account? <Text className="sm-medium">Create one</Text>
+            </Text>
           </Pressable>
         </View>
       </View>

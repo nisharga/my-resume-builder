@@ -1,12 +1,13 @@
 import { Button } from "@/components";
 import { Header, Screen } from "@/components/core";
+import WebUrl from "@/components/common/WebUrl";
 import { colors } from "@/styles/colors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import { Mail } from "lucide-react-native";
 import { useForm } from "react-hook-form";
 import { Pressable, Text, View } from "react-native";
-import { FormInput, FormPasswordInput } from "./components";
+import { FormCheckbox, FormInput, FormPasswordInput } from "./components";
 import { signupSchema, type SignupFormData } from "./schemas";
 import { setAuthToken } from "./storageAuth";
 
@@ -15,7 +16,7 @@ export default function SignUpScreen() {
 
   const { control, handleSubmit } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
-    defaultValues: { email: "", password: "", confirmPassword: "" },
+    defaultValues: { email: "", password: "", confirmPassword: "", termsAccepted: false },
   });
 
   const onSubmit = async (data: SignupFormData) => {
@@ -61,6 +62,28 @@ export default function SignUpScreen() {
             label="Confirm Password"
             placeholder="Confirm your password"
           />
+
+          {/* Terms + privacy policy */}
+          <FormCheckbox
+            name="termsAccepted"
+            control={control}
+            label={
+              <>
+                <Text className="sm-gray">I agree to the </Text>
+                <WebUrl
+                  url="https://example.com/terms"
+                  title="Terms and Conditions"
+                  label="Terms and Conditions"
+                />
+                <Text className="sm-gray"> and </Text>
+                <WebUrl
+                  url="https://example.com/privacy"
+                  title="Privacy Policy"
+                  label="Privacy Policy"
+                />
+              </>
+            }
+          />
         </View>
 
         {/* Submit */}
@@ -88,10 +111,11 @@ export default function SignUpScreen() {
         </View>
 
         {/* Log in link */}
-        <View className="mt-auto flex-row justify-center gap-1 pt-8">
-          <Text className="sm-gray">Already have an account?</Text>
+        <View className="mt-auto pt-8">
           <Pressable onPress={() => router.push("/(auth)/login")}>
-            <Text className="sm-medium">Log in</Text>
+            <Text className="sm-gray text-center">
+              Already have an account? <Text className="sm-medium">Log in</Text>
+            </Text>
           </Pressable>
         </View>
       </View>

@@ -1,33 +1,17 @@
-import { useLanguage } from "@/context";
 import { colors } from "@/styles/colors";
-import { useRouter } from "expo-router";
-import React from "react";
+import * as WebBrowser from "expo-web-browser";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-const WebUrl = ({ url, title, label }: { url: string; title: string; label: string }) => {
-  const { t } = useLanguage();
-  const router = useRouter();
-  return (
-    <TouchableOpacity
-      onPress={() => {
-        router.push({
-          pathname: "/webview" as any, // Absolute path to app/webview.tsx
-          params: {
-            url: url,
-            title: title,
-          },
-        });
-      }}
-    >
-      <Text style={[styles.footerLink, { color: colors.primary }]}> {label} </Text>
-    </TouchableOpacity>
-  );
-};
+const WebUrl = ({ url, title, label }: { url: string; title: string; label: string }) => (
+  <TouchableOpacity onPress={() => WebBrowser.openBrowserAsync(url, { toolbarTitle: title })}>
+    <Text style={[styles.link, { color: colors.primary }]}>{label}</Text>
+  </TouchableOpacity>
+);
 
 export default WebUrl;
 
 const styles = StyleSheet.create({
-  footerLink: {
+  link: {
     fontSize: 12,
     fontFamily: "Poppins-SemiBold",
   },

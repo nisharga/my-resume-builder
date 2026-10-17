@@ -3,7 +3,6 @@ import { z } from "zod";
 export const loginSchema = z.object({
   email: z.string().email("Please enter a valid email"),
   password: z.string().min(8, "Password must be at least 8 characters"),
-  rememberMe: z.boolean().optional(),
 });
 
 export const signupSchema = z
@@ -11,6 +10,9 @@ export const signupSchema = z
     email: z.string().email("Please enter a valid email"),
     password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
+    termsAccepted: z.boolean().refine((v) => v === true, {
+      message: "You must agree to the Terms and Privacy Policy",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
