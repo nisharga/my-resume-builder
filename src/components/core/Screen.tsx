@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import type { ReactNode } from "react";
-import { ScrollView } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -37,7 +37,7 @@ export default function Screen({
   useEffect(() => {
     opacity.value = withTiming(1, { duration: 300, easing: Easing.out(Easing.ease) });
     translateY.value = withTiming(0, { duration: 300, easing: Easing.out(Easing.ease) });
-  }, []);
+  }, [opacity, translateY]);
 
   const animStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
@@ -49,16 +49,21 @@ export default function Screen({
       <SafeAreaView style={{ flex: 1 }} edges={edges} className={`bg-background ${className}`}>
         <StatusBar style={statusBar} />
 
-        <ScrollView
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1 }}
-          contentContainerStyle={{ flexGrow: 1 }}
-          stickyHeaderIndices={stickyIndices.length > 0 ? stickyIndices : undefined}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          bounces
         >
-          {children}
-        </ScrollView>
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ flexGrow: 1 }}
+            stickyHeaderIndices={stickyIndices.length > 0 ? stickyIndices : undefined}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            bounces
+          >
+            {children}
+          </ScrollView>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </Animated.View>
   );
