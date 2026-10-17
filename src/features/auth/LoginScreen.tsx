@@ -1,5 +1,5 @@
 import { Button } from "@/components";
-import { Header, Screen } from "@/components/core";
+import { Header, Logo, Screen } from "@/components/core";
 import { colors } from "@/styles/colors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
@@ -27,6 +27,9 @@ export default function LoginScreen() {
   return (
     <Screen>
       <Header title="" className="opacity-0" />
+      <View className="items-center py-4">
+        <Logo />
+      </View>
 
       <View className="flex-1 px-6 pt-2 pb-8">
         {/* Title */}

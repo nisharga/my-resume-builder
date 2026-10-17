@@ -1,3 +1,4 @@
+import { Logo } from "@/components";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -58,6 +59,8 @@ export default function ProfileScreen() {
             </TouchableOpacity>
           </View>
         </View>
+
+        <Logo />
 
         {/* Theme Switcher */}
         <View style={[styles.card, { backgroundColor: card, borderColor: border }]}>

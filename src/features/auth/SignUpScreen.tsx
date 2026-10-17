@@ -1,5 +1,5 @@
 import { Button } from "@/components";
-import { Header, Screen } from "@/components/core";
+import { Header, Logo, Screen } from "@/components/core";
 import WebUrl from "@/components/common/WebUrl";
 import { colors } from "@/styles/colors";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,7 +27,10 @@ export default function SignUpScreen() {
 
   return (
     <Screen>
-      <Header title="" className="bg-secondary" />
+      <Header title="" />
+      <View className="items-center pt-4 pb-6">
+        <Logo />
+      </View>
 
       <View className="flex-1 px-6 pt-2 pb-8">
         {/* Title */}
