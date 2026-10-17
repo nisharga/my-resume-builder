@@ -1,5 +1,6 @@
 import { Button } from "@/components";
 import { Header, Logo, Screen } from "@/components/core";
+import { FormTitle, FormCheckbox, FormInput, FormPasswordInput } from "../../components/form";
 import WebUrl from "@/components/common/WebUrl";
 import { colors } from "@/styles/colors";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,7 +8,6 @@ import { useRouter } from "expo-router";
 import { Mail } from "lucide-react-native";
 import { useForm } from "react-hook-form";
 import { Pressable, Text, View } from "react-native";
-import { FormCheckbox, FormInput, FormPasswordInput } from "../../components/form";
 import { signupSchema, type SignupFormData } from "./schemas";
 import { setAuthToken } from "./storageAuth";
 
@@ -33,11 +33,7 @@ export default function SignUpScreen() {
       </View>
 
       <View className="flex-1 px-6 pt-2 pb-8">
-        {/* Title */}
-        <View className="mb-8">
-          <Text className="three-xl-medium mb-1">Create Account</Text>
-          <Text className="base-normal">Create your account to get started.</Text>
-        </View>
+        <FormTitle title="Create Account" subtitle="Create your account to get started." />
 
         {/* Form */}
         <View className="gap-4">

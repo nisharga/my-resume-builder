@@ -1,12 +1,12 @@
 import { Button } from "@/components";
 import { Header, Logo, Screen } from "@/components/core";
+import { FormTitle, FormInput, FormPasswordInput } from "../../components/form";
 import { colors } from "@/styles/colors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import { Mail } from "lucide-react-native";
 import { useForm } from "react-hook-form";
 import { Pressable, Text, View } from "react-native";
-import { FormInput, FormPasswordInput } from "../../components/form";
 import { loginSchema, type LoginFormData } from "./schemas";
 import { setAuthToken } from "./storageAuth";
 
@@ -32,11 +32,7 @@ export default function LoginScreen() {
       </View>
 
       <View className="flex-1 px-6 pt-2 pb-8">
-        {/* Title */}
-        <View className="mb-8">
-          <Text className="three-xl-medium mb-1">Welcome Back</Text>
-          <Text className="base-normal">Login to access your resume builder.</Text>
-        </View>
+        <FormTitle title="Welcome Back" subtitle="Login to access your resume builder." />
 
         {/* Form */}
         <View className="gap-4">
