@@ -5,7 +5,7 @@ import { Toast, ToastTitle, ToastDescription, useToast } from "@/components/ui/t
 import { Button, ButtonText } from "@/components/ui/button";
 import { useState } from "react";
 import ResumesScreen from "./resumes";
-import { APP_NAME } from "@/config/env";
+import { APP_NAME } from "@/config";
 
 export default function TemplatesScreen() {
   const toast = useToast();

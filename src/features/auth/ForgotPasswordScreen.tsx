@@ -1,6 +1,25 @@
 import { Button } from "@/components";
 import { Header, Logo, Screen } from "@/components/core";
 import { FormInput, FormTitle, OtpInput } from "../../components/form";
+import {
+  AUTH_EMAIL_LABEL,
+  AUTH_EMAIL_PLACEHOLDER,
+  FORGOT_BTN_SEND,
+  FORGOT_BTN_SENDING,
+  FORGOT_BTN_VERIFY,
+  FORGOT_BTN_VERIFYING,
+  FORGOT_CHANGE_EMAIL,
+  FORGOT_EMAIL_SUBTITLE,
+  FORGOT_EMAIL_TITLE,
+  FORGOT_OTP_ERROR,
+  FORGOT_OTP_SUBTITLE,
+  FORGOT_OTP_TITLE,
+  FORGOT_RESEND_CODE,
+  FORGOT_TOAST_CODE_SENT,
+  FORGOT_TOAST_LOGIN_SUCCESS,
+  FORGOT_TOAST_SEND_FAILED,
+  FORGOT_TOAST_VERIFY_FAILED,
+} from "@/config/appConfig";
 import { colors } from "@/styles/colors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
@@ -41,9 +60,9 @@ export default function ForgotPasswordScreen() {
       setOtp("");
       setOtpError("");
       setStep("otp");
-      toast.success(`A login code was sent to ${data.email}`);
+      toast.success(FORGOT_TOAST_CODE_SENT(data.email));
     } catch (err: any) {
-      const message = err?.data?.message ?? "Failed to send code. Please try again.";
+      const message = err?.data?.message ?? FORGOT_TOAST_SEND_FAILED;
       toast.error(message);
     }
   };
@@ -51,7 +70,7 @@ export default function ForgotPasswordScreen() {
   const onOtpSubmit = async () => {
     const clean = otp.replace(/ /g, "");
     if (clean.length < 4) {
-      setOtpError("Please enter the complete 4-digit code");
+      setOtpError(FORGOT_OTP_ERROR);
       return;
     }
     setOtpError("");
@@ -65,10 +84,10 @@ export default function ForgotPasswordScreen() {
         deviceDetails: STATIC_DEVICE_DETAILS,
       }).unwrap();
 
-      toast.success("You have successfully logged in.");
+      toast.success(FORGOT_TOAST_LOGIN_SUCCESS);
       router.replace("/(tabs)");
     } catch (err: any) {
-      const message = err?.data?.message ?? "Invalid code. Please try again.";
+      const message = err?.data?.message ?? FORGOT_TOAST_VERIFY_FAILED;
       toast.error(message);
     }
   };
@@ -88,16 +107,13 @@ export default function ForgotPasswordScreen() {
             exiting={FadeOutLeft.duration(200)}
             style={{ flex: 1 }}
           >
-            <FormTitle
-              title="Sign In"
-              subtitle="Enter your email and we'll send you a login code."
-            />
+            <FormTitle title={FORGOT_EMAIL_TITLE} subtitle={FORGOT_EMAIL_SUBTITLE} />
 
             <FormInput
               name="email"
               control={control}
-              label="Email"
-              placeholder="Enter your email"
+              label={AUTH_EMAIL_LABEL}
+              placeholder={AUTH_EMAIL_PLACEHOLDER}
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
@@ -106,7 +122,7 @@ export default function ForgotPasswordScreen() {
 
             <View className="mt-6">
               <Button onPress={handleSubmit(onEmailSubmit)} disabled={isSending}>
-                {isSending ? "Sending..." : "Send Code"}
+                {isSending ? FORGOT_BTN_SENDING : FORGOT_BTN_SEND}
               </Button>
             </View>
           </Animated.View>
@@ -118,10 +134,10 @@ export default function ForgotPasswordScreen() {
             style={{ flex: 1 }}
           >
             <FormTitle
-              title="Enter Code"
+              title={FORGOT_OTP_TITLE}
               subtitle={
                 <Text className="base-normal text-center">
-                  We sent a 6-digit code to <Text className="sm-medium">{email}</Text>
+                  {FORGOT_OTP_SUBTITLE} <Text className="sm-medium">{email}</Text>
                 </Text>
               }
             />
@@ -130,13 +146,13 @@ export default function ForgotPasswordScreen() {
 
             <View className="mt-6">
               <Button onPress={onOtpSubmit} disabled={isVerifying}>
-                {isVerifying ? "Verifying..." : "Verify Code"}
+                {isVerifying ? FORGOT_BTN_VERIFYING : FORGOT_BTN_VERIFY}
               </Button>
             </View>
 
             <View className="mt-6 flex-row justify-center gap-4">
               <Pressable onPress={() => setStep("email")}>
-                <Text className="sm-medium">Change Email</Text>
+                <Text className="sm-medium">{FORGOT_CHANGE_EMAIL}</Text>
               </Pressable>
               <Text className="sm-gray">·</Text>
               <Pressable
@@ -146,7 +162,7 @@ export default function ForgotPasswordScreen() {
                   handleSubmit(onEmailSubmit)();
                 }}
               >
-                <Text className="sm-medium">Resend Code</Text>
+                <Text className="sm-medium">{FORGOT_RESEND_CODE}</Text>
               </Pressable>
             </View>
           </Animated.View>

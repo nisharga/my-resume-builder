@@ -1,6 +1,21 @@
 import { Button } from "@/components";
 import { Header, Logo, Screen } from "@/components/core";
 import { FormTitle, FormInput, FormPasswordInput } from "../../components/form";
+import {
+  AUTH_EMAIL_LABEL,
+  AUTH_EMAIL_PLACEHOLDER,
+  AUTH_OR,
+  AUTH_PASSWORD_LABEL,
+  AUTH_PASSWORD_PLACEHOLDER,
+  AUTH_SOCIAL_APPLE,
+  AUTH_SOCIAL_GOOGLE,
+  LOGIN_BTN,
+  LOGIN_CREATE_ACCOUNT,
+  LOGIN_FORGOT_PASSWORD,
+  LOGIN_NO_ACCOUNT,
+  LOGIN_SUBTITLE,
+  LOGIN_TITLE,
+} from "@/config/appConfig";
 import { colors } from "@/styles/colors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
@@ -29,15 +44,15 @@ export default function LoginScreen() {
       </View>
 
       <View className="flex-1 px-6 pt-2 pb-8">
-        <FormTitle title="Welcome Back" subtitle="Login to access your resume builder." />
+        <FormTitle title={LOGIN_TITLE} subtitle={LOGIN_SUBTITLE} />
 
         {/* Form */}
         <View className="gap-4">
           <FormInput
             name="email"
             control={control}
-            label="Email"
-            placeholder="Enter your email"
+            label={AUTH_EMAIL_LABEL}
+            placeholder={AUTH_EMAIL_PLACEHOLDER}
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
@@ -47,25 +62,25 @@ export default function LoginScreen() {
           <FormPasswordInput
             name="password"
             control={control}
-            label="Password"
-            placeholder="Enter your password"
+            label={AUTH_PASSWORD_LABEL}
+            placeholder={AUTH_PASSWORD_PLACEHOLDER}
           />
 
           {/* Forgot password */}
           <Pressable onPress={() => router.push("/(auth)/forgot-password")} className="self-end">
-            <Text className="sm-medium">Forgot Password?</Text>
+            <Text className="sm-medium">{LOGIN_FORGOT_PASSWORD}</Text>
           </Pressable>
         </View>
 
         {/* Submit */}
         <View className="mt-6">
-          <Button onPress={handleSubmit(onSubmit)}>Log In</Button>
+          <Button onPress={handleSubmit(onSubmit)}>{LOGIN_BTN}</Button>
         </View>
 
         {/* Divider */}
         <View className="my-6 flex-row items-center gap-3">
           <View className="h-px flex-1 bg-border" />
-          <Text className="sm-gray">Or</Text>
+          <Text className="sm-gray">{AUTH_OR}</Text>
           <View className="h-px flex-1 bg-border" />
         </View>
 
@@ -73,11 +88,11 @@ export default function LoginScreen() {
         <View className="flex-row gap-3">
           <Pressable className="flex-1 flex-row items-center justify-center gap-2 rounded-xl border border-border bg-white py-3.5 active:opacity-70 dark:bg-secondary">
             <Text className="text-lg">G</Text>
-            <Text className="sm-semibold">Google</Text>
+            <Text className="sm-semibold">{AUTH_SOCIAL_GOOGLE}</Text>
           </Pressable>
           <Pressable className="flex-1 flex-row items-center justify-center gap-2 rounded-xl border border-border bg-white py-3.5 active:opacity-70 dark:bg-secondary">
             <Text className="text-lg"></Text>
-            <Text className="sm-semibold">Apple</Text>
+            <Text className="sm-semibold">{AUTH_SOCIAL_APPLE}</Text>
           </Pressable>
         </View>
 
@@ -85,7 +100,7 @@ export default function LoginScreen() {
         <View className="mt-auto items-center gap-2 pt-8">
           <Pressable onPress={() => router.push("/(auth)/signup")}>
             <Text className="sm-gray">
-              Don&apos;t have an account? <Text className="sm-medium">Create one</Text>
+              {LOGIN_NO_ACCOUNT} <Text className="sm-medium">{LOGIN_CREATE_ACCOUNT}</Text>
             </Text>
           </Pressable>
         </View>

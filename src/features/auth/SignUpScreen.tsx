@@ -2,6 +2,28 @@ import { Button } from "@/components";
 import { Header, Logo, Screen } from "@/components/core";
 import { FormTitle, FormCheckbox, FormInput, FormPasswordInput } from "../../components/form";
 import WebUrl from "@/components/common/WebUrl";
+import {
+  AUTH_EMAIL_LABEL,
+  AUTH_EMAIL_PLACEHOLDER,
+  AUTH_OR,
+  AUTH_PASSWORD_LABEL,
+  AUTH_PASSWORD_PLACEHOLDER,
+  AUTH_SOCIAL_APPLE,
+  AUTH_SOCIAL_GOOGLE,
+  SIGNUP_BTN,
+  SIGNUP_CONFIRM_PASSWORD_LABEL,
+  SIGNUP_CONFIRM_PASSWORD_PLACEHOLDER,
+  SIGNUP_HAS_ACCOUNT,
+  SIGNUP_LOGIN_LINK,
+  SIGNUP_PRIVACY_AND,
+  SIGNUP_PRIVACY_LABEL,
+  SIGNUP_PRIVACY_URL,
+  SIGNUP_SUBTITLE,
+  SIGNUP_TERMS_LABEL,
+  SIGNUP_TERMS_PREFIX,
+  SIGNUP_TERMS_URL,
+  SIGNUP_TITLE,
+} from "@/config/appConfig";
 import { colors } from "@/styles/colors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
@@ -20,7 +42,6 @@ export default function SignUpScreen() {
 
   const onSubmit = async (data: SignupFormData) => {
     console.log("Sign up:", data);
-    // router.replace("/(tabs)");
   };
 
   return (
@@ -31,15 +52,15 @@ export default function SignUpScreen() {
       </View>
 
       <View className="flex-1 px-6 pt-2 pb-8">
-        <FormTitle title="Create Account" subtitle="Create your account to get started." />
+        <FormTitle title={SIGNUP_TITLE} subtitle={SIGNUP_SUBTITLE} />
 
         {/* Form */}
         <View className="gap-4">
           <FormInput
             name="email"
             control={control}
-            label="Email"
-            placeholder="Enter your email"
+            label={AUTH_EMAIL_LABEL}
+            placeholder={AUTH_EMAIL_PLACEHOLDER}
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
@@ -49,15 +70,15 @@ export default function SignUpScreen() {
           <FormPasswordInput
             name="password"
             control={control}
-            label="Password"
-            placeholder="Enter your password"
+            label={AUTH_PASSWORD_LABEL}
+            placeholder={AUTH_PASSWORD_PLACEHOLDER}
           />
 
           <FormPasswordInput
             name="confirmPassword"
             control={control}
-            label="Confirm Password"
-            placeholder="Confirm your password"
+            label={SIGNUP_CONFIRM_PASSWORD_LABEL}
+            placeholder={SIGNUP_CONFIRM_PASSWORD_PLACEHOLDER}
           />
 
           {/* Terms + privacy policy */}
@@ -66,17 +87,17 @@ export default function SignUpScreen() {
             control={control}
             label={
               <>
-                <Text className="sm-gray">I agree to the </Text>
+                <Text className="sm-gray">{SIGNUP_TERMS_PREFIX}</Text>
                 <WebUrl
-                  url="https://example.com/terms"
-                  title="Terms and Conditions"
-                  label="Terms and Conditions"
+                  url={SIGNUP_TERMS_URL}
+                  title={SIGNUP_TERMS_LABEL}
+                  label={SIGNUP_TERMS_LABEL}
                 />
-                <Text className="sm-gray"> and </Text>
+                <Text className="sm-gray">{SIGNUP_PRIVACY_AND}</Text>
                 <WebUrl
-                  url="https://example.com/privacy"
-                  title="Privacy Policy"
-                  label="Privacy Policy"
+                  url={SIGNUP_PRIVACY_URL}
+                  title={SIGNUP_PRIVACY_LABEL}
+                  label={SIGNUP_PRIVACY_LABEL}
                 />
               </>
             }
@@ -85,13 +106,13 @@ export default function SignUpScreen() {
 
         {/* Submit */}
         <View className="mt-6">
-          <Button onPress={handleSubmit(onSubmit)}>Create Account</Button>
+          <Button onPress={handleSubmit(onSubmit)}>{SIGNUP_BTN}</Button>
         </View>
 
         {/* Divider */}
         <View className="my-6 flex-row items-center gap-3">
           <View className="h-px flex-1 bg-border" />
-          <Text className="sm-gray">Or</Text>
+          <Text className="sm-gray">{AUTH_OR}</Text>
           <View className="h-px flex-1 bg-border" />
         </View>
 
@@ -99,11 +120,11 @@ export default function SignUpScreen() {
         <View className="flex-row gap-3">
           <Pressable className="flex-1 flex-row items-center justify-center gap-2 rounded-xl border border-border bg-white py-3.5 active:opacity-70 dark:bg-secondary">
             <Text className="text-lg">G</Text>
-            <Text className="sm-semibold">Google</Text>
+            <Text className="sm-semibold">{AUTH_SOCIAL_GOOGLE}</Text>
           </Pressable>
           <Pressable className="flex-1 flex-row items-center justify-center gap-2 rounded-xl border border-border bg-white py-3.5 active:opacity-70 dark:bg-secondary">
             <Text className="text-lg"></Text>
-            <Text className="sm-semibold">Apple</Text>
+            <Text className="sm-semibold">{AUTH_SOCIAL_APPLE}</Text>
           </Pressable>
         </View>
 
@@ -111,7 +132,7 @@ export default function SignUpScreen() {
         <View className="mt-auto pt-8">
           <Pressable onPress={() => router.push("/(auth)/login")}>
             <Text className="sm-gray text-center">
-              Already have an account? <Text className="sm-medium">Log in</Text>
+              {SIGNUP_HAS_ACCOUNT} <Text className="sm-medium">{SIGNUP_LOGIN_LINK}</Text>
             </Text>
           </Pressable>
         </View>
