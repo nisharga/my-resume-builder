@@ -1,7 +1,7 @@
 import { colors, darkColors } from "../styles/colors";
 import { createContext, useContext, useState } from "react";
 import { Appearance } from "react-native";
-import { storage } from "../config/storage";
+import { getTheme, saveTheme } from "./contextStorage";
 
 const ThemeContext = createContext<any>(null);
 
@@ -96,11 +96,9 @@ export const darkMapStyle = [
   },
 ];
 
-const THEME_KEY = "@deligo_theme_mode";
-
 export const ThemeProvider = ({ children }: any) => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    const saved = storage.getString(THEME_KEY);
+    const saved = getTheme();
     if (saved !== undefined) return saved === "dark";
     return Appearance.getColorScheme() === "dark";
   });
@@ -111,20 +109,18 @@ export const ThemeProvider = ({ children }: any) => {
     const next = !isDarkMode;
     setIsDarkMode(next);
     Appearance.setColorScheme(next ? "dark" : "light");
-    storage.set(THEME_KEY, next ? "dark" : "light");
+    saveTheme(next ? "dark" : "light");
   };
 
   const setTheme = (mode: string) => {
     const isDark = mode === "dark";
     setIsDarkMode(isDark);
     Appearance.setColorScheme(isDark ? "dark" : "light");
-    storage.set(THEME_KEY, mode);
+    saveTheme(mode);
   };
 
   return (
-    <ThemeContext.Provider
-      value={{ isDarkMode, allColors, toggleTheme, setTheme }}
-    >
+    <ThemeContext.Provider value={{ isDarkMode, allColors, toggleTheme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );

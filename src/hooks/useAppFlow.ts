@@ -1,4 +1,4 @@
-import { initStorage } from "@/config/storage";
+import { initContextStorage } from "@/context/contextStorage";
 import { isAuthenticated } from "@/features/auth/authStorage";
 import { checkOnboardingStatus } from "@/features/onboarding/storageOnboarding";
 import * as SplashScreen from "expo-splash-screen";
@@ -42,7 +42,7 @@ export function useAppFlow(fontsReady: boolean) {
     if (!fontsReady) return;
     async function prepare() {
       try {
-        await initStorage();
+        await initContextStorage();
       } catch (e) {
         console.warn(e);
       }

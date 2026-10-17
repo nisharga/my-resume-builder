@@ -1,10 +1,8 @@
 import { createContext, useContext, useMemo, useState } from "react";
-import { storage } from "../config/storage";
+import { getLanguage, saveLanguage } from "./contextStorage";
 import { getLanguageTranslations } from "../services/i18n";
 
 const LanguageContext = createContext<any>(null);
-
-const LANGUAGE_KEY = "app_language";
 
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
@@ -15,19 +13,13 @@ export const useLanguage = () => {
 };
 
 export const LanguageProvider = ({ children }: any) => {
-  const [language, setLanguage] = useState<"en" | "bn">(() => {
-    const saved = storage.getString(LANGUAGE_KEY);
-    return saved === "en" || saved === "bn" ? saved : "en";
-  });
+  const [language, setLanguage] = useState<"en" | "bn">(() => getLanguage());
 
-  const translations = useMemo(
-    () => getLanguageTranslations(language),
-    [language],
-  );
+  const translations = useMemo(() => getLanguageTranslations(language), [language]);
 
   const changeLanguage = (newLanguage: "en" | "bn") => {
     setLanguage(newLanguage);
-    storage.set(LANGUAGE_KEY, newLanguage);
+    saveLanguage(newLanguage);
   };
 
   const t = (key: string, defaultValue?: string): string => {
@@ -57,9 +49,5 @@ export const LanguageProvider = ({ children }: any) => {
     [language, translations],
   );
 
-  return (
-    <LanguageContext.Provider value={contextValue}>
-      {children}
-    </LanguageContext.Provider>
-  );
+  return <LanguageContext.Provider value={contextValue}>{children}</LanguageContext.Provider>;
 };
