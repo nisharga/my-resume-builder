@@ -39,7 +39,7 @@ export default function Header({
           <Pressable
             onPress={handleBack}
             hitSlop={10}
-            className="h-9 w-9 items-center justify-center rounded-full active:bg-secondary"
+            className="h-9 w-9 items-center justify-center rounded-full border active:bg-secondary"
           >
             <ChevronLeft size={22} className="text-foreground" />
           </Pressable>

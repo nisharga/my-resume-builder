@@ -1,17 +1,15 @@
-import { isAuthenticated } from "@/features/auth/storageAuth";
+import { useAuthTarget } from "@/hooks/useAppFlow";
 import { Redirect } from "expo-router";
-import { useEffect, useState } from "react";
 import { View } from "react-native";
 
 export default function Root() {
-  const [target, setTarget] = useState<"/(tabs)" | "/(auth)/login" | null>(null);
-
-  useEffect(() => {
-    isAuthenticated().then((ok) => {
-      setTarget(ok ? "/(tabs)" : "/(auth)/login");
-    });
-  }, []);
+  const target = useAuthTarget();
 
   if (!target) return <View style={{ flex: 1 }} />;
   return <Redirect href={target} />;
 }
+
+// _layout.tsx          manages phases:  loading → splash → onboarding → app
+//   └─ Stack (app)
+//        └─ index.tsx  resolves auth:   → /(auth)/login  OR  /(tabs)
+//             └─ <Redirect>             takes the user to the right place

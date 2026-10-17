@@ -26,7 +26,7 @@ export default function LoginScreen() {
 
   return (
     <Screen>
-      <Header title="" />
+      <Header title="" className="opacity-0" />
 
       <View className="flex-1 px-6 pt-2 pb-8">
         {/* Title */}

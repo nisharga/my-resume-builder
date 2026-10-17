@@ -26,7 +26,7 @@ export default function SignUpScreen() {
 
   return (
     <Screen>
-      <Header title="" />
+      <Header title="" className="bg-secondary" />
 
       <View className="flex-1 px-6 pt-2 pb-8">
         {/* Title */}
