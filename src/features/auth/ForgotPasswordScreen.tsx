@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail } from "lucide-react-native";
 import { useForm } from "react-hook-form";
 import { Text, View } from "react-native";
-import { FormInput } from "./components";
+import { FormInput } from "../../components/form";
 import { forgotPasswordSchema, type ForgotPasswordFormData } from "./schemas";
 
 export default function ForgotPasswordScreen() {

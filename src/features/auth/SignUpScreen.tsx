@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 import { Mail } from "lucide-react-native";
 import { useForm } from "react-hook-form";
 import { Pressable, Text, View } from "react-native";
-import { FormCheckbox, FormInput, FormPasswordInput } from "./components";
+import { FormCheckbox, FormInput, FormPasswordInput } from "../../components/form";
 import { signupSchema, type SignupFormData } from "./schemas";
 import { setAuthToken } from "./storageAuth";
 
