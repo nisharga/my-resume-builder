@@ -20,8 +20,8 @@ export default function ForgotPasswordScreen() {
 
   return (
     <Screen>
-      <Header title="" />
-      <View className="items-center pt-4 pb-6">
+      <Header title="" className="bg-secondary" />
+      <View className="items-center py-4">
         <Logo />
       </View>
 

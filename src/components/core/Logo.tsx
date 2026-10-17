@@ -22,9 +22,9 @@ export default function Logo() {
   }));
 
   return (
-    <Animated.View style={[animStyle, { alignItems: "center" }]}>
+    <Animated.View style={[animStyle, { alignItems: "center", marginTop: -20 }]}>
       <Image source={logo} style={{ width: 120, height: 120 }} contentFit="contain" />
-      <View style={{ alignItems: "center", marginTop: -24 }}>
+      <View style={{ alignItems: "center", marginTop: -32 }}>
         <Text
           style={{
             fontSize: 22,
