@@ -7,7 +7,7 @@ import { Mail } from "lucide-react-native";
 import { useForm } from "react-hook-form";
 import { Pressable, Text, View } from "react-native";
 import { FormInput, FormPasswordInput } from "./components";
-import { signupSchema, type SignupFormData } from "./schemas/authSchemas";
+import { signupSchema, type SignupFormData } from "./schemas";
 import { setAuthToken } from "./storageAuth";
 
 export default function SignUpScreen() {

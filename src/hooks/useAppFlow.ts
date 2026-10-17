@@ -4,21 +4,15 @@ import { checkOnboardingStatus } from "@/features/onboarding/storageOnboarding";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 
-// ─── Feature Flags ────────────────────────────────────────────────────────────
-// Flip any flag to false to skip that phase entirely.
-//
-//   ENABLE_CUSTOM_SPLASH = false  →  native splash only, no custom animation
-//   ENABLE_ONBOARDING    = false  →  splash → auth (or tabs if auth also off)
-//   ENABLE_AUTH          = false  →  splash → onboarding (if on) → tabs directly
-
 export const ENABLE_CUSTOM_SPLASH = true;
-export const ENABLE_ONBOARDING = true;
-export const ENABLE_AUTH = true;
+export const ENABLE_ONBOARDING = false;
+export const ENABLE_AUTH = false;
 
 // ─── Phase ────────────────────────────────────────────────────────────────────
 // loading    → fonts/storage initialising; native splash stays visible
 // splash     → custom animated splash (only when ENABLE_CUSTOM_SPLASH = true)
 // onboarding → first-launch slides (only when ENABLE_ONBOARDING = true)
+// auth       → after login redirect to main screen
 // app        → main Stack; useAuthTarget() redirects to (auth) or (tabs)
 
 export type AppPhase = "loading" | "splash" | "onboarding" | "app";

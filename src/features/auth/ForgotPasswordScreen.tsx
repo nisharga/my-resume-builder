@@ -6,7 +6,7 @@ import { Mail } from "lucide-react-native";
 import { useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import { FormInput } from "./components";
-import { forgotPasswordSchema, type ForgotPasswordFormData } from "./schemas/authSchemas";
+import { forgotPasswordSchema, type ForgotPasswordFormData } from "./schemas";
 
 export default function ForgotPasswordScreen() {
   const { control, handleSubmit } = useForm<ForgotPasswordFormData>({
