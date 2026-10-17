@@ -1,12 +1,24 @@
 import { Logo } from "@/components";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
+import { useLogoutMutation } from "@/redux/api-queries/authApi";
+import { showToast } from "@/utils/toast";
+import { useRouter } from "expo-router";
+import { LogOut } from "lucide-react-native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ProfileScreen() {
   const { language, changeLanguage, t } = useLanguage();
   const { isDarkMode, toggleTheme } = useTheme();
+  const router = useRouter();
+  const [logout] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    await logout();
+    showToast.success("Logged out", "You have been signed out.");
+    router.replace("/(auth)/login");
+  };
 
   const bg = isDarkMode ? "#121212" : "#FFFFFF";
   const card = isDarkMode ? "#1E1E1E" : "#F3F4F6";
@@ -76,8 +88,11 @@ export default function ProfileScreen() {
         </View>
       </View>
 
-      <View className="my-bg p-4">
-        <Text className="my-text">Hello from bg-background</Text>
+      <View style={styles.logoutWrap}>
+        <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout} activeOpacity={0.75}>
+          <LogOut size={18} color="#ef4444" strokeWidth={2} />
+          <Text style={styles.logoutText}>Log Out</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -131,4 +146,17 @@ const styles = StyleSheet.create({
   },
   thumbActive: { alignSelf: "flex-end" },
   themeLabel: { fontSize: 15, fontWeight: "500" },
+  logoutWrap: { paddingHorizontal: 20, paddingBottom: 24 },
+  logoutBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    paddingVertical: 14,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: "#fee2e2",
+    backgroundColor: "#fff1f2",
+  },
+  logoutText: { fontSize: 15, fontWeight: "600", color: "#ef4444" },
 });

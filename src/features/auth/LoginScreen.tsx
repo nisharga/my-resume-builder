@@ -8,7 +8,6 @@ import { Mail } from "lucide-react-native";
 import { useForm } from "react-hook-form";
 import { Pressable, Text, View } from "react-native";
 import { loginSchema, type LoginFormData } from "./schemas";
-import { setAuthToken } from "./storageAuth";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -20,8 +19,6 @@ export default function LoginScreen() {
 
   const onSubmit = async (data: LoginFormData) => {
     console.log("Login:", data);
-    await setAuthToken("mock-token");
-    router.replace("/(tabs)");
   };
 
   return (

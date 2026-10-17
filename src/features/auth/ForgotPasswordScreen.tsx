@@ -1,43 +1,76 @@
 import { Button } from "@/components";
 import { Header, Logo, Screen } from "@/components/core";
-import { FormTitle, FormInput, OtpInput } from "../../components/form";
+import { FormInput, FormTitle, OtpInput } from "../../components/form";
 import { colors } from "@/styles/colors";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "expo-router";
 import { Mail } from "lucide-react-native";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Pressable, Text, View } from "react-native";
 import Animated, { FadeInRight, FadeOutLeft } from "react-native-reanimated";
+import {
+  STATIC_DEVICE_DETAILS,
+  useLoginCustomerMutation,
+  useVerifyOtpMutation,
+} from "@/redux/api-queries/authApi";
+import { showToast } from "@/utils/toast";
 import { forgotPasswordSchema, type ForgotPasswordFormData } from "./schemas";
 
 type Step = "email" | "otp";
 
 export default function ForgotPasswordScreen() {
+  const router = useRouter();
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [otpError, setOtpError] = useState("");
+
+  const [loginCustomer, { isLoading: isSending }] = useLoginCustomerMutation();
+  const [verifyOtp, { isLoading: isVerifying }] = useVerifyOtpMutation();
 
   const { control, handleSubmit } = useForm<ForgotPasswordFormData>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: { email: "" },
   });
 
-  const onEmailSubmit = (data: ForgotPasswordFormData) => {
-    console.log("Send OTP to:", data.email);
-    setEmail(data.email);
-    setOtp("");
-    setOtpError("");
-    setStep("otp");
+  const onEmailSubmit = async (data: ForgotPasswordFormData) => {
+    try {
+      await loginCustomer({ email: data.email }).unwrap();
+      setEmail(data.email);
+      setOtp("");
+      setOtpError("");
+      setStep("otp");
+      showToast.success("Code sent", `A login code was sent to ${data.email}`);
+    } catch (err: any) {
+      const message = err?.data?.message ?? "Failed to send code. Please try again.";
+      showToast.error("Error", message);
+    }
   };
 
-  const onOtpSubmit = () => {
-    if (otp.replace(/ /g, "").length < 6) {
-      setOtpError("Please enter the complete 6-digit code");
+  const onOtpSubmit = async () => {
+    const clean = otp.replace(/ /g, "");
+    if (clean.length < 4) {
+      setOtpError("Please enter the complete 4-digit code");
       return;
     }
     setOtpError("");
-    console.log("Verify OTP:", { email, otp });
+
+    try {
+      await verifyOtp({
+        email,
+        otp: clean,
+        role: "CUSTOMER",
+        forceLogin: true,
+        deviceDetails: STATIC_DEVICE_DETAILS,
+      }).unwrap();
+
+      showToast.success("Welcome!", "You have successfully logged in.");
+      router.replace("/(tabs)");
+    } catch (err: any) {
+      const message = err?.data?.message ?? "Invalid code. Please try again.";
+      showToast.error("Verification failed", message);
+    }
   };
 
   return (
@@ -56,8 +89,8 @@ export default function ForgotPasswordScreen() {
             style={{ flex: 1 }}
           >
             <FormTitle
-              title="Forgot Password"
-              subtitle="Enter your email and we'll send you a reset code."
+              title="Sign In"
+              subtitle="Enter your email and we'll send you a login code."
             />
 
             <FormInput
@@ -72,7 +105,9 @@ export default function ForgotPasswordScreen() {
             />
 
             <View className="mt-6">
-              <Button onPress={handleSubmit(onEmailSubmit)}>Send Code</Button>
+              <Button onPress={handleSubmit(onEmailSubmit)} disabled={isSending}>
+                {isSending ? "Sending..." : "Send Code"}
+              </Button>
             </View>
           </Animated.View>
         ) : (
@@ -83,7 +118,7 @@ export default function ForgotPasswordScreen() {
             style={{ flex: 1 }}
           >
             <FormTitle
-              title="Enter OTP"
+              title="Enter Code"
               subtitle={
                 <Text className="base-normal text-center">
                   We sent a 6-digit code to <Text className="sm-medium">{email}</Text>
@@ -94,16 +129,23 @@ export default function ForgotPasswordScreen() {
             <OtpInput value={otp} onChange={setOtp} error={otpError} />
 
             <View className="mt-6">
-              <Button onPress={onOtpSubmit}>Verify Code</Button>
+              <Button onPress={onOtpSubmit} disabled={isVerifying}>
+                {isVerifying ? "Verifying..." : "Verify Code"}
+              </Button>
             </View>
 
-            {/* Change email / resend */}
             <View className="mt-6 flex-row justify-center gap-4">
               <Pressable onPress={() => setStep("email")}>
                 <Text className="sm-medium">Change Email</Text>
               </Pressable>
               <Text className="sm-gray">·</Text>
-              <Pressable onPress={() => console.log("Resend OTP to:", email)}>
+              <Pressable
+                onPress={() => {
+                  setOtp("");
+                  setOtpError("");
+                  handleSubmit(onEmailSubmit)();
+                }}
+              >
                 <Text className="sm-medium">Resend Code</Text>
               </Pressable>
             </View>

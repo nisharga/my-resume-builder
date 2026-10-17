@@ -9,7 +9,6 @@ import { Mail } from "lucide-react-native";
 import { useForm } from "react-hook-form";
 import { Pressable, Text, View } from "react-native";
 import { signupSchema, type SignupFormData } from "./schemas";
-import { setAuthToken } from "./storageAuth";
 
 export default function SignUpScreen() {
   const router = useRouter();
@@ -21,8 +20,7 @@ export default function SignUpScreen() {
 
   const onSubmit = async (data: SignupFormData) => {
     console.log("Sign up:", data);
-    await setAuthToken("mock-token");
-    router.replace("/(tabs)");
+    // router.replace("/(tabs)");
   };
 
   return (

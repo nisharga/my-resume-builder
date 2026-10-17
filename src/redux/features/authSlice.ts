@@ -1,32 +1,57 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+
+interface UserProfile {
+  userId?: string;
+  email?: string;
+  name?: { firstName: string; lastName: string };
+  role?: string;
+  status?: string;
+}
 
 interface AuthState {
-  token: string | null;
-  onboarded: boolean;
+  isAuthenticated: boolean;
+  accessToken: string | null;
+  refreshToken: string | null;
+  user: UserProfile | null;
 }
 
 const initialState: AuthState = {
-  token: null,
-  onboarded: false,
+  isAuthenticated: false,
+  accessToken: null,
+  refreshToken: null,
+  user: null,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // Action to update the token in global state
-    setToken: (state, action: PayloadAction<string | null>) => {
-      state.token = action.payload;
+    setCredentials(
+      state,
+      action: PayloadAction<{
+        accessToken: string;
+        refreshToken: string;
+        user?: UserProfile | null;
+      }>,
+    ) {
+      state.isAuthenticated = true;
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
+      state.user = action.payload.user ?? null;
     },
-    // Action to clear token (Logout)
-    clearAuth: (state) => {
-      state.token = null;
+    clearAuth(state) {
+      state.isAuthenticated = false;
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.user = null;
     },
-    setOnboarded: (state, action: PayloadAction<boolean>) => {
-      state.onboarded = action.payload;
+    // Legacy — kept so existing dispatches don't break
+    setToken(state, action: PayloadAction<string | null>) {
+      state.accessToken = action.payload;
+      state.isAuthenticated = !!action.payload;
     },
   },
 });
 
-export const { setToken, clearAuth, setOnboarded } = authSlice.actions;
+export const { setCredentials, clearAuth, setToken } = authSlice.actions;
 export default authSlice.reducer;

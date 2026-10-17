@@ -9,7 +9,7 @@ type Props = {
   error?: string;
 };
 
-export function OtpInput({ value, onChange, length = 6, error }: Props) {
+export function OtpInput({ value, onChange, length = 4, error }: Props) {
   const inputs = useRef<(TextInput | null)[]>([]);
 
   const handleChange = (text: string, index: number) => {
