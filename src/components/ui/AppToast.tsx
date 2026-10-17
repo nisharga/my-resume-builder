@@ -17,8 +17,7 @@ export type ToastVariant = "success" | "error" | "info";
 
 export interface ToastConfig {
   variant: ToastVariant;
-  title: string;
-  message?: string;
+  message: string;
   duration?: number;
 }
 
@@ -31,17 +30,17 @@ export interface AppToastRef {
 
 const VARIANTS: Record<ToastVariant, { bg: string; border: string; icon: typeof CheckCircle }> = {
   success: {
-    bg: "#f0fdf4",
+    bg: colors.successBg,
     border: colors.success,
     icon: CheckCircle,
   },
   error: {
-    bg: "#fff1f2",
+    bg: colors.destructiveBg,
     border: colors.destructive,
     icon: XCircle,
   },
   info: {
-    bg: "#eff6ff",
+    bg: colors.accent,
     border: colors.primary,
     icon: Info,
   },
@@ -113,14 +112,9 @@ const AppToast = forwardRef<AppToastRef>((_, ref) => {
         <Icon size={16} color="#fff" strokeWidth={2.5} />
       </View>
       <View style={styles.body}>
-        <Text style={styles.title} numberOfLines={1}>
-          {config.title}
+        <Text style={styles.message} numberOfLines={2}>
+          {config.message}
         </Text>
-        {config.message ? (
-          <Text style={styles.message} numberOfLines={2}>
-            {config.message}
-          </Text>
-        ) : null}
       </View>
     </Animated.View>
   );
@@ -163,15 +157,10 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 2,
   },
-  title: {
-    fontFamily: "Poppins-SemiBold",
-    fontSize: 14,
-    color: colors.foreground,
-  },
   message: {
-    fontFamily: "Poppins-Regular",
-    fontSize: 12,
-    color: colors.mutedForeground,
-    lineHeight: 17,
+    fontFamily: "Poppins-Medium",
+    fontSize: 13,
+    color: colors.foreground,
+    lineHeight: 18,
   },
 });

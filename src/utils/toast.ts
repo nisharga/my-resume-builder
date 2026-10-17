@@ -6,15 +6,15 @@ export const toastRef = createRef<AppToastRef>();
 
 const show = (config: ToastConfig) => toastRef.current?.show(config);
 
-export const showToast = {
-  success(title: string, message?: string, duration?: number) {
-    show({ variant: "success", title, message, duration });
+export const toast = {
+  success(message: string, duration?: number) {
+    show({ variant: "success", message, duration });
   },
-  error(title: string, message?: string, duration?: number) {
-    show({ variant: "error", title, message, duration: duration ?? 4000 });
+  error(message: string, duration?: number) {
+    show({ variant: "error", message, duration: duration ?? 4000 });
   },
-  info(title: string, message?: string, duration?: number) {
-    show({ variant: "info", title, message, duration });
+  info(message: string, duration?: number) {
+    show({ variant: "info", message, duration });
   },
   custom(config: ToastConfig) {
     show(config);

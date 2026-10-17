@@ -2,7 +2,7 @@ import { Logo } from "@/components";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
 import { useLogoutMutation } from "@/redux/api-queries/authApi";
-import { showToast } from "@/utils/toast";
+import { toast } from "@/utils/toast";
 import { useRouter } from "expo-router";
 import { LogOut } from "lucide-react-native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -16,7 +16,7 @@ export default function ProfileScreen() {
 
   const handleLogout = async () => {
     await logout();
-    showToast.success("Logged out", "You have been signed out.");
+    toast.info("You have been signed out.");
     router.replace("/(auth)/login");
   };
 

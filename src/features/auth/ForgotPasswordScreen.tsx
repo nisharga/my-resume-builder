@@ -14,7 +14,7 @@ import {
   useLoginCustomerMutation,
   useVerifyOtpMutation,
 } from "@/redux/api-queries/authApi";
-import { showToast } from "@/utils/toast";
+import { toast } from "@/utils/toast";
 import { forgotPasswordSchema, type ForgotPasswordFormData } from "./schemas";
 
 type Step = "email" | "otp";
@@ -41,10 +41,10 @@ export default function ForgotPasswordScreen() {
       setOtp("");
       setOtpError("");
       setStep("otp");
-      showToast.success("Code sent", `A login code was sent to ${data.email}`);
+      toast.success(`A login code was sent to ${data.email}`);
     } catch (err: any) {
       const message = err?.data?.message ?? "Failed to send code. Please try again.";
-      showToast.error("Error", message);
+      toast.error(message);
     }
   };
 
@@ -65,11 +65,11 @@ export default function ForgotPasswordScreen() {
         deviceDetails: STATIC_DEVICE_DETAILS,
       }).unwrap();
 
-      showToast.success("Welcome!", "You have successfully logged in.");
+      toast.success("You have successfully logged in.");
       router.replace("/(tabs)");
     } catch (err: any) {
       const message = err?.data?.message ?? "Invalid code. Please try again.";
-      showToast.error("Verification failed", message);
+      toast.error(message);
     }
   };
 

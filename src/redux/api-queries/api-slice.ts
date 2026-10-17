@@ -6,9 +6,8 @@ import {
   setRefreshToken,
 } from "@/features/auth/authStorage";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { showToast } from "@/utils/toast";
-
-const BASE_URL = "https://api-food.deligo.pt/api/v1";
+import { toast } from "@/utils/toast";
+import { BASE_URL } from "@/config";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
@@ -46,7 +45,7 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
           result = await baseQuery(args, api, extraOptions);
         }
       } else {
-        showToast.error("Session Expired", "Please log in again.");
+        toast.error("Session expired. Please log in again.");
         await clearAuthStorage();
       }
     } else {

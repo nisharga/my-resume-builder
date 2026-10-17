@@ -46,6 +46,11 @@ export const colors = {
   // Gradients
   primaryGradientFrom: "#4a6cf7",
   primaryGradientTo: "#6c8cff",
+
+  // toast bg
+  successBg: "#ecfdf5",
+  warningBg: "#fffbeb",
+  destructiveBg: "#fef2f2",
 };
 
 export const darkColors = {
@@ -83,4 +88,8 @@ export const darkColors = {
 
   primaryGradientFrom: "#5b7cfa",
   primaryGradientTo: "#7c95ff",
+
+  successBg: "#052e16",
+  warningBg: "#1c1400",
+  destructiveBg: "#1c0002",
 };
