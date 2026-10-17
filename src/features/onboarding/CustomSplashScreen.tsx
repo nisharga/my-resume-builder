@@ -1,3 +1,4 @@
+import { SPLASH_TAGLINE, SPLASH_TITLE } from "@/config/appConfig";
 import { colors } from "@/styles/colors";
 import * as SplashScreen from "expo-splash-screen";
 import { FileText } from "lucide-react-native";
@@ -75,8 +76,8 @@ export default function CustomSplashScreen({ onFinish }: Props) {
 
       {/* Brand */}
       <Animated.View style={textStyle} className="items-center gap-3">
-        <Text className="four-xl-bold">CV Builder</Text>
-        <Text className="sm-normal px-10 text-center">Create Professional CVs in Minutes</Text>
+        <Text className="four-xl-bold">{SPLASH_TITLE}</Text>
+        <Text className="sm-normal px-10 text-center">{SPLASH_TAGLINE}</Text>
       </Animated.View>
     </Animated.View>
   );

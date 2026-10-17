@@ -1,13 +1,16 @@
 import { Logo } from "@/components";
 import LogoutButton from "@/components/ui/LogoutButton";
+import { useAppConfigText } from "@/config";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ProfileScreen() {
-  const { language, changeLanguage, t } = useLanguage();
+  const { language, changeLanguage } = useLanguage();
   const { isDarkMode, toggleTheme } = useTheme();
+  const { GREETING, HOW_ARE_YOU, GOOD_MORNING, LANGUAGE, THEME, DARK_MODE, LIGHT_MODE } =
+    useAppConfigText();
 
   const bg = isDarkMode ? "#121212" : "#FFFFFF";
   const card = isDarkMode ? "#1E1E1E" : "#F3F4F6";
@@ -24,22 +27,22 @@ export default function ProfileScreen() {
         {/* Demo translations */}
         <View style={[styles.card, { backgroundColor: card, borderColor: border }]}>
           <Text style={[styles.label, { color: sub }]}>greeting</Text>
-          <Text style={[styles.value, { color: text }]}>{t("greeting")}</Text>
+          <Text style={[styles.value, { color: text }]}>{GREETING}</Text>
 
           <View style={styles.divider} />
 
           <Text style={[styles.label, { color: sub }]}>howAreYou</Text>
-          <Text style={[styles.value, { color: text }]}>{t("howAreYou")}</Text>
+          <Text style={[styles.value, { color: text }]}>{HOW_ARE_YOU}</Text>
 
           <View style={styles.divider} />
 
           <Text style={[styles.label, { color: sub }]}>goodMorning</Text>
-          <Text style={[styles.value, { color: text }]}>{t("goodMorning")}</Text>
+          <Text style={[styles.value, { color: text }]}>{GOOD_MORNING}</Text>
         </View>
 
         {/* Language Switcher */}
         <View style={[styles.card, { backgroundColor: card, borderColor: border }]}>
-          <Text style={[styles.sectionTitle, { color: text }]}>{t("language")}</Text>
+          <Text style={[styles.sectionTitle, { color: text }]}>{LANGUAGE}</Text>
           <View style={styles.row}>
             <TouchableOpacity
               style={[styles.pill, language === "en" && styles.pillActive, { borderColor: border }]}
@@ -65,13 +68,13 @@ export default function ProfileScreen() {
 
         {/* Theme Switcher */}
         <View style={[styles.card, { backgroundColor: card, borderColor: border }]}>
-          <Text style={[styles.sectionTitle, { color: text }]}>{t("theme")}</Text>
+          <Text style={[styles.sectionTitle, { color: text }]}>{THEME}</Text>
           <TouchableOpacity style={styles.themeToggle} onPress={toggleTheme}>
             <View style={[styles.track, isDarkMode && styles.trackActive]}>
               <View style={[styles.thumb, isDarkMode && styles.thumbActive]} />
             </View>
             <Text style={[styles.themeLabel, { color: text }]}>
-              {isDarkMode ? t("darkMode") : t("lightMode")}
+              {isDarkMode ? DARK_MODE : LIGHT_MODE}
             </Text>
           </TouchableOpacity>
         </View>

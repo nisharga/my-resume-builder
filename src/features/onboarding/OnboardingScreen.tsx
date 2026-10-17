@@ -1,51 +1,24 @@
 import { Button } from "@/components";
-import { setOnboardingCompleted } from "./storageOnboarding";
+import {
+  ONBOARDING_BTN_GET_STARTED,
+  ONBOARDING_BTN_NEXT,
+  ONBOARDING_BTN_SKIP,
+  ONBOARDING_SLIDES,
+} from "@/config/appConfig";
 import { colors } from "@/styles/colors";
-import { Briefcase, FileText, LayoutTemplate, type LucideIcon } from "lucide-react-native";
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import Animated, { FadeInRight, FadeOutLeft } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-type Slide = {
-  Icon: LucideIcon;
-  iconBg: string;
-  iconColor: string;
-  title: string;
-  description: string;
-};
-
-const SLIDES: Slide[] = [
-  {
-    Icon: FileText,
-    iconBg: colors.accent,
-    iconColor: colors.primary,
-    title: "Build Your CV",
-    description: "Create stunning professional resumes in minutes with our easy-to-use builder.",
-  },
-  {
-    Icon: LayoutTemplate,
-    iconBg: "#FFF7ED",
-    iconColor: colors.warning,
-    title: "Choose a Template",
-    description: "Pick from professionally designed templates that make you stand out.",
-  },
-  {
-    Icon: Briefcase,
-    iconBg: "#F0FDF4",
-    iconColor: colors.success,
-    title: "Get Hired",
-    description: "Download and share your CV to land your dream job.",
-  },
-];
+import { setOnboardingCompleted } from "./storageOnboarding";
 
 type Props = { onComplete?: () => void };
 
 export default function OnboardingScreen({ onComplete }: Props) {
   const [index, setIndex] = useState(0);
 
-  const isLast = index === SLIDES.length - 1;
-  const slide = SLIDES[index]!;
+  const isLast = index === ONBOARDING_SLIDES.length - 1;
+  const slide = ONBOARDING_SLIDES[index]!;
   const { Icon } = slide;
 
   async function finish() {
@@ -71,7 +44,9 @@ export default function OnboardingScreen({ onComplete }: Props) {
       <View className="flex-row justify-end px-6 pt-2">
         {!isLast ? (
           <Pressable onPress={finish} hitSlop={12}>
-            <Text className="text-base font-medium text-muted-foreground">Skip</Text>
+            <Text className="text-base font-medium text-muted-foreground">
+              {ONBOARDING_BTN_SKIP}
+            </Text>
           </Pressable>
         ) : (
           <View className="h-6" />
@@ -100,7 +75,7 @@ export default function OnboardingScreen({ onComplete }: Props) {
       <View className="gap-5 px-6 pb-6">
         {/* Dot indicators */}
         <View className="flex-row justify-center gap-2">
-          {SLIDES.map((_, i) => (
+          {ONBOARDING_SLIDES.map((_, i) => (
             <View
               key={i}
               style={{ backgroundColor: i === index ? colors.primary : colors.border }}
@@ -110,7 +85,7 @@ export default function OnboardingScreen({ onComplete }: Props) {
         </View>
 
         <Button onPress={goNext} className="rounded-2xl">
-          {isLast ? "Get Started" : "Next"}
+          {isLast ? ONBOARDING_BTN_GET_STARTED : ONBOARDING_BTN_NEXT}
         </Button>
       </View>
     </SafeAreaView>
