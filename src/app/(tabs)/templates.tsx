@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Toast, ToastTitle, ToastDescription, useToast } from "@/components/ui/toast";
 import { Button, ButtonText } from "@/components/ui/button";
 import { useState } from "react";
-import ResumesScreen from "./resumes";
+import ResumesScreen from "./my-cv";
 import { APP_NAME } from "@/config";
 
 export default function TemplatesScreen() {

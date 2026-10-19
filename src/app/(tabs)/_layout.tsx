@@ -29,7 +29,7 @@ export const TABS: TabConfig[] = [
   { name: "index", title: "Home", icon: Home },
   { name: "templates", title: "Templates", icon: LayoutTemplate },
   { name: "create-resume", title: "", isCenter: true },
-  { name: "resumes", title: "My CV", icon: FileText },
+  { name: "my-cv", title: "My CV", icon: FileText },
   { name: "profile", title: "Profile", icon: User },
 ];
 

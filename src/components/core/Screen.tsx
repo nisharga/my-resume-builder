@@ -55,7 +55,7 @@ export default function Screen({
         >
           <ScrollView
             style={{ flex: 1 }}
-            contentContainerStyle={{ flexGrow: 1 }}
+            contentContainerStyle={{ flexGrow: 1, paddingBottom: 32 }}
             stickyHeaderIndices={stickyIndices.length > 0 ? stickyIndices : undefined}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
