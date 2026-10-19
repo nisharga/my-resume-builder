@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 export const ENABLE_CUSTOM_SPLASH = true;
 export const ENABLE_ONBOARDING = true;
-export const ENABLE_AUTH = true;
+export const ENABLE_AUTH = false;
 
 // ─── Phase ────────────────────────────────────────────────────────────────────
 // loading    → fonts/storage initialising; native splash stays visible
