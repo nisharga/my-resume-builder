@@ -16,13 +16,7 @@ export default function ScreenHeader({ title, left, right, className = "" }: Scr
 
       {/* Title */}
       <View className="flex-1 items-center">
-        <Text
-          numberOfLines={1}
-          className="text-foreground"
-          style={{ fontFamily: "Poppins-SemiBold", fontSize: 18 }}
-        >
-          {title}
-        </Text>
+        <Text className="lg-medium">{title}</Text>
       </View>
 
       {/* Right slot */}

@@ -1,4 +1,4 @@
-import { Screen } from "@/components";
+import { Screen, StickyView } from "@/components";
 import { ScreenHeader } from "@/components/common";
 import IconButton from "@/components/ui/IconButton";
 import { colors } from "@/styles/colors";
@@ -86,19 +86,19 @@ const MyCVScreen = () => {
   return (
     <Screen>
       {/* Search + Filter bar — sticky */}
-      <View sticky={true} className="bg-secondary px-4 pt-2 pb-3">
+      <StickyView sticky className="bg-secondary px-4 pt-2 pb-3">
         {/* Page title */}
         <ScreenHeader title="My CVs" />
         {/* Single row: search icon | input | divider | filter icon */}
-        <View className="flex-row items-center rounded-xl border border-border bg-white px-3">
-          <Search size={15} color={colors.mutedForeground} strokeWidth={2} />
+        <View className="flex-row items-center justify-center rounded-xl border border-border bg-white px-3">
+          <Search size={20} color={colors.mutedForeground} strokeWidth={2} />
 
           <TextInput
             value={search}
             onChangeText={setSearch}
             placeholder="Search CVs"
             placeholderTextColor={colors.mutedForeground}
-            className="flex-1 px-2 py-3 text-sm text-foreground"
+            className="base-normal flex-1 px-2 py-2 pt-4 text-sm text-foreground"
             style={{ fontFamily: "Poppins-Regular" }}
             returnKeyType="search"
           />
@@ -126,7 +126,7 @@ const MyCVScreen = () => {
             )}
           </View>
         </View>
-      </View>
+      </StickyView>
 
       {/* CV list or empty state */}
       {filtered.length === 0 ? (
