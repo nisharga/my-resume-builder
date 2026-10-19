@@ -1,13 +1,56 @@
 import { Screen } from "@/components";
-import { WelcomeGreeting } from "./components";
-import { View } from "react-native";
+import { ScrollView, Text, Pressable, View } from "react-native";
+import { WelcomeGreeting, CreateCvBanner, CvCard, type CvCardData } from "./components";
+
+const MOCK_CVS: CvCardData[] = [
+  { id: "1", title: "Software Engineer CV", updatedAt: "2 hours ago" },
+  { id: "2", title: "Product Manager CV", updatedAt: "Yesterday" },
+  { id: "3", title: "UI/UX Designer CV", updatedAt: "3 days ago" },
+  { id: "4", title: "Graphic Designer CV", updatedAt: "6 hours ago" },
+  { id: "5", title: "UI/UX Designer CV", updatedAt: "5 days ago" },
+  { id: "6", title: "Software Engineer CV", updatedAt: "2 days ago" },
+  { id: "7", title: "Graphic Designer CV", updatedAt: "5 days ago" },
+];
 
 const HomeScreen = () => {
+  const handleEdit = (id: string) => console.log("Edit", id);
+  const handleView = (id: string) => console.log("View", id);
+  const handleDelete = (id: string) => console.log("Delete", id);
+
   return (
     <Screen>
-      <View className="mx-4!">
-        <WelcomeGreeting welcomeLabel={"Nisharga Kabir"} />
-      </View>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName="pb-8">
+        {/* Greeting */}
+        <View className="mb-4 px-4">
+          <WelcomeGreeting welcomeLabel="Nisharga Kabir" />
+        </View>
+
+        {/* Create CV banner */}
+        <View className="mb-4 px-4">
+          <CreateCvBanner onPress={() => console.log("Create CV")} />
+        </View>
+
+        {/* Recent CVs */}
+        <View className="">
+          {/* Section header */}
+          <View className="mb-1 flex-row items-center justify-between px-4">
+            <Text className="sm-bold">Recent CVs</Text>
+            <Pressable>
+              <Text className="sm-medium">View All &gt;</Text>
+            </Pressable>
+          </View>
+
+          {/* CV list */}
+          <View className="mx-4 mt-1 overflow-hidden rounded-2xl bg-white">
+            {MOCK_CVS.map((cv, i) => (
+              <View key={cv.id}>
+                <CvCard {...cv} onEdit={handleEdit} onView={handleView} onDelete={handleDelete} />
+                {i < MOCK_CVS.length - 1 && <View className="mx-4 h-px bg-border" />}
+              </View>
+            ))}
+          </View>
+        </View>
+      </ScrollView>
     </Screen>
   );
 };

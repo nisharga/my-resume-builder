@@ -8,6 +8,7 @@ import {
   X,
   Bell,
   User,
+  FileText,
 } from "lucide-react-native";
 import { Path, Svg } from "react-native-svg";
 
@@ -28,6 +29,7 @@ export const Icons = {
   ArrowRight,
   Bell,
   User,
+  FileText,
   // --- Custom SVG icons ---
   Newspaper: ({ fill = "#F66B3B", width = 26, height = 26 }: SVGIconProps) => (
     <Svg width={width} height={height} viewBox="0 0 512 512" fill={fill}>

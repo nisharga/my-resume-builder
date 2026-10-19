@@ -60,23 +60,13 @@ const WelcomeGreeting = ({
       {/* Greeting text with waving emoji */}
       <View className="ml-3 flex-1">
         <View className="flex-row items-center">
-          <Text
-            className="text-lg leading-tight text-foreground"
-            style={{ fontFamily: "Poppins-SemiBold" }}
-          >
-            Welcome Back!
-          </Text>
+          <Text className="lg-medium">Welcome Back!</Text>
           <Animated.View style={[{ marginLeft: 6, marginTop: -2 }, animatedStyle]}>
             <Text className="text-lg">👋</Text>
           </Animated.View>
         </View>
 
-        <Text
-          className="-mt-1 text-sm text-muted-foreground"
-          style={{ fontFamily: "Poppins-Regular" }}
-        >
-          {welcomeLabel}
-        </Text>
+        <Text className="sm-gray">{welcomeLabel}</Text>
       </View>
 
       {/* Notification bell */}
