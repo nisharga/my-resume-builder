@@ -10,6 +10,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { colors } from "@/styles/colors";
 import { Icons } from "@/components";
+import IconButton from "@/components/ui/IconButton";
 
 interface WelcomeGreetingProps {
   welcomeLabel: string;
@@ -79,16 +80,13 @@ const WelcomeGreeting = ({
       </View>
 
       {/* Notification bell */}
-      <Pressable
+      <IconButton
         onPress={onNotificationPress}
-        className="relative h-10 w-10 items-center justify-center rounded-full bg-accent"
-        hitSlop={8}
+        badge={notificationCount > 0}
+        className="h-10 w-10 rounded-full bg-accent"
       >
         <Icons.Bell size={20} color={colors.foreground} strokeWidth={1.8} />
-        {notificationCount > 0 && (
-          <View className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-destructive" />
-        )}
-      </Pressable>
+      </IconButton>
     </View>
   );
 };
