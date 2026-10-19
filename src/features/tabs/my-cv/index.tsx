@@ -1,4 +1,4 @@
-import { Screen, StickyView } from "@/components";
+import { Icons, Screen, StickyView } from "@/components";
 import { ScreenHeader } from "@/components/common";
 import IconButton from "@/components/ui/IconButton";
 import { colors } from "@/styles/colors";
@@ -6,6 +6,8 @@ import { Check, Search, SlidersHorizontal, X } from "lucide-react-native";
 import { useMemo, useState } from "react";
 import { Modal, Pressable, Text, TextInput, View } from "react-native";
 import { CvCard, EmptyResume, type CvCardData } from "../home/components";
+import Sheet from "@/components/ui/Sheet";
+import { Button, ScrollView } from "@expo/ui";
 
 type SortOption = "newest" | "oldest" | "a_z" | "z_a";
 
@@ -88,18 +90,25 @@ const MyCVScreen = () => {
       {/* Search + Filter bar — sticky */}
       <StickyView sticky className="bg-secondary px-4 pt-2 pb-3">
         {/* Page title */}
-        <ScreenHeader title="My CVs" />
+        <ScreenHeader title="My CVs" className="mb-2" />
         {/* Single row: search icon | input | divider | filter icon */}
         <View className="flex-row items-center justify-center rounded-xl border border-border bg-white px-3">
-          <Search size={20} color={colors.mutedForeground} strokeWidth={2} />
+          <Search size={18} color={colors.mutedForeground} strokeWidth={2} />
 
           <TextInput
             value={search}
             onChangeText={setSearch}
             placeholder="Search CVs"
             placeholderTextColor={colors.mutedForeground}
-            className="base-normal flex-1 px-2 py-2 pt-4 text-sm text-foreground"
-            style={{ fontFamily: "Poppins-Regular" }}
+            className="flex-1"
+            style={{
+              fontFamily: "Poppins-Regular",
+              fontSize: 14,
+              color: colors.foreground,
+              paddingVertical: 8,
+              paddingHorizontal: 8,
+              marginTop: 4,
+            }}
             returnKeyType="search"
           />
 
@@ -127,6 +136,12 @@ const MyCVScreen = () => {
           </View>
         </View>
       </StickyView>
+
+      <Sheet title="Sort & Filter" trigger={<Icons.CheckCircle />}>
+        <View className="py-4">
+          <Text>Hello</Text>
+        </View>
+      </Sheet>
 
       {/* CV list or empty state */}
       {filtered.length === 0 ? (
