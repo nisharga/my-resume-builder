@@ -1,6 +1,6 @@
 import { colors } from "@/styles/colors";
 import { Tabs } from "expo-router";
-import { FileText, Home, LayoutTemplate, LucideIcon, Plus, User } from "lucide-react-native";
+import { FileText, Home, LayoutTemplate, LucideIcon, Plus, Settings } from "lucide-react-native";
 import { Pressable, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -30,7 +30,7 @@ export const TABS: TabConfig[] = [
   { name: "templates", title: "Templates", icon: LayoutTemplate },
   { name: "create-resume", title: "", isCenter: true },
   { name: "my-cv", title: "My CV", icon: FileText },
-  { name: "profile", title: "Profile", icon: User },
+  { name: "setting", title: "Settings", icon: Settings },
 ];
 
 export default function TabsLayout() {

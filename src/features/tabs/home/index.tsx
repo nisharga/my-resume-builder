@@ -65,7 +65,7 @@ const HomeScreen = () => {
         {/* Section header */}
         <View className="mb-2 flex-row items-center justify-between px-4">
           <Text className="base-semibold text-foreground!">Recent CVs</Text>
-          <IconButton onPress={() => router.push("/resumes")} className="flex flex-row gap-1">
+          <IconButton onPress={() => router.push("/my-cv")} className="flex flex-row gap-1">
             <Text className="sm-medium">View All</Text>
             <Icons.ArrowRight size={18} color={colors.primary} strokeWidth={2} />
           </IconButton>
