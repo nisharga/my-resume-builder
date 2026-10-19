@@ -6,6 +6,8 @@ import {
   Phone,
   SunMedium,
   X,
+  Bell,
+  User,
 } from "lucide-react-native";
 import { Path, Svg } from "react-native-svg";
 
@@ -24,7 +26,8 @@ export const Icons = {
   X,
   Phone,
   ArrowRight,
-
+  Bell,
+  User,
   // --- Custom SVG icons ---
   Newspaper: ({ fill = "#F66B3B", width = 26, height = 26 }: SVGIconProps) => (
     <Svg width={width} height={height} viewBox="0 0 512 512" fill={fill}>
@@ -38,11 +41,7 @@ export const Icons = {
     </Svg>
   ),
 
-  CheckCircle: ({
-    fill = "#1FD191",
-    width = 25,
-    height = 25,
-  }: SVGIconProps) => (
+  CheckCircle: ({ fill = "#1FD191", width = 25, height = 25 }: SVGIconProps) => (
     <Svg width={width} height={height} viewBox="0 0 25 25" fill={fill}>
       <Path d="M24.2188 12.1094C24.2188 18.7972 18.7972 24.2188 12.1094 24.2188C5.42153 24.2188 0 18.7972 0 12.1094C0 5.42153 5.42153 0 12.1094 0C18.7972 0 24.2188 5.42153 24.2188 12.1094ZM10.7087 18.5212L19.6931 9.53682C19.9981 9.23174 19.9981 8.73706 19.6931 8.43198L18.5882 7.32715C18.2832 7.02202 17.7885 7.02202 17.4833 7.32715L10.1562 14.6542L6.7354 11.2333C6.43032 10.9283 5.93564 10.9283 5.63052 11.2333L4.52568 12.3382C4.22061 12.6433 4.22061 13.1379 4.52568 13.443L9.60381 18.5211C9.90894 18.8263 10.4036 18.8263 10.7087 18.5212Z" />
     </Svg>
@@ -57,12 +56,7 @@ export const Icons = {
     </Svg>
   ),
 
-  RightArrow: ({
-    fill = "none",
-    color = "#000",
-    width = 16,
-    height = 17,
-  }: SVGIconProps) => (
+  RightArrow: ({ fill = "none", color = "#000", width = 16, height = 17 }: SVGIconProps) => (
     <Svg width={width} height={height} viewBox="0 0 16 17" fill={fill}>
       <Path
         d="M1 8.5H15"

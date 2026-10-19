@@ -4,8 +4,8 @@ import { checkOnboardingStatus } from "@/features/onboarding/storageOnboarding";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 
-export const ENABLE_CUSTOM_SPLASH = true;
-export const ENABLE_ONBOARDING = true;
+export const ENABLE_CUSTOM_SPLASH = false;
+export const ENABLE_ONBOARDING = false;
 export const ENABLE_AUTH = false;
 
 // ─── Phase ────────────────────────────────────────────────────────────────────
