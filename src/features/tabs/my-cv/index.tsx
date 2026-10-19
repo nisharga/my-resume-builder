@@ -84,7 +84,7 @@ const MyCVScreen = () => {
     setSort("newest");
     setFilterVisible(false);
   }
-  const [open, setOpen] = useState(false);
+
   return (
     <Screen>
       {/* Search + Filter bar — sticky */}
@@ -137,21 +137,6 @@ const MyCVScreen = () => {
         </View>
       </StickyView>
 
-      <Sheet
-        trigger={<Icons.CheckCircle />}
-        open={open}
-        onOpen={() => setOpen(true)} // trigger press → opens
-        onClose={() => setOpen(false)} // backdrop/X → closes
-        title="Sort & Filter"
-      >
-        <View className="py-4">
-          <Text>Hello</Text>
-          <Pressable onPress={() => setOpen(false)}>
-            <Text>Close me</Text>
-          </Pressable>
-        </View>
-      </Sheet>
-
       {/* CV list or empty state */}
       {filtered.length === 0 ? (
         <EmptyResume />
@@ -196,7 +181,6 @@ const MyCVScreen = () => {
             </View>
 
             {/* Sort by section */}
-            <Text className="sm-semibold mb-3 text-muted-foreground">Sort by</Text>
             <View className="mb-6 overflow-hidden rounded-2xl bg-secondary">
               {SORT_OPTIONS.map((option, i) => (
                 <Pressable
@@ -242,7 +226,7 @@ const MyCVScreen = () => {
                 onPress={applyFilter}
                 className="flex-1 items-center rounded-xl bg-primary py-3.5 active:opacity-80"
               >
-                <Text className="sm-semibold text-white">Apply</Text>
+                <Text className="sm-semibold text-white!">Apply</Text>
               </Pressable>
             </View>
           </Pressable>
