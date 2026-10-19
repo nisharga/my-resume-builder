@@ -5,35 +5,45 @@ import { useState, type ReactNode } from "react";
 import { Modal, Pressable, Text, View } from "react-native";
 
 interface SheetProps {
-  /** What the user taps to open the sheet */
   trigger: ReactNode;
   triggerClassName?: string;
-  /** Optional heading shown at the top of the sheet */
   title?: string;
-  /**
-   * Sheet content. Pass a function to receive the `close` callback,
-   * which lets inner buttons (e.g. Apply) close the sheet.
-   *
-   * @example
-   * <Sheet trigger={<Button />}>
-   *   {(close) => <Pressable onPress={close}><Text>Done</Text></Pressable>}
-   * </Sheet>
-   */
+  open?: boolean;
+  onOpen?: () => void;
+  onClose?: () => void;
   children: ReactNode | ((close: () => void) => ReactNode);
 }
 
-export default function Sheet({ trigger, triggerClassName, title, children }: SheetProps) {
-  const [open, setOpen] = useState(false);
-  const close = () => setOpen(false);
+export default function Sheet({
+  trigger,
+  triggerClassName,
+  title,
+  children,
+  open: controlledOpen,
+  onOpen,
+  onClose,
+}: SheetProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+
+  const isControlled = controlledOpen !== undefined;
+  const isOpen = isControlled ? controlledOpen : internalOpen;
+
+  const open = () => {
+    isControlled ? onOpen?.() : setInternalOpen(true);
+  };
+  const close = () => {
+    setInternalOpen(false);
+    onClose?.();
+  };
 
   return (
     <>
       {/* Trigger — tapping this opens the sheet */}
-      <Pressable onPress={() => setOpen(true)} className={triggerClassName}>
+      <Pressable onPress={open} className={triggerClassName}>
         {trigger}
       </Pressable>
 
-      <Modal transparent animationType="slide" visible={open} onRequestClose={close}>
+      <Modal transparent animationType="slide" visible={isOpen} onRequestClose={close}>
         {/* Dim backdrop — tap to dismiss */}
         <Pressable className="flex-1 justify-end bg-black/40" onPress={close}>
           {/* Sheet card — stop touches from bubbling to backdrop */}

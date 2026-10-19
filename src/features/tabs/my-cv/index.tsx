@@ -84,7 +84,7 @@ const MyCVScreen = () => {
     setSort("newest");
     setFilterVisible(false);
   }
-
+  const [open, setOpen] = useState(false);
   return (
     <Screen>
       {/* Search + Filter bar — sticky */}
@@ -137,9 +137,18 @@ const MyCVScreen = () => {
         </View>
       </StickyView>
 
-      <Sheet title="Sort & Filter" trigger={<Icons.CheckCircle />}>
+      <Sheet
+        trigger={<Icons.CheckCircle />}
+        open={open}
+        onOpen={() => setOpen(true)} // trigger press → opens
+        onClose={() => setOpen(false)} // backdrop/X → closes
+        title="Sort & Filter"
+      >
         <View className="py-4">
           <Text>Hello</Text>
+          <Pressable onPress={() => setOpen(false)}>
+            <Text>Close me</Text>
+          </Pressable>
         </View>
       </Sheet>
 
