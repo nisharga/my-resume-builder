@@ -1,6 +1,9 @@
-import { Screen } from "@/components";
+import { Icons, Screen } from "@/components";
 import { ScrollView, Text, Pressable, View } from "react-native";
 import { WelcomeGreeting, CreateCvBanner, CvCard, type CvCardData } from "./components";
+import { useRouter } from "expo-router";
+import IconButton from "@/components/ui/IconButton";
+import { colors } from "@/styles";
 
 const MOCK_CVS: CvCardData[] = [
   { id: "1", title: "Software Engineer CV", updatedAt: "2 hours ago" },
@@ -17,6 +20,7 @@ const HomeScreen = () => {
   const handleView = (id: string) => console.log("View", id);
   const handleDelete = (id: string) => console.log("Delete", id);
 
+  const router = useRouter();
   return (
     <Screen>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName="pb-8">
@@ -27,17 +31,18 @@ const HomeScreen = () => {
 
         {/* Create CV banner */}
         <View className="mb-4 px-4">
-          <CreateCvBanner onPress={() => console.log("Create CV")} />
+          <CreateCvBanner onPress={() => router.push("/create-resume")} />
         </View>
 
         {/* Recent CVs */}
         <View className="">
           {/* Section header */}
-          <View className="mb-1 flex-row items-center justify-between px-4">
+          <View className="mb-2 flex-row items-center justify-between px-4">
             <Text className="sm-bold">Recent CVs</Text>
-            <Pressable>
-              <Text className="sm-medium">View All &gt;</Text>
-            </Pressable>
+            <IconButton onPress={() => router.push("/resumes")} className="flex flex-row gap-1">
+              <Text className="sm-medium">View All</Text>
+              <Icons.ArrowRight size={18} color={colors.primary} strokeWidth={2} />
+            </IconButton>
           </View>
 
           {/* CV list */}

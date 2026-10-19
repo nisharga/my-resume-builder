@@ -1,6 +1,6 @@
 import {
   ArrowRight,
-  LucideProps,
+  type LucideProps,
   Menu,
   Moon,
   Phone,
@@ -11,6 +11,10 @@ import {
   FileText,
 } from "lucide-react-native";
 import { Path, Svg } from "react-native-svg";
+
+// Lucide icon props — use size, color, strokeWidth (not className)
+// Example: <Icons.Bell size={20} color={colors.primary} strokeWidth={1.8} />
+export type IconProps = LucideProps;
 
 type SVGIconProps = {
   width?: number | string;
