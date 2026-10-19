@@ -1,6 +1,12 @@
 import { Icons, Screen } from "@/components";
 import { ScrollView, Text, Pressable, View } from "react-native";
-import { WelcomeGreeting, CreateCvBanner, CvCard, type CvCardData } from "./components";
+import {
+  WelcomeGreeting,
+  CreateCvBanner,
+  CvCard,
+  EmptyResume,
+  type CvCardData,
+} from "./components";
 import { useRouter } from "expo-router";
 import IconButton from "@/components/ui/IconButton";
 import { colors } from "@/styles";
@@ -38,22 +44,26 @@ const HomeScreen = () => {
         <View className="">
           {/* Section header */}
           <View className="mb-2 flex-row items-center justify-between px-4">
-            <Text className="sm-bold">Recent CVs</Text>
+            <Text className="base-semibold text-foreground!">Recent CVs</Text>
             <IconButton onPress={() => router.push("/resumes")} className="flex flex-row gap-1">
               <Text className="sm-medium">View All</Text>
               <Icons.ArrowRight size={18} color={colors.primary} strokeWidth={2} />
             </IconButton>
           </View>
 
-          {/* CV list */}
-          <View className="mx-4 mt-1 overflow-hidden rounded-2xl bg-white">
-            {MOCK_CVS.map((cv, i) => (
-              <View key={cv.id}>
-                <CvCard {...cv} onEdit={handleEdit} onView={handleView} onDelete={handleDelete} />
-                {i < MOCK_CVS.length - 1 && <View className="mx-4 h-px bg-border" />}
-              </View>
-            ))}
-          </View>
+          {/* CV list or empty state */}
+          {MOCK_CVS.length === 0 ? (
+            <EmptyResume />
+          ) : (
+            <View className="mx-4 mt-1 overflow-hidden rounded-2xl bg-white">
+              {MOCK_CVS.map((cv, i) => (
+                <View key={cv.id}>
+                  <CvCard {...cv} onEdit={handleEdit} onView={handleView} onDelete={handleDelete} />
+                  {i < MOCK_CVS.length - 1 && <View className="mx-4 h-px bg-border" />}
+                </View>
+              ))}
+            </View>
+          )}
         </View>
       </ScrollView>
     </Screen>
