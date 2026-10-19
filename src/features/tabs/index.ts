@@ -1,2 +1,3 @@
 export { default as HomeScreen } from "./home";
 export { default as MyCVsScreen } from "./my-cv";
+export { default as TemplatesScreen } from "./templates";
