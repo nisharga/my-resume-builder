@@ -1,12 +1,11 @@
 import { useEffect } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Button, Screen } from "@/components";
 import { ScreenHeader } from "@/components/common";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { loadCV, setAccent, setTemplate } from "@/redux/features/cvSlice";
+import { loadCV } from "@/redux/features/cvSlice";
 import { getSectionCompletion } from "@/utils/cv";
 import { useRouter } from "expo-router";
-import type { TemplateId } from "@/types/cv";
 import { HeroCard, CVProgressBar, SectionCard } from "./components";
 
 export default function CreateResumeScreen() {
@@ -54,12 +53,7 @@ export default function CreateResumeScreen() {
       <ScreenHeader title="My CV" className="mb-2" />
 
       {/* Hero card: thumbnail + template/color pickers */}
-      <HeroCard
-        cv={cv}
-        onPreview={() => router.push("/cv-preview")}
-        onSetTemplate={(id: TemplateId) => dispatch(setTemplate(id))}
-        onSetAccent={(hex: string) => dispatch(setAccent(hex))}
-      />
+      <HeroCard cv={cv} onPreview={() => router.push("/cv-preview")} />
 
       {/* Progress */}
       <CVProgressBar completion={completion} />

@@ -2,7 +2,11 @@ import { Screen } from "@/components";
 import { ScreenHeader } from "@/components/common";
 import Sheet from "@/components/ui/Sheet";
 import { colors } from "@/styles/colors";
-import { Plus, Trash2 } from "lucide-react-native";
+import { ACCENT_COLORS } from "@/features/cv/constants";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { setAccent, setTemplate } from "@/redux/features/cvSlice";
+import type { TemplateId } from "@/types/cv";
+import { Check, Plus, Trash2 } from "lucide-react-native";
 import { type ImageSourcePropType } from "react-native";
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
@@ -10,7 +14,7 @@ import { AddFieldForm, TemplateCard, type AdditionalField } from "./components";
 
 // ─── data ─────────────────────────────────────────────────────────────────────
 
-const TEMPLATES: { id: string; name: string; image: ImageSourcePropType }[] = [
+const TEMPLATES: { id: TemplateId; name: string; image: ImageSourcePropType }[] = [
   {
     id: "classic",
     name: "Classic",
@@ -31,7 +35,9 @@ const TEMPLATES: { id: string; name: string; image: ImageSourcePropType }[] = [
 // ─── screen ───────────────────────────────────────────────────────────────────
 
 export default function TemplatesScreen() {
-  const [selectedId, setSelectedId] = useState("classic");
+  const dispatch = useAppDispatch();
+  const cv = useAppSelector((s) => s.cv);
+
   const [fields, setFields] = useState<AdditionalField[]>([]);
   const [sheetOpen, setSheetOpen] = useState(false);
 
@@ -55,10 +61,40 @@ export default function TemplatesScreen() {
               key={tpl.id}
               name={tpl.name}
               image={tpl.image}
-              selected={selectedId === tpl.id}
-              onSelect={() => setSelectedId(tpl.id)}
+              selected={cv.template === tpl.id}
+              onSelect={() => dispatch(setTemplate(tpl.id))}
             />
           ))}
+        </View>
+
+        {/* Accent color */}
+        <View className="mb-6">
+          <Text
+            className="mb-3 text-xs tracking-widest text-muted-foreground"
+            style={{ fontFamily: "Poppins-SemiBold" }}
+          >
+            ACCENT COLOR
+          </Text>
+          <View className="flex-row flex-wrap gap-3">
+            {ACCENT_COLORS.map((hex) => (
+              <Pressable
+                key={hex}
+                onPress={() => dispatch(setAccent(hex))}
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 22,
+                  backgroundColor: hex,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderWidth: cv.accent === hex ? 3 : 0,
+                  borderColor: colors.foreground,
+                }}
+              >
+                {cv.accent === hex && <Check size={18} color="#fff" strokeWidth={3} />}
+              </Pressable>
+            ))}
+          </View>
         </View>
 
         {/* Additional fields list */}
