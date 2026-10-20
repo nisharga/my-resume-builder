@@ -1,4 +1,4 @@
-import { Icons, Screen, StickyView } from "@/components";
+import { AndroidNavSpacer, Icons, Screen, StickyView } from "@/components";
 import { ScreenHeader } from "@/components/common";
 import IconButton from "@/components/ui/IconButton";
 import { colors } from "@/styles/colors";
@@ -231,6 +231,8 @@ const MyCVScreen = () => {
             </View>
           </Pressable>
         </Pressable>
+
+        <AndroidNavSpacer />
       </Modal>
     </Screen>
   );

@@ -1,3 +1,4 @@
+import { AndroidNavSpacer } from "@/components/core";
 import IconButton from "@/components/ui/IconButton";
 import { colors } from "@/styles/colors";
 import { X } from "lucide-react-native";
@@ -69,6 +70,8 @@ export default function Sheet({
 
             {/* Content — function children receive the close callback */}
             {typeof children === "function" ? children(close) : children}
+
+            <AndroidNavSpacer />
           </Pressable>
         </Pressable>
       </Modal>
