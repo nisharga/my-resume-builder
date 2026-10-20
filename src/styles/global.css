@@ -152,6 +152,10 @@
 
   /* ========== Text Hireriky ============= */
 
+  .label-text {
+    @apply text-base font-semibold text-muted-foreground;
+  }
+
   .header-title {
     @apply font-inter-semibold text-[17px] text-gray-900;
   }

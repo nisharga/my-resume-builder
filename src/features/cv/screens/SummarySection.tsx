@@ -17,16 +17,7 @@ export default function SummarySection() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Text
-          style={{
-            fontSize: 14,
-            fontWeight: "600",
-            color: colors.mutedForeground,
-            marginBottom: 6,
-          }}
-        >
-          About you
-        </Text>
+        <Text className="label-text mb-2">About You</Text>
         <View
           style={{
             borderWidth: 1,

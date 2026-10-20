@@ -9,9 +9,7 @@ interface Props extends TextInputProps {
 export function LabeledInput({ label, hint, multiline, style, ...rest }: Props) {
   return (
     <View style={{ gap: 6 }}>
-      <Text style={{ fontSize: 14, fontWeight: "600", color: colors.mutedForeground }}>
-        {label}
-      </Text>
+      <Text className="label-text">{label}</Text>
       <View
         style={{
           borderWidth: 1,
