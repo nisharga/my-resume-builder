@@ -72,6 +72,7 @@ export default function CVSectionScreen({
               hitSlop={8}
               accessibilityLabel={rightLabel ?? "Done"}
               accessibilityRole="button"
+              className="mr-2"
             >
               <Text style={{ fontSize: 15, fontWeight: "600", color: colors.primary }}>
                 {rightLabel}

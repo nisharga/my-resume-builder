@@ -7,6 +7,7 @@ import { colors } from "@/styles/colors";
 import { useRouter } from "expo-router";
 import CVSectionScreen from "./CVSectionScreen";
 import LiveFab from "../LiveFab";
+import { Additionalbutton } from "@/components";
 
 export default function EducationSection() {
   const dispatch = useAppDispatch();
@@ -67,39 +68,8 @@ export default function EducationSection() {
           </View>
         )}
 
-        <Pressable
-          onPress={addNew}
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 8,
-            borderWidth: 1.5,
-            borderStyle: "dashed",
-            borderColor: colors.primary,
-            borderRadius: 16,
-            paddingVertical: 16,
-            backgroundColor: colors.accent,
-          }}
-          accessibilityRole="button"
-          accessibilityLabel="Add school"
-        >
-          <View
-            style={{
-              width: 24,
-              height: 24,
-              borderRadius: 12,
-              backgroundColor: colors.primary,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Plus size={14} color="#fff" strokeWidth={2.5} />
-          </View>
-          <Text style={{ fontSize: 14, fontWeight: "600", color: colors.primary }}>
-            + Add school
-          </Text>
-        </Pressable>
+        {/* Add job button */}
+        <Additionalbutton onPress={addNew} label=" Add school"></Additionalbutton>
       </ScrollView>
       <LiveFab sectionId="education" />
     </CVSectionScreen>
