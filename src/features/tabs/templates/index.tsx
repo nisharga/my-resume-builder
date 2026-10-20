@@ -45,7 +45,7 @@ export default function TemplatesScreen() {
 
   return (
     <Screen>
-      <ScreenHeader title="Templates" />
+      <ScreenHeader title="Templates" className="mb-4" />
 
       <View className="px-4 pb-8">
         {/* Template grid */}

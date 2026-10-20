@@ -1,5 +1,6 @@
+import Image from "@/components/core/Image";
 import { Check } from "lucide-react-native";
-import { Image, type ImageSourcePropType, Pressable, Text, View } from "react-native";
+import { type ImageSourcePropType, Pressable, Text, View } from "react-native";
 
 export interface TemplateCardProps {
   name: string;
@@ -14,7 +15,7 @@ export default function TemplateCard({ name, image, selected, onSelect }: Templa
       <View
         className={`overflow-hidden rounded-2xl border-2 ${selected ? "border-primary" : "border-border"}`}
       >
-        <Image source={image} style={{ width: "100%", height: 200 }} resizeMode="cover" />
+        <Image src={image as number} style={{ width: "100%", height: 200 }} />
 
         {selected && (
           <View className="absolute top-2 right-2 h-6 w-6 items-center justify-center rounded-full bg-primary">
