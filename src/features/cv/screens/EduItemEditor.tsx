@@ -1,11 +1,12 @@
 import { useEffect } from "react";
-import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { removeEducation, updateEducation } from "@/redux/features/cvSlice";
 import { colors } from "@/styles/colors";
 import { useRouter } from "expo-router";
 import { toast } from "@/utils/toast";
 import type { Education } from "@/types/cv";
+import { LabeledInput } from "@/components";
 import CVSectionScreen from "./CVSectionScreen";
 import LiveFab from "../LiveFab";
 
@@ -41,25 +42,6 @@ export default function EduItemEditor({ index }: Props) {
     }
     router.back();
   }
-
-  const inputStyle = {
-    fontSize: 16 as const,
-    color: colors.foreground,
-    paddingVertical: 14 as const,
-  };
-  const fieldBox = {
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 12,
-    backgroundColor: "#fff",
-    paddingHorizontal: 14,
-  };
-  const labelStyle = {
-    fontSize: 14,
-    fontWeight: "600" as const,
-    color: colors.mutedForeground,
-    marginBottom: 6,
-  };
 
   return (
     <CVSectionScreen
@@ -109,56 +91,38 @@ export default function EduItemEditor({ index }: Props) {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View>
-          <Text style={labelStyle}>Degree</Text>
-          <View style={fieldBox}>
-            <TextInput
-              value={edu.degree}
-              onChangeText={(v) => update("degree", v)}
-              placeholder="e.g. B.Sc. in Computer Science"
-              placeholderTextColor={colors.subtleForeground}
-              style={inputStyle}
-            />
-          </View>
-        </View>
+        <LabeledInput
+          label="Degree"
+          value={edu.degree}
+          onChangeText={(v) => update("degree", v)}
+          placeholder="e.g. B.Sc. in Computer Science"
+        />
 
-        <View>
-          <Text style={labelStyle}>School</Text>
-          <View style={fieldBox}>
-            <TextInput
-              value={edu.school}
-              onChangeText={(v) => update("school", v)}
-              placeholder="e.g. University of Dhaka"
-              placeholderTextColor={colors.subtleForeground}
-              style={inputStyle}
-            />
-          </View>
-        </View>
+        <LabeledInput
+          label="School"
+          value={edu.school}
+          onChangeText={(v) => update("school", v)}
+          placeholder="e.g. University of Dhaka"
+        />
 
         <View style={{ flexDirection: "row", gap: 10 }}>
           <View style={{ flex: 1 }}>
-            <Text style={labelStyle}>Start</Text>
-            <View style={fieldBox}>
-              <TextInput
-                value={edu.start}
-                onChangeText={(v) => update("start", v)}
-                placeholder="2016"
-                placeholderTextColor={colors.subtleForeground}
-                style={inputStyle}
-              />
-            </View>
+            <LabeledInput
+              label="Start"
+              value={edu.start}
+              onChangeText={(v) => update("start", v)}
+              placeholder="2016"
+              keyboardType="numeric"
+            />
           </View>
           <View style={{ flex: 1 }}>
-            <Text style={labelStyle}>End</Text>
-            <View style={fieldBox}>
-              <TextInput
-                value={edu.end}
-                onChangeText={(v) => update("end", v)}
-                placeholder="2020"
-                placeholderTextColor={colors.subtleForeground}
-                style={inputStyle}
-              />
-            </View>
+            <LabeledInput
+              label="End"
+              value={edu.end}
+              onChangeText={(v) => update("end", v)}
+              placeholder="2020"
+              keyboardType="numeric"
+            />
           </View>
         </View>
       </ScrollView>

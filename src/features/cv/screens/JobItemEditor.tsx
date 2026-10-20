@@ -1,11 +1,12 @@
 import { useEffect } from "react";
-import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { removeExperience, updateExperience } from "@/redux/features/cvSlice";
 import { colors } from "@/styles/colors";
 import { useRouter } from "expo-router";
 import { toast } from "@/utils/toast";
 import type { Experience } from "@/types/cv";
+import { LabeledInput } from "@/components";
 import CVSectionScreen from "./CVSectionScreen";
 import LiveFab from "../LiveFab";
 
@@ -24,7 +25,6 @@ export default function JobItemEditor({ index }: Props) {
 
   if (!exp) return null;
 
-  // Explicit keyof Experience type avoids "keyof never" TS error from array-narrowing
   function update(field: keyof Experience, value: string) {
     dispatch(updateExperience({ ...exp!, [field]: value }));
   }
@@ -42,25 +42,6 @@ export default function JobItemEditor({ index }: Props) {
     }
     router.back();
   }
-
-  const inputStyle = {
-    fontSize: 16 as const,
-    color: colors.foreground,
-    paddingVertical: 14 as const,
-  };
-  const fieldBox = {
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 12,
-    backgroundColor: "#fff",
-    paddingHorizontal: 14,
-  };
-  const labelStyle = {
-    fontSize: 14,
-    fontWeight: "600" as const,
-    color: colors.mutedForeground,
-    marginBottom: 6,
-  };
 
   return (
     <CVSectionScreen
@@ -110,75 +91,49 @@ export default function JobItemEditor({ index }: Props) {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View>
-          <Text style={labelStyle}>Job title</Text>
-          <View style={fieldBox}>
-            <TextInput
-              value={exp.role}
-              onChangeText={(v) => update("role", v)}
-              placeholder="e.g. UI Designer"
-              placeholderTextColor={colors.subtleForeground}
-              style={inputStyle}
-            />
-          </View>
-        </View>
+        <LabeledInput
+          label="Job title"
+          value={exp.role}
+          onChangeText={(v) => update("role", v)}
+          placeholder="e.g. UI Designer"
+        />
 
-        <View>
-          <Text style={labelStyle}>Company</Text>
-          <View style={fieldBox}>
-            <TextInput
-              value={exp.company}
-              onChangeText={(v) => update("company", v)}
-              placeholder="e.g. Acme Inc."
-              placeholderTextColor={colors.subtleForeground}
-              style={inputStyle}
-            />
-          </View>
-        </View>
+        <LabeledInput
+          label="Company"
+          value={exp.company}
+          onChangeText={(v) => update("company", v)}
+          placeholder="e.g. Acme Inc."
+        />
 
         <View style={{ flexDirection: "row", gap: 10 }}>
           <View style={{ flex: 1 }}>
-            <Text style={labelStyle}>Start</Text>
-            <View style={fieldBox}>
-              <TextInput
-                value={exp.start}
-                onChangeText={(v) => update("start", v)}
-                placeholder="2021"
-                placeholderTextColor={colors.subtleForeground}
-                style={inputStyle}
-              />
-            </View>
+            <LabeledInput
+              label="Start"
+              value={exp.start}
+              onChangeText={(v) => update("start", v)}
+              placeholder="2021"
+              keyboardType="numeric"
+            />
           </View>
           <View style={{ flex: 1 }}>
-            <Text style={labelStyle}>End</Text>
-            <View style={fieldBox}>
-              <TextInput
-                value={exp.end}
-                onChangeText={(v) => update("end", v)}
-                placeholder="Present"
-                placeholderTextColor={colors.subtleForeground}
-                style={inputStyle}
-              />
-            </View>
+            <LabeledInput
+              label="End"
+              value={exp.end}
+              onChangeText={(v) => update("end", v)}
+              placeholder="Present"
+            />
           </View>
         </View>
 
-        <View>
-          <Text style={labelStyle}>What you did</Text>
-          <View style={[fieldBox, { paddingVertical: 4 }]}>
-            <TextInput
-              value={exp.desc}
-              onChangeText={(v) => update("desc", v)}
-              placeholder="One achievement per line"
-              placeholderTextColor={colors.subtleForeground}
-              multiline
-              style={{ ...inputStyle, minHeight: 100, textAlignVertical: "top" }}
-            />
-          </View>
-          <Text style={{ marginTop: 6, fontSize: 13, color: colors.mutedForeground }}>
-            Each line becomes a bullet point.
-          </Text>
-        </View>
+        <LabeledInput
+          label="What you did"
+          value={exp.desc}
+          onChangeText={(v) => update("desc", v)}
+          placeholder="One achievement per line"
+          multiline
+          style={{ minHeight: 100 }}
+          hint="Each line becomes a bullet point."
+        />
       </ScrollView>
       <LiveFab sectionId="experience" />
     </CVSectionScreen>
