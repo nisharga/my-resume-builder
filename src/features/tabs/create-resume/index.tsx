@@ -13,7 +13,7 @@ export default function CreateResumeScreen() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const cv = useAppSelector((s) => s.cv);
-  const completion = getSectionCompletion(cv);
+  const completion = getSectionCompletion(cv); // 5 false
 
   // Hydrate saved CV data on first mount
   useEffect(() => {
