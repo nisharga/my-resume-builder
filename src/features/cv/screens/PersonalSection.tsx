@@ -50,6 +50,20 @@ const FIELDS: FieldDef[] = [
     keyboard: "url",
     autoCapitalize: "none",
   },
+  {
+    key: "portfolio",
+    label: "Portfolio (optional)",
+    placeholder: "yourportfolio.com",
+    keyboard: "url",
+    autoCapitalize: "none",
+  },
+  {
+    key: "linkedin",
+    label: "LinkedIn (optional)",
+    placeholder: "linkedin.com/in/yourname",
+    keyboard: "url",
+    autoCapitalize: "none",
+  },
 ];
 
 export default function PersonalSection() {

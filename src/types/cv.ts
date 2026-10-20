@@ -7,6 +7,8 @@ export interface PersonalInfo {
   phone: string;
   location: string;
   website: string;
+  portfolio: string;
+  linkedin: string;
 }
 
 export interface Experience {

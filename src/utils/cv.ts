@@ -19,6 +19,33 @@ export function getContacts(personal: PersonalInfo): string[] {
   return [personal.email, personal.phone, personal.location, personal.website].filter(Boolean);
 }
 
+export interface LinkItem {
+  label: string;
+  url: string;
+}
+
+/** Portfolio + LinkedIn links, skipping blanks. */
+export function getLinks(personal: PersonalInfo): LinkItem[] {
+  const items: LinkItem[] = [];
+  if (personal.portfolio) {
+    items.push({
+      label: personal.portfolio,
+      url: /^https?:\/\//.test(personal.portfolio)
+        ? personal.portfolio
+        : `https://${personal.portfolio}`,
+    });
+  }
+  if (personal.linkedin) {
+    items.push({
+      label: personal.linkedin,
+      url: /^https?:\/\//.test(personal.linkedin)
+        ? personal.linkedin
+        : `https://${personal.linkedin}`,
+    });
+  }
+  return items;
+}
+
 export interface SectionCompletion {
   personal: boolean;
   summary: boolean;

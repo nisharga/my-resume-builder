@@ -1,6 +1,6 @@
-import { formatDates, getContacts, splitBullets } from "@/utils/cv";
+import { formatDates, getContacts, getLinks, splitBullets } from "@/utils/cv";
 import type { CVData } from "@/types/cv";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Linking, Platform, Pressable, StyleSheet, Text, View } from "react-native";
 
 const SERIF = Platform.select({ ios: "Georgia", android: "serif" }) ?? "serif";
 
@@ -13,6 +13,7 @@ interface Props {
 export default function ClassicTemplate({ cv, highlightSection, onSectionLayout }: Props) {
   const { accent, personal, summary, experience, education, skills } = cv;
   const contacts = getContacts(personal);
+  const links = getLinks(personal);
 
   function hl(id: string) {
     if (highlightSection !== id) return {};
@@ -42,6 +43,13 @@ export default function ClassicTemplate({ cv, highlightSection, onSectionLayout 
             <Text key={i} style={[s.contact, { fontFamily: SERIF }]}>
               {c}
             </Text>
+          ))}
+          {links.map((link, i) => (
+            <Pressable key={`link-${i}`} onPress={() => Linking.openURL(link.url)}>
+              <Text style={[s.contact, s.link, { fontFamily: SERIF, color: accent }]}>
+                {link.label}
+              </Text>
+            </Pressable>
           ))}
         </View>
       </View>
@@ -154,6 +162,9 @@ const s = StyleSheet.create({
     fontSize: 13.5,
     color: "#4A5260",
     marginHorizontal: 8,
+  },
+  link: {
+    fontWeight: "600" as const,
   },
   sectionHeading: {
     fontSize: 17,

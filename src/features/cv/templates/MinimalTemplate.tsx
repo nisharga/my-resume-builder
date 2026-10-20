@@ -1,6 +1,6 @@
-import { formatDates, getContacts, splitBullets } from "@/utils/cv";
+import { formatDates, getContacts, getLinks, splitBullets } from "@/utils/cv";
 import type { CVData } from "@/types/cv";
-import { StyleSheet, Text, View } from "react-native";
+import { Linking, Pressable, StyleSheet, Text, View } from "react-native";
 import type { ReactNode } from "react";
 
 // ─── SectionRow is defined outside the parent component to avoid re-creating it on every render ───
@@ -53,6 +53,7 @@ interface Props {
 export default function MinimalTemplate({ cv, highlightSection, onSectionLayout }: Props) {
   const { accent, personal, summary, experience, education, skills } = cv;
   const contacts = getContacts(personal);
+  const links = getLinks(personal);
 
   const rowProps = { accent, highlightSection, onSectionLayout };
 
@@ -81,13 +82,21 @@ export default function MinimalTemplate({ cv, highlightSection, onSectionLayout 
         {personal.title ? (
           <Text style={[s.jobTitle, { color: accent }]}>{personal.title}</Text>
         ) : null}
-        {contacts.length > 0 && (
+        {(contacts.length > 0 || links.length > 0) && (
           <View style={s.contactRow}>
             {contacts.map((c, i) => (
               <Text key={i} style={s.contact}>
                 {c}
-                {i < contacts.length - 1 ? "  ·  " : ""}
+                {i < contacts.length - 1 || links.length > 0 ? "  ·  " : ""}
               </Text>
+            ))}
+            {links.map((link, i) => (
+              <Pressable key={`link-${i}`} onPress={() => Linking.openURL(link.url)}>
+                <Text style={[s.contact, s.link, { color: accent }]}>
+                  {link.label}
+                  {i < links.length - 1 ? "  ·  " : ""}
+                </Text>
+              </Pressable>
             ))}
           </View>
         )}
@@ -173,6 +182,9 @@ const s = StyleSheet.create({
   contact: {
     fontSize: 13,
     color: "#4A5260",
+  },
+  link: {
+    fontWeight: "600" as const,
   },
   row: {
     flexDirection: "row",

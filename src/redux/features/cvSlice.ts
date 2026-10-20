@@ -14,6 +14,8 @@ const DEFAULT_CV: CVData = {
     phone: "+880 1711 000000",
     location: "Dhaka, Bangladesh",
     website: "nusrat.design",
+    portfolio: "",
+    linkedin: "",
   },
   summary:
     "Product designer with 5 years of experience building mobile and web apps for fintech and e-commerce. I turn messy requirements into clear, accessible interfaces.",
@@ -109,7 +111,13 @@ const cvSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loadCV.fulfilled, (state, action) => {
-      if (action.payload) return action.payload;
+      if (action.payload) {
+        // Merge default personal so new fields (portfolio, linkedin) exist in old stored data
+        return {
+          ...action.payload,
+          personal: { ...DEFAULT_CV.personal, ...action.payload.personal },
+        };
+      }
       return state;
     });
   },

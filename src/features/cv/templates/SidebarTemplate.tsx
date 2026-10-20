@@ -1,6 +1,6 @@
-import { formatDates, getContacts, splitBullets } from "@/utils/cv";
+import { formatDates, getContacts, getLinks, splitBullets } from "@/utils/cv";
 import type { CVData } from "@/types/cv";
-import { StyleSheet, Text, View } from "react-native";
+import { Linking, Pressable, StyleSheet, Text, View } from "react-native";
 
 // Blend accent with white: accent * (1 - t) + white * t
 function tintAccent(hex: string, t: number): string {
@@ -20,6 +20,7 @@ interface Props {
 export default function SidebarTemplate({ cv, highlightSection, onSectionLayout }: Props) {
   const { accent, personal, summary, experience, education, skills } = cv;
   const contacts = getContacts(personal);
+  const links = getLinks(personal);
   const leftBorderColor = tintAccent(accent, 0.3);
 
   function sectionStyle(id: string) {
@@ -49,7 +50,7 @@ export default function SidebarTemplate({ cv, highlightSection, onSectionLayout 
         </View>
 
         {/* Contact */}
-        {contacts.length > 0 && (
+        {(contacts.length > 0 || links.length > 0) && (
           <View style={s.sSection}>
             <Text style={s.sHeading}>Contact</Text>
             <View style={[s.sDivider, { borderColor: "rgba(255,255,255,0.35)" }]} />
@@ -57,6 +58,11 @@ export default function SidebarTemplate({ cv, highlightSection, onSectionLayout 
               <Text key={i} style={s.sContact}>
                 {c}
               </Text>
+            ))}
+            {links.map((link, i) => (
+              <Pressable key={`link-${i}`} onPress={() => Linking.openURL(link.url)}>
+                <Text style={[s.sContact, s.sLink]}>{link.label}</Text>
+              </Pressable>
             ))}
           </View>
         )}
@@ -179,6 +185,10 @@ const s = StyleSheet.create({
     color: WHITE,
     marginBottom: 6,
     lineHeight: 18,
+  },
+  sLink: {
+    opacity: 1,
+    fontWeight: "600" as const,
   },
   chipRow: {
     flexDirection: "row",
