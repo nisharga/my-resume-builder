@@ -162,8 +162,8 @@ const s = StyleSheet.create({
   },
   jobTitle: {
     fontSize: 18,
-    fontWeight: "500",
     marginTop: 6,
+    fontWeight: 700,
   },
   contactRow: {
     flexDirection: "row",

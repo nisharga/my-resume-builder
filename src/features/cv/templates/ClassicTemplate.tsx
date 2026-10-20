@@ -141,6 +141,7 @@ const s = StyleSheet.create({
   jobTitle: {
     fontSize: 17,
     marginTop: 2,
+    fontWeight: 700,
   },
   contactRow: {
     flexDirection: "row",

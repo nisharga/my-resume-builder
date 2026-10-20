@@ -159,6 +159,7 @@ const s = StyleSheet.create({
     color: WHITE,
     opacity: 0.9,
     marginBottom: 28,
+    fontWeight: 700,
   },
   sSection: {
     marginTop: 24,
