@@ -1,5 +1,5 @@
 import { Screen } from "@/components";
-import { ScreenHeader } from "@/components/common";
+import { Additionalbutton, ScreenHeader } from "@/components/common";
 import Sheet from "@/components/ui/Sheet";
 import { colors } from "@/styles/colors";
 import { ACCENT_COLORS } from "@/features/cv/constants";
@@ -131,16 +131,7 @@ export default function TemplatesScreen() {
           open={sheetOpen}
           onOpen={() => setSheetOpen(true)}
           onClose={() => setSheetOpen(false)}
-          trigger={
-            <View className="flex-row items-center justify-center gap-2 rounded-2xl border border-dashed border-primary/50 bg-accent py-4">
-              <View className="h-6 w-6 items-center justify-center rounded-full bg-primary">
-                <Plus size={14} color="#fff" strokeWidth={2.5} />
-              </View>
-              <Text className="text-sm text-primary" style={{ fontFamily: "Poppins-SemiBold" }}>
-                Add Additional Field
-              </Text>
-            </View>
-          }
+          trigger={<Additionalbutton label=" Add Additional Field"></Additionalbutton>}
         >
           <AddFieldForm onAdd={addField} onClose={() => setSheetOpen(false)} />
         </Sheet>
