@@ -1,3 +1,5 @@
+import type { KeyboardTypeOptions } from "react-native";
+
 export type TemplateId = "classic" | "sidebar" | "minimal";
 
 export interface PersonalInfo {
@@ -36,4 +38,12 @@ export interface CVData {
   experience: Experience[];
   education: Education[];
   skills: string[];
+}
+
+export interface FieldDef {
+  key: keyof PersonalInfo;
+  label: string;
+  placeholder: string;
+  keyboard?: KeyboardTypeOptions;
+  autoCapitalize?: "none" | "sentences" | "words" | "characters";
 }
