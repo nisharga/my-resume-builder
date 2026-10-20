@@ -9,6 +9,7 @@ import type { Experience } from "@/types/cv";
 import { LabeledInput } from "@/components";
 import CVSectionScreen from "./CVSectionScreen";
 import LiveFab from "../LiveFab";
+import ButtonGroup from "@/components/ui/ButtonGroup";
 
 interface Props {
   index: number;
@@ -48,41 +49,13 @@ export default function JobItemEditor({ index }: Props) {
       title="Job"
       rightLabel={null}
       footer={
-        <View
-          style={{
-            flexDirection: "row",
-            gap: 10,
-            padding: 16,
-            borderTopWidth: 1,
-            borderTopColor: colors.border,
-            backgroundColor: colors.background,
-          }}
-        >
-          <Pressable
-            onPress={handleDelete}
-            style={{ paddingHorizontal: 16, paddingVertical: 14, alignItems: "center" }}
-            accessibilityRole="button"
-            accessibilityLabel="Delete job"
-          >
-            <Text style={{ fontSize: 15, fontWeight: "600", color: colors.destructive }}>
-              Delete
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={handleSave}
-            style={{
-              flex: 1,
-              backgroundColor: colors.primary,
-              borderRadius: 12,
-              alignItems: "center",
-              paddingVertical: 14,
-            }}
-            accessibilityRole="button"
-            accessibilityLabel="Save job"
-          >
-            <Text style={{ color: "#fff", fontSize: 15, fontWeight: "600" }}>Save</Text>
-          </Pressable>
-        </View>
+        <ButtonGroup
+          btnGroupClassName="mt-4 px-4"
+          secondaryBtnLabel="Delete"
+          secondaryBtnAction={handleDelete}
+          primaryBtnLabel="Save"
+          primaryBtnAction={handleSave}
+        />
       }
     >
       <ScrollView
