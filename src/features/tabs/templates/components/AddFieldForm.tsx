@@ -1,12 +1,31 @@
-import { colors } from "@/styles/colors";
-import { useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { FormInput } from "@/components/form";
+import ButtonGroup from "@/components/ui/ButtonGroup";
+import { toast } from "@/utils/toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { View } from "react-native";
+import { z } from "zod";
+
+// ─── schema ───────────────────────────────────────────────────────────────────
+
+const schema = z.object({
+  title: z
+    .string()
+    .min(1, "Field name is required")
+    .min(2, "Must be at least 2 characters")
+    .max(50, "Must be 50 characters or less"),
+});
+
+type FormValues = z.infer<typeof schema>;
+
+// ─── types ────────────────────────────────────────────────────────────────────
 
 export interface AdditionalField {
   id: string;
   title: string;
-  section: string;
 }
+
+// ─── component ────────────────────────────────────────────────────────────────
 
 interface AddFieldFormProps {
   onAdd: (field: Omit<AdditionalField, "id">) => void;
@@ -14,68 +33,37 @@ interface AddFieldFormProps {
 }
 
 export default function AddFieldForm({ onAdd, onClose }: AddFieldFormProps) {
-  const [title, setTitle] = useState("");
-  const [section, setSection] = useState("");
+  const { control, handleSubmit, reset } = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: { title: "" },
+  });
 
-  function handleAdd() {
-    if (!title.trim()) return;
-    onAdd({ title: title.trim(), section: section.trim() });
+  function onSubmit(values: FormValues) {
+    onAdd({ title: values.title });
+    toast.success(`"${values.title}" field added successfully.`);
+    reset();
     onClose();
   }
 
   return (
     <View>
-      <Text className="mb-1 text-sm text-foreground" style={{ fontFamily: "Poppins-Medium" }}>
-        Field Title
-      </Text>
-      <TextInput
-        value={title}
-        onChangeText={setTitle}
-        placeholder="e.g. Certifications"
-        placeholderTextColor={colors.mutedForeground}
-        className="mb-4 rounded-xl border border-border bg-secondary px-4"
-        style={{
-          fontFamily: "Poppins-Regular",
-          fontSize: 14,
-          color: colors.foreground,
-          paddingVertical: 12,
-        }}
+      <FormInput
+        name="title"
+        control={control}
+        label="Field Name"
+        placeholder="e.g. Certifications, Awards..."
+        autoFocus
+        returnKeyType="done"
+        onSubmitEditing={handleSubmit(onSubmit)}
       />
 
-      <Text className="mb-1 text-sm text-foreground" style={{ fontFamily: "Poppins-Medium" }}>
-        Section Content
-      </Text>
-      <TextInput
-        value={section}
-        onChangeText={setSection}
-        placeholder="Describe this section..."
-        placeholderTextColor={colors.mutedForeground}
-        multiline
-        numberOfLines={4}
-        textAlignVertical="top"
-        className="mb-6 rounded-xl border border-border bg-secondary px-4 py-3"
-        style={{
-          fontFamily: "Poppins-Regular",
-          fontSize: 14,
-          color: colors.foreground,
-          minHeight: 100,
-        }}
+      <ButtonGroup
+        btnGroupClassName="mt-4"
+        secondaryBtnLabel="Cancel"
+        secondaryBtnAction={onClose}
+        primaryBtnLabel="Add Field"
+        primaryBtnAction={handleSubmit(onSubmit)}
       />
-
-      <View className="flex-row gap-3">
-        <Pressable
-          onPress={onClose}
-          className="flex-1 items-center rounded-xl border border-border py-3.5 active:opacity-70"
-        >
-          <Text className="sm-semibold text-muted-foreground">Cancel</Text>
-        </Pressable>
-        <Pressable
-          onPress={handleAdd}
-          className={`flex-1 items-center rounded-xl py-3.5 active:opacity-80 ${title.trim() ? "bg-primary" : "bg-primary/40"}`}
-        >
-          <Text className="sm-semibold text-white">Add Field</Text>
-        </Pressable>
-      </View>
     </View>
   );
 }

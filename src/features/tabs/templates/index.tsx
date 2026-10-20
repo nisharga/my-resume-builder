@@ -79,11 +79,6 @@ export default function TemplatesScreen() {
                   <View className="mt-1.5 h-2 w-2 rounded-full bg-primary" />
                   <View className="flex-1">
                     <Text className="sm-semibold text-foreground">{field.title}</Text>
-                    {field.section ? (
-                      <Text className="caption mt-0.5" numberOfLines={2}>
-                        {field.section}
-                      </Text>
-                    ) : null}
                   </View>
                   <Pressable onPress={() => removeField(field.id)} hitSlop={8}>
                     <Trash2 size={15} color={colors.destructive} strokeWidth={2} />
