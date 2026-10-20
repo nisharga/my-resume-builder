@@ -4,7 +4,7 @@ import { FileText, Home, LayoutTemplate, LucideIcon, Plus, Settings } from "luci
 import { Pressable, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const CONTENT_HEIGHT = 58;
+const CONTENT_HEIGHT = 64;
 
 function NoRippleTabButton(props: any) {
   return <Pressable {...props} android_ripple={null} style={props.style} />;
