@@ -3,7 +3,15 @@ import IconButton from "@/components/ui/IconButton";
 import { colors } from "@/styles/colors";
 import { X } from "lucide-react-native";
 import { useState, type ReactNode } from "react";
-import { Modal, Pressable, Text, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 interface SheetProps {
   trigger: ReactNode;
@@ -45,8 +53,15 @@ export default function Sheet({
       </Pressable>
 
       <Modal transparent animationType="slide" visible={isOpen} onRequestClose={close}>
-        {/* Dim backdrop — tap to dismiss */}
-        <Pressable className="flex-1 justify-end bg-black/40" onPress={close}>
+        {/* Backdrop sits behind everything, tapping it closes the sheet */}
+        <Pressable style={[StyleSheet.absoluteFill, ss.backdrop]} onPress={close} />
+
+        {/* KeyboardAvoidingView fills the screen and pushes the sheet up when keyboard appears */}
+        <KeyboardAvoidingView
+          style={ss.kavContainer}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={0}
+        >
           {/* Sheet card — stop touches from bubbling to backdrop */}
           <Pressable
             className="rounded-t-3xl bg-white px-4 pt-3 pb-8"
@@ -73,8 +88,18 @@ export default function Sheet({
 
             <AndroidNavSpacer />
           </Pressable>
-        </Pressable>
+        </KeyboardAvoidingView>
       </Modal>
     </>
   );
 }
+
+const ss = StyleSheet.create({
+  backdrop: {
+    backgroundColor: "rgba(0,0,0,0.4)",
+  },
+  kavContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+});
