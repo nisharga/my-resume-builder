@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { removeExperience, updateExperience } from "@/redux/features/cvSlice";
-import { colors } from "@/styles/colors";
 import { useRouter } from "expo-router";
 import { toast } from "@/utils/toast";
 import type { Experience } from "@/types/cv";
 import { LabeledInput } from "@/components";
+import { MonthYearPicker } from "@/components/form";
 import CVSectionScreen from "./CVSectionScreen";
 import LiveFab from "../LiveFab";
 import ButtonGroup from "@/components/ui/ButtonGroup";
@@ -80,20 +80,20 @@ export default function JobItemEditor({ index }: Props) {
 
         <View style={{ flexDirection: "row", gap: 10 }}>
           <View style={{ flex: 1 }}>
-            <LabeledInput
+            <MonthYearPicker
               label="Start"
               value={exp.start}
-              onChangeText={(v) => update("start", v)}
-              placeholder="2021"
-              keyboardType="numeric"
+              onChange={(v) => update("start", v)}
+              placeholder="e.g. May 2021"
             />
           </View>
           <View style={{ flex: 1 }}>
-            <LabeledInput
+            <MonthYearPicker
               label="End"
               value={exp.end}
-              onChangeText={(v) => update("end", v)}
-              placeholder="Present"
+              onChange={(v) => update("end", v)}
+              placeholder="e.g. Jul 2023"
+              allowPresent
             />
           </View>
         </View>
