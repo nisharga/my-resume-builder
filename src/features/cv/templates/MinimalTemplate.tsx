@@ -51,7 +51,8 @@ interface Props {
 }
 
 export default function MinimalTemplate({ cv, highlightSection, onSectionLayout }: Props) {
-  const { accent, personal, summary, experience, education, skills } = cv;
+  const { accent, personal, summary, experience, education, skills, achievements } = cv;
+  const activeAchievements = (achievements ?? []).filter((a) => a.enabled && a.value.trim());
   const contacts = getContacts(personal);
   const links = getLinks(personal);
 
@@ -144,6 +145,17 @@ export default function MinimalTemplate({ cv, highlightSection, onSectionLayout 
       {skills.length > 0 && (
         <SectionRow {...rowProps} id="skills" label="Skills">
           <Text style={s.body}>{skills.join(", ")}</Text>
+        </SectionRow>
+      )}
+
+      {activeAchievements.length > 0 && (
+        <SectionRow {...rowProps} id="additional" label="Additional">
+          {activeAchievements.map((a, idx) => (
+            <View key={a.id} style={idx > 0 ? { marginTop: 10 } : {}}>
+              <Text style={s.expRole}>{a.name}</Text>
+              <Text style={s.body}>{a.value}</Text>
+            </View>
+          ))}
         </SectionRow>
       )}
     </View>

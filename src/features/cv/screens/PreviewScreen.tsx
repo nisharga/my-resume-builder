@@ -14,6 +14,7 @@ import { Accordion } from "@/components/ui/Accordion";
 import { toast } from "@/utils/toast";
 import { exportAsPDF, exportAsDocx } from "@/utils/cvExport";
 import type { TemplateId } from "@/types/cv";
+import * as Haptics from "expo-haptics";
 
 const ZOOM_LEVELS = [
   { label: "Fit", value: 1 },
@@ -37,6 +38,7 @@ export default function PreviewScreen() {
     try {
       const result = await exportAsPDF(cv);
       if (result === "saved") {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         toast.success(`PDF saved successfully.${iosSaveHint}`);
       }
     } catch {
@@ -48,6 +50,7 @@ export default function PreviewScreen() {
     try {
       const result = await exportAsDocx(cv);
       if (result === "saved") {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         toast.success(`Word document saved successfully.${iosSaveHint}`);
       }
     } catch {

@@ -11,7 +11,8 @@ interface Props {
 }
 
 export default function ClassicTemplate({ cv, highlightSection, onSectionLayout }: Props) {
-  const { accent, personal, summary, experience, education, skills } = cv;
+  const { accent, personal, summary, experience, education, skills, achievements } = cv;
+  const activeAchievements = (achievements ?? []).filter((a) => a.enabled && a.value.trim());
   const contacts = getContacts(personal);
   const links = getLinks(personal);
 
@@ -120,6 +121,20 @@ export default function ClassicTemplate({ cv, highlightSection, onSectionLayout 
               </Text>
             ))}
           </View>
+        </View>
+      )}
+
+      {/* ── Additional Fields ── */}
+      {activeAchievements.length > 0 && (
+        <View style={hl("additional")} onLayout={reportY("additional")}>
+          <Text style={[s.sectionHeading, { color: accent, fontFamily: SERIF }]}>Additional</Text>
+          <View style={[s.sectionLine, { borderBottomColor: "#DDE1E7" }]} />
+          {activeAchievements.map((a) => (
+            <View key={a.id} style={s.entry}>
+              <Text style={[s.entryRole, { fontFamily: SERIF }]}>{a.name}</Text>
+              <Text style={[s.body, { fontFamily: SERIF }]}>{a.value}</Text>
+            </View>
+          ))}
         </View>
       )}
     </View>

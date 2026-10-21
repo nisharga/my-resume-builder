@@ -18,7 +18,8 @@ interface Props {
 }
 
 export default function SidebarTemplate({ cv, highlightSection, onSectionLayout }: Props) {
-  const { accent, personal, summary, experience, education, skills } = cv;
+  const { accent, personal, summary, experience, education, skills, achievements } = cv;
+  const activeAchievements = (achievements ?? []).filter((a) => a.enabled && a.value.trim());
   const contacts = getContacts(personal);
   const links = getLinks(personal);
   const leftBorderColor = tintAccent(accent, 0.3);
@@ -129,6 +130,29 @@ export default function SidebarTemplate({ cv, highlightSection, onSectionLayout 
                     <Text style={s.bulletText}>{b}</Text>
                   </View>
                 ))}
+              </View>
+            ))}
+          </View>
+        )}
+
+        {/* Additional Fields */}
+        {activeAchievements.length > 0 && (
+          <View
+            style={[s.mainSection, sectionStyle("additional")]}
+            onLayout={reportY("additional")}
+          >
+            <Text style={[s.mHeading, { color: accent }]}>Additional</Text>
+            {activeAchievements.map((a, idx) => (
+              <View
+                key={a.id}
+                style={[
+                  s.expEntry,
+                  { borderLeftColor: leftBorderColor },
+                  idx === 0 ? { marginTop: 0 } : {},
+                ]}
+              >
+                <Text style={s.expRole}>{a.name}</Text>
+                <Text style={s.mBody}>{a.value}</Text>
               </View>
             ))}
           </View>
