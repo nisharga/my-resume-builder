@@ -42,10 +42,10 @@ export default function CreateResumeScreen() {
 
   const sections = [
     { id: "personal", title: "Personal details" },
-    { id: "summary", title: "Summary" },
     { id: "experience", title: "Experience" },
     { id: "education", title: "Education" },
     { id: "skills", title: "Skills" },
+    { id: "summary", title: "Summary" },
   ] as const;
 
   return (

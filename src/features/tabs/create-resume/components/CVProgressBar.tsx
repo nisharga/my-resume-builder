@@ -9,9 +9,12 @@ interface Props {
 }
 
 export default function CVProgressBar({ completion }: Props) {
-  const count = completedCount(completion);
-  const total = 5;
-  const pct = Math.round((count / total) * 100);
+  // Summary is optional — only the 4 core sections count toward progress
+  const { summary: _summary, ...required } = completion;
+  const count = Object.values(required).filter(Boolean).length;
+  const total = 4;
+  // Start at 20% by default; each completed section adds 20%
+  const pct = 20 + Math.round((count / total) * 80);
 
   // useState avoids the react-hooks/refs "access .current during render" lint rule
   const [animWidth] = useState(() => new Animated.Value(0));
@@ -34,6 +37,7 @@ export default function CVProgressBar({ completion }: Props) {
       <View className="flex-row items-center justify-between">
         <Text className="text-[14px] text-muted-foreground">
           {count} of {total} sections complete
+          {count === total ? "" : "  ·  Summary optional"}
         </Text>
         <Text className="text-[14px] font-semibold text-foreground">{pct}%</Text>
       </View>

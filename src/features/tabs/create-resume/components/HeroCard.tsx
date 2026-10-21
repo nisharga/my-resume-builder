@@ -23,6 +23,8 @@ export default function HeroCard({ cv, onPreview }: Props) {
     router.push("/(tabs)/templates");
   }
 
+  console.log("cv", cv);
+
   return (
     <View className="mx-4 overflow-hidden rounded-2xl border border-border bg-white p-4">
       <View className="flex-row gap-4">
