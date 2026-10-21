@@ -51,7 +51,8 @@
           "color": "#DC3173",
           "sounds": ["./assets/sounds/notification_sound.wav"]
         }
-      ]
+      ],
+      "expo-sharing"
     ],
     "experiments": {
       "typedRoutes": true,

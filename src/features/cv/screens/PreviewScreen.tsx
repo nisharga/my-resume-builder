@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pressable, ScrollView, Text, View, useWindowDimensions } from "react-native";
+import { Platform, Pressable, ScrollView, Text, View, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ArrowLeft } from "lucide-react-native";
 import { useRouter } from "expo-router";
@@ -12,6 +12,7 @@ import TemplatePicker from "../components/TemplatePicker";
 import AccentColorPicker from "../components/AccentColorPicker";
 import { Accordion } from "@/components/ui/Accordion";
 import { toast } from "@/utils/toast";
+import { exportAsPDF, exportAsDocx } from "@/utils/cvExport";
 import type { TemplateId } from "@/types/cv";
 
 const ZOOM_LEVELS = [
@@ -29,6 +30,30 @@ export default function PreviewScreen() {
 
   const zoom = ZOOM_LEVELS[zoomIdx]?.value ?? 1;
   const pageWidth = width - 32;
+
+  const iosSaveHint = Platform.OS === "ios" ? " Check Files app → On My iPhone." : "";
+
+  async function handlePDF() {
+    try {
+      const result = await exportAsPDF(cv);
+      if (result === "saved") {
+        toast.success(`PDF saved successfully.${iosSaveHint}`);
+      }
+    } catch {
+      toast.error("PDF export failed. Please try again.");
+    }
+  }
+
+  async function handleDocs() {
+    try {
+      const result = await exportAsDocx(cv);
+      if (result === "saved") {
+        toast.success(`Word document saved successfully.${iosSaveHint}`);
+      }
+    } catch {
+      toast.error("Docs export failed. Please try again.");
+    }
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }} edges={["top", "bottom"]}>
@@ -117,17 +142,6 @@ export default function PreviewScreen() {
           <View style={{ marginTop: 16 }}>
             <Accordion title="Customize">
               <View style={{ padding: 16, gap: 16 }}>
-                {/* Template */}
-                <View style={{ gap: 8 }}>
-                  <Text style={{ fontSize: 13, fontWeight: "600", color: colors.mutedForeground }}>
-                    TEMPLATE
-                  </Text>
-                  <TemplatePicker
-                    selected={cv.template}
-                    onSelect={(id: TemplateId) => dispatch(setTemplate(id))}
-                  />
-                </View>
-
                 {/* Color */}
                 <View style={{ gap: 8 }}>
                   <Text style={{ fontSize: 13, fontWeight: "600", color: colors.mutedForeground }}>
@@ -138,6 +152,17 @@ export default function PreviewScreen() {
                     onSelect={(hex) => dispatch(setAccent(hex))}
                   />
                 </View>
+
+                {/* Template */}
+                <View style={{ gap: 8 }}>
+                  <Text style={{ fontSize: 13, fontWeight: "600", color: colors.mutedForeground }}>
+                    TEMPLATE
+                  </Text>
+                  <TemplatePicker
+                    selected={cv.template}
+                    onSelect={(id: TemplateId) => dispatch(setTemplate(id))}
+                  />
+                </View>
               </View>
             </Accordion>
           </View>
@@ -145,11 +170,7 @@ export default function PreviewScreen() {
       </ScrollView>
 
       {/* Bottom export bar */}
-      <ExportButtons
-        onEdit={() => router.back()}
-        onPDF={() => toast.info("PDF export: install expo-print & expo-sharing to enable.")}
-        onDocs={() => toast.info("Google Docs export coming soon.")}
-      />
+      <ExportButtons onEdit={() => router.back()} onPDF={handlePDF} onDocs={handleDocs} />
     </SafeAreaView>
   );
 }
