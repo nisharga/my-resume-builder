@@ -73,6 +73,23 @@ export default function CreateResumeScreen() {
         ))}
       </View>
 
+      {/* Additional Fields section — only shown when at least one field is enabled */}
+      {cv.achievements.some((a) => a.enabled) && (
+        <View className="mx-4 mt-4 overflow-hidden rounded-2xl border border-border bg-white">
+          <SectionCard
+            title="Additional Fields"
+            subtitle={
+              cv.achievements
+                .filter((a) => a.enabled && a.value)
+                .map((a) => a.name)
+                .join(", ") || "Add notes for your enabled fields"
+            }
+            complete={cv.achievements.some((a) => a.enabled && a.value.trim().length > 0)}
+            onPress={() => router.push("/cv-section/additional")}
+          />
+        </View>
+      )}
+
       {/* Preview button */}
       <View className="mx-4 mt-5">
         <Button onPress={() => router.push("/cv-preview")} className="rounded-xl">

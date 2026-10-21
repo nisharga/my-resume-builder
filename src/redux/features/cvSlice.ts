@@ -24,7 +24,7 @@ export const DEFAULT_CV: CVData = {
   experience: [],
   education: [],
   skills: [],
-  achievements: [{ id: "default_ach_1", name: "Achievement & Reward", enabled: false }],
+  achievements: [{ id: "default_ach_1", name: "Achievement & Reward", enabled: false, value: "" }],
 };
 
 // ─── thunks ───────────────────────────────────────────────────────────────────
@@ -123,6 +123,13 @@ const cvSlice = createSlice({
       state.achievements = state.achievements.filter((a) => a.id !== action.payload);
       state.updatedAt = Date.now();
     },
+    updateAchievementValue(state, action: PayloadAction<{ id: string; value: string }>) {
+      const item = state.achievements.find((a) => a.id === action.payload.id);
+      if (item) {
+        item.value = action.payload.value;
+        state.updatedAt = Date.now();
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -170,6 +177,7 @@ export const {
   addAchievement,
   toggleAchievement,
   removeAchievement,
+  updateAchievementValue,
 } = cvSlice.actions;
 
 export default cvSlice.reducer;

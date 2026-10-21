@@ -6,6 +6,7 @@ export { default as SummarySection } from "./screens/SummarySection";
 export { default as ExperienceSection } from "./screens/ExperienceSection";
 export { default as EducationSection } from "./screens/EducationSection";
 export { default as SkillsSection } from "./screens/SkillsSection";
+export { default as AdditionalSection } from "./screens/AdditionalSection";
 export { default as JobItemEditor } from "./screens/JobItemEditor";
 export { default as EduItemEditor } from "./screens/EduItemEditor";
 export { default as PreviewScreen } from "./screens/PreviewScreen";

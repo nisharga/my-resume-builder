@@ -5,6 +5,7 @@ import {
   ExperienceSection,
   EducationSection,
   SkillsSection,
+  AdditionalSection,
 } from "@/features/cv";
 import { Text, View } from "react-native";
 
@@ -22,6 +23,8 @@ export default function CVSectionRoute() {
       return <EducationSection />;
     case "skills":
       return <SkillsSection />;
+    case "additional":
+      return <AdditionalSection />;
     default:
       return (
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

@@ -173,7 +173,9 @@ export default function TemplatesScreen() {
           trigger={<Additionalbutton label=" Add Additional Field" />}
         >
           <AddFieldForm
-            onAdd={(field) => dispatch(addAchievement({ name: field.title, enabled: true }))}
+            onAdd={(field) =>
+              dispatch(addAchievement({ name: field.title, enabled: true, value: "" }))
+            }
             onClose={() => setFieldSheetOpen(false)}
           />
         </Sheet>

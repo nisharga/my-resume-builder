@@ -43,6 +43,7 @@ export interface Achievement {
   id: string;
   name: string;
   enabled: boolean;
+  value: string;
 }
 
 export interface CVData {
