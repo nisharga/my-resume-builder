@@ -10,6 +10,7 @@ import ScaledPage from "../ScaledPage";
 import ExportButtons from "../components/ExportButtons";
 import TemplatePicker from "../components/TemplatePicker";
 import AccentColorPicker from "../components/AccentColorPicker";
+import { Accordion } from "@/components/ui/Accordion";
 import { toast } from "@/utils/toast";
 import type { TemplateId } from "@/types/cv";
 
@@ -112,37 +113,33 @@ export default function PreviewScreen() {
           {/* CV page */}
           <ScaledPage targetWidth={pageWidth} zoom={zoom} cv={cv} />
 
-          {/* Customisation controls below the CV */}
-          <View
-            style={{
-              marginTop: 16,
-              backgroundColor: "#fff",
-              borderRadius: 16,
-              padding: 16,
-              gap: 16,
-            }}
-          >
-            {/* Template */}
-            <View style={{ gap: 8 }}>
-              <Text style={{ fontSize: 13, fontWeight: "600", color: colors.mutedForeground }}>
-                TEMPLATE
-              </Text>
-              <TemplatePicker
-                selected={cv.template}
-                onSelect={(id: TemplateId) => dispatch(setTemplate(id))}
-              />
-            </View>
+          {/* Customisation accordion */}
+          <View style={{ marginTop: 16 }}>
+            <Accordion title="Customize">
+              <View style={{ padding: 16, gap: 16 }}>
+                {/* Template */}
+                <View style={{ gap: 8 }}>
+                  <Text style={{ fontSize: 13, fontWeight: "600", color: colors.mutedForeground }}>
+                    TEMPLATE
+                  </Text>
+                  <TemplatePicker
+                    selected={cv.template}
+                    onSelect={(id: TemplateId) => dispatch(setTemplate(id))}
+                  />
+                </View>
 
-            {/* Color */}
-            <View style={{ gap: 8 }}>
-              <Text style={{ fontSize: 13, fontWeight: "600", color: colors.mutedForeground }}>
-                COLOR
-              </Text>
-              <AccentColorPicker
-                selected={cv.accent}
-                onSelect={(hex) => dispatch(setAccent(hex))}
-              />
-            </View>
+                {/* Color */}
+                <View style={{ gap: 8 }}>
+                  <Text style={{ fontSize: 13, fontWeight: "600", color: colors.mutedForeground }}>
+                    COLOR
+                  </Text>
+                  <AccentColorPicker
+                    selected={cv.accent}
+                    onSelect={(hex) => dispatch(setAccent(hex))}
+                  />
+                </View>
+              </View>
+            </Accordion>
           </View>
         </ScrollView>
       </ScrollView>
