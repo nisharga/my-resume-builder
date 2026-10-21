@@ -79,8 +79,8 @@ export default function PreviewScreen() {
               key={z.label}
               onPress={() => setZoomIdx(i)}
               style={{
-                paddingHorizontal: 10,
-                paddingVertical: 4,
+                paddingHorizontal: 12,
+                paddingVertical: 6,
                 borderRadius: 6,
                 backgroundColor: zoomIdx === i ? "#fff" : "transparent",
               }}

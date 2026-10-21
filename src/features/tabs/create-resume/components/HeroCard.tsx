@@ -1,10 +1,11 @@
 import { Pressable, Text, View } from "react-native";
 import { useRouter } from "expo-router";
+import { Info } from "lucide-react-native";
 import ScaledPage from "@/features/cv/ScaledPage";
 import { TEMPLATES } from "@/features/cv/constants";
 import { colors } from "@/styles/colors";
 import type { CVData } from "@/types/cv";
-import SectionHeaderAction from "./SectionHeaderAction";
+import { SectionHeaderAction } from "./SectionHeaderAction";
 
 interface Props {
   cv: CVData;
@@ -50,6 +51,13 @@ export default function HeroCard({ cv, onPreview }: Props) {
             onActionPress={goToTemplates}
           />
           <SectionHeaderAction label="Color" value={templateColor} onActionPress={goToTemplates} />
+
+          {/* Hint */}
+          <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 5, marginTop: 2 }}>
+            <Text style={{ fontSize: 11, color: colors.mutedForeground, flex: 1, lineHeight: 16 }}>
+              You can change it before export as well.
+            </Text>
+          </View>
         </View>
       </View>
     </View>
