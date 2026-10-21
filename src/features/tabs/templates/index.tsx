@@ -60,6 +60,7 @@ export default function TemplatesScreen() {
               name={tpl.name}
               image={tpl.image}
               selected={cv.template === tpl.id}
+              accent={cv.accent}
               onSelect={() => dispatch(setTemplate(tpl.id))}
             />
           ))}
