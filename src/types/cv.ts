@@ -30,7 +30,18 @@ export interface Education {
   end: string;
 }
 
+export interface CVListItem {
+  id: string;
+  name: string;
+  jobTitle: string;
+  template: TemplateId;
+  accent: string;
+  updatedAt: number;
+}
+
 export interface CVData {
+  id: string;
+  updatedAt: number;
   template: TemplateId;
   accent: string;
   personal: PersonalInfo;

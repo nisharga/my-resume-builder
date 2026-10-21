@@ -1,98 +1,95 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { CVData, Education, Experience, TemplateId } from "@/types/cv";
+import { genCVId, getCV } from "@/utils/cvStorage";
 
-const STORAGE_KEY = "@cv_data_v1";
+const LEGACY_KEY = "@cv_data_v1";
 
-const DEFAULT_CV: CVData = {
+export const DEFAULT_CV: CVData = {
+  id: "default",
+  updatedAt: Date.now(),
   template: "sidebar",
   accent: "#2B5F75",
   personal: {
-    name: "Nusrat Jahan",
-    title: "Product Designer",
-    email: "nusrat.jahan@mail.com",
-    phone: "+880 1711 000000",
-    location: "Dhaka, Bangladesh",
-    website: "nusrat.design",
+    name: "",
+    title: "",
+    email: "",
+    phone: "",
+    location: "",
+    website: "",
     portfolio: "",
     linkedin: "",
   },
-  summary:
-    "Product designer with 5 years of experience building mobile and web apps for fintech and e-commerce. I turn messy requirements into clear, accessible interfaces.",
-  experience: [
-    {
-      id: "exp1",
-      role: "Senior Product Designer",
-      company: "Paywise",
-      start: "2023",
-      end: "Present",
-      desc: "Led the redesign of the mobile wallet, raising monthly active users by 22%\nBuilt a shared design system used by 4 product teams",
-    },
-    {
-      id: "exp2",
-      role: "UI/UX Designer",
-      company: "ShopBazar",
-      start: "2020",
-      end: "2023",
-      desc: "Designed checkout flow that cut drop-off by 15%",
-    },
-  ],
-  education: [
-    {
-      id: "edu1",
-      degree: "B.Sc. in Computer Science",
-      school: "University of Dhaka",
-      start: "2016",
-      end: "2020",
-    },
-  ],
-  skills: ["Figma", "Prototyping", "User research", "Design systems", "Accessibility"],
+  summary: "",
+  experience: [],
+  education: [],
+  skills: [],
 };
 
-// ─── async thunk: hydrate from AsyncStorage on app start ─────────────────────
+// ─── thunks ───────────────────────────────────────────────────────────────────
 
+/** Load the last active CV (with legacy fallback). */
 export const loadCV = createAsyncThunk("cv/load", async () => {
-  const json = await AsyncStorage.getItem(STORAGE_KEY);
+  const json = await AsyncStorage.getItem(LEGACY_KEY);
   return json ? (JSON.parse(json) as CVData) : null;
+});
+
+/** Load a specific CV from the multi-CV store by ID. */
+export const loadCVById = createAsyncThunk("cv/loadById", async (id: string) => {
+  return getCV(id);
 });
 
 // ─── slice ────────────────────────────────────────────────────────────────────
 
 const cvSlice = createSlice({
   name: "cv",
-  initialState: DEFAULT_CV,
+  initialState: DEFAULT_CV as CVData,
   reducers: {
+    /** Replace the active CV with a fresh blank one. */
+    resetToNewCV(state) {
+      return { ...DEFAULT_CV, id: genCVId(), updatedAt: Date.now() };
+    },
     setTemplate(state, action: PayloadAction<TemplateId>) {
       state.template = action.payload;
+      state.updatedAt = Date.now();
     },
     setAccent(state, action: PayloadAction<string>) {
       state.accent = action.payload;
+      state.updatedAt = Date.now();
     },
     updatePersonal(state, action: PayloadAction<Partial<CVData["personal"]>>) {
       Object.assign(state.personal, action.payload);
+      state.updatedAt = Date.now();
     },
     updateSummary(state, action: PayloadAction<string>) {
       state.summary = action.payload;
+      state.updatedAt = Date.now();
     },
     addExperience(state, action: PayloadAction<Omit<Experience, "id">>) {
       state.experience.push({ ...action.payload, id: Date.now().toString() });
+      state.updatedAt = Date.now();
     },
     updateExperience(state, action: PayloadAction<Experience>) {
       const i = state.experience.findIndex((e) => e.id === action.payload.id);
       if (i !== -1) state.experience[i] = action.payload;
+      state.updatedAt = Date.now();
     },
     removeExperience(state, action: PayloadAction<string>) {
       state.experience = state.experience.filter((e) => e.id !== action.payload);
+      state.updatedAt = Date.now();
     },
     addEducation(state, action: PayloadAction<Omit<Education, "id">>) {
       state.education.push({ ...action.payload, id: Date.now().toString() });
+      state.updatedAt = Date.now();
     },
     updateEducation(state, action: PayloadAction<Education>) {
       const i = state.education.findIndex((e) => e.id === action.payload.id);
       if (i !== -1) state.education[i] = action.payload;
+      state.updatedAt = Date.now();
     },
     removeEducation(state, action: PayloadAction<string>) {
       state.education = state.education.filter((e) => e.id !== action.payload);
+      state.updatedAt = Date.now();
     },
     addSkill(state, action: PayloadAction<string>) {
       action.payload
@@ -104,26 +101,42 @@ const cvSlice = createSlice({
             state.skills.push(skill);
           }
         });
+      state.updatedAt = Date.now();
     },
     removeSkill(state, action: PayloadAction<string>) {
       state.skills = state.skills.filter((s) => s !== action.payload);
+      state.updatedAt = Date.now();
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loadCV.fulfilled, (state, action) => {
-      if (action.payload) {
-        // Merge default personal so new fields (portfolio, linkedin) exist in old stored data
-        return {
-          ...action.payload,
-          personal: { ...DEFAULT_CV.personal, ...action.payload.personal },
-        };
-      }
-      return state;
-    });
+    builder
+      .addCase(loadCV.fulfilled, (state, action) => {
+        if (action.payload) {
+          return {
+            ...DEFAULT_CV,
+            ...action.payload,
+            id: action.payload.id ?? genCVId(),
+            updatedAt: action.payload.updatedAt ?? Date.now(),
+            personal: { ...DEFAULT_CV.personal, ...action.payload.personal },
+          };
+        }
+        return state;
+      })
+      .addCase(loadCVById.fulfilled, (state, action) => {
+        if (action.payload) {
+          return {
+            ...DEFAULT_CV,
+            ...action.payload,
+            personal: { ...DEFAULT_CV.personal, ...action.payload.personal },
+          };
+        }
+        return state;
+      });
   },
 });
 
 export const {
+  resetToNewCV,
   setTemplate,
   setAccent,
   updatePersonal,

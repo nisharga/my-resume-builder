@@ -2,12 +2,15 @@ import { AndroidNavSpacer, Icons, Screen, StickyView } from "@/components";
 import { ScreenHeader } from "@/components/common";
 import IconButton from "@/components/ui/IconButton";
 import { colors } from "@/styles/colors";
-import { Check, Search, SlidersHorizontal, X } from "lucide-react-native";
-import { useMemo, useState } from "react";
-import { Modal, Pressable, Text, TextInput, View } from "react-native";
-import { CvCard, EmptyResume, type CvCardData } from "../home/components";
-import Sheet from "@/components/ui/Sheet";
-import { Button, ScrollView } from "@expo/ui";
+import { useAppDispatch } from "@/redux/store";
+import { loadCVById, resetToNewCV } from "@/redux/features/cvSlice";
+import { getAllCVs, deleteCV, formatUpdatedAt } from "@/utils/cvStorage";
+import type { CVListItem } from "@/types/cv";
+import { Check, Plus, Search, SlidersHorizontal, X } from "lucide-react-native";
+import { useCallback, useMemo, useState } from "react";
+import { Alert, Modal, Pressable, Text, TextInput, View } from "react-native";
+import { CvCard, EmptyResume } from "../home/components";
+import { useFocusEffect, useRouter } from "expo-router";
 
 type SortOption = "newest" | "oldest" | "a_z" | "z_a";
 
@@ -18,54 +21,78 @@ const SORT_OPTIONS: { key: SortOption; label: string; sub: string }[] = [
   { key: "z_a", label: "Title Z → A", sub: "Reverse alphabetical" },
 ];
 
-const MOCK_CVS: CvCardData[] = [
-  { id: "1", title: "Software Engineer CV", updatedAt: "2 hours ago" },
-  { id: "2", title: "Product Manager CV", updatedAt: "Yesterday" },
-  { id: "3", title: "UI/UX Designer CV", updatedAt: "3 days ago" },
-  { id: "4", title: "Graphic Designer CV", updatedAt: "6 hours ago" },
-  { id: "5", title: "UI/UX Designer CV", updatedAt: "5 days ago" },
-  { id: "6", title: "Software Engineer CV", updatedAt: "2 days ago" },
-  { id: "7", title: "Graphic Designer CV", updatedAt: "5 days ago" },
-  { id: "8", title: "Software Engineer CV", updatedAt: "2 hours ago" },
-  { id: "9", title: "Product Manager CV", updatedAt: "Yesterday" },
-  { id: "10", title: "UI/UX Designer CV", updatedAt: "3 days ago" },
-  { id: "11", title: "Graphic Designer CV", updatedAt: "6 hours ago" },
-  { id: "12", title: "UI/UX Designer CV", updatedAt: "5 days ago" },
-  { id: "13", title: "Software Engineer CV", updatedAt: "2 days ago" },
-  { id: "14", title: "Graphic Designer CV", updatedAt: "5 days ago" },
-];
-
-function applySorting(cvs: CvCardData[], sort: SortOption): CvCardData[] {
+function applySorting(cvs: CVListItem[], sort: SortOption): CVListItem[] {
   const copy = [...cvs];
   switch (sort) {
     case "oldest":
-      return copy.reverse();
+      return copy.sort((a, b) => a.updatedAt - b.updatedAt);
     case "a_z":
-      return copy.sort((a, b) => a.title.localeCompare(b.title));
+      return copy.sort((a, b) => a.name.localeCompare(b.name));
     case "z_a":
-      return copy.sort((a, b) => b.title.localeCompare(a.title));
+      return copy.sort((a, b) => b.name.localeCompare(a.name));
     default:
-      return copy;
+      return copy.sort((a, b) => b.updatedAt - a.updatedAt);
   }
 }
 
 const MyCVScreen = () => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const [cvList, setCvList] = useState<CVListItem[]>([]);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortOption>("newest");
   const [pendingSort, setPendingSort] = useState<SortOption>("newest");
   const [filterVisible, setFilterVisible] = useState(false);
 
-  const handleEdit = (id: string) => console.log("Edit", id);
-  const handleView = (id: string) => console.log("View", id);
-  const handleDelete = (id: string) => console.log("Delete", id);
+  // Reload list every time this tab gains focus
+  useFocusEffect(
+    useCallback(() => {
+      getAllCVs()
+        .then(setCvList)
+        .catch(() => {});
+    }, []),
+  );
+
+  async function handleEdit(id: string) {
+    await dispatch(loadCVById(id));
+    router.push("/(tabs)/create-resume");
+  }
+
+  async function handleView(id: string) {
+    await dispatch(loadCVById(id));
+    router.push("/cv-preview");
+  }
+
+  function handleDelete(id: string) {
+    const cv = cvList.find((c) => c.id === id);
+    Alert.alert("Delete CV", `Delete "${cv?.name || "this CV"}"? This cannot be undone.`, [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: async () => {
+          await deleteCV(id);
+          setCvList((prev) => prev.filter((c) => c.id !== id));
+        },
+      },
+    ]);
+  }
+
+  function handleNewCV() {
+    dispatch(resetToNewCV());
+    router.push("/(tabs)/create-resume");
+  }
 
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
     const result = query
-      ? MOCK_CVS.filter((cv) => cv.title.toLowerCase().includes(query))
-      : MOCK_CVS;
+      ? cvList.filter(
+          (cv) =>
+            cv.name.toLowerCase().includes(query) || cv.jobTitle.toLowerCase().includes(query),
+        )
+      : cvList;
     return applySorting(result, sort);
-  }, [search, sort]);
+  }, [search, sort, cvList]);
 
   const hasActiveFilter = sort !== "newest";
 
@@ -89,12 +116,20 @@ const MyCVScreen = () => {
     <Screen>
       {/* Search + Filter bar — sticky */}
       <StickyView sticky className="bg-secondary px-4 pt-2 pb-3">
-        {/* Page title */}
-        <ScreenHeader title="My CVs" className="mb-2" />
-        {/* Single row: search icon | input | divider | filter icon */}
+        <View className="mb-2 flex-row items-center justify-between">
+          <ScreenHeader title="My CVs" />
+          <Pressable
+            onPress={handleNewCV}
+            className="flex-row items-center gap-1.5 rounded-xl bg-primary px-3 py-2 active:opacity-80"
+          >
+            <Plus size={15} color="#fff" strokeWidth={2.5} />
+            <Text style={{ color: "#fff", fontSize: 13, fontWeight: "600" }}>New CV</Text>
+          </Pressable>
+        </View>
+
+        {/* Search row */}
         <View className="flex-row items-center justify-center rounded-xl border border-border bg-white px-3">
           <Search size={18} color={colors.mutedForeground} strokeWidth={2} />
-
           <TextInput
             value={search}
             onChangeText={setSearch}
@@ -111,17 +146,12 @@ const MyCVScreen = () => {
             }}
             returnKeyType="search"
           />
-
           {search.length > 0 && (
             <Pressable onPress={() => setSearch("")} hitSlop={8} className="mr-2">
               <X size={14} color={colors.mutedForeground} strokeWidth={2} />
             </Pressable>
           )}
-
-          {/* Vertical divider */}
           <View className="h-5 w-px bg-border" />
-
-          {/* Filter button */}
           <View className="relative ml-1">
             <Pressable onPress={openFilter} hitSlop={6} className="p-2 active:opacity-60">
               <SlidersHorizontal
@@ -144,14 +174,20 @@ const MyCVScreen = () => {
         <View className="mx-4 mt-1 overflow-hidden rounded-2xl bg-white">
           {filtered.map((cv, i) => (
             <View key={cv.id}>
-              <CvCard {...cv} onEdit={handleEdit} onView={handleView} onDelete={handleDelete} />
+              <CvCard
+                {...cv}
+                formattedDate={formatUpdatedAt(cv.updatedAt)}
+                onEdit={handleEdit}
+                onView={handleView}
+                onDelete={handleDelete}
+              />
               {i < filtered.length - 1 && <View className="mx-4 h-px bg-border" />}
             </View>
           ))}
         </View>
       )}
 
-      {/* Filter bottom sheet */}
+      {/* Sort bottom sheet */}
       <Modal
         transparent
         animationType="slide"
@@ -166,10 +202,7 @@ const MyCVScreen = () => {
             className="rounded-t-3xl bg-white px-4 pt-3 pb-8"
             onPress={(e) => e.stopPropagation()}
           >
-            {/* Handle */}
             <View className="mb-4 h-1 w-10 self-center rounded-full bg-border" />
-
-            {/* Header */}
             <View className="mb-5 flex-row items-center justify-between">
               <Text className="base-semibold text-foreground">Sort & Filter</Text>
               <IconButton
@@ -180,7 +213,6 @@ const MyCVScreen = () => {
               </IconButton>
             </View>
 
-            {/* Sort by section */}
             <View className="mb-6 overflow-hidden rounded-2xl bg-secondary">
               {SORT_OPTIONS.map((option, i) => (
                 <Pressable
@@ -190,7 +222,6 @@ const MyCVScreen = () => {
                     i < SORT_OPTIONS.length - 1 ? "border-b border-border" : ""
                   }`}
                 >
-                  {/* Radio circle */}
                   <View
                     className={`h-5 w-5 items-center justify-center rounded-full border-2 ${
                       pendingSort === option.key
@@ -200,11 +231,11 @@ const MyCVScreen = () => {
                   >
                     {pendingSort === option.key && <Check size={11} color="#fff" strokeWidth={3} />}
                   </View>
-
-                  {/* Labels */}
                   <View className="flex-1">
                     <Text
-                      className={`sm-semibold ${pendingSort === option.key ? "text-primary" : "text-foreground"}`}
+                      className={`sm-semibold ${
+                        pendingSort === option.key ? "text-primary" : "text-foreground"
+                      }`}
                     >
                       {option.label}
                     </Text>
@@ -214,7 +245,6 @@ const MyCVScreen = () => {
               ))}
             </View>
 
-            {/* Buttons */}
             <View className="flex-row gap-3">
               <Pressable
                 onPress={resetFilter}
@@ -231,7 +261,6 @@ const MyCVScreen = () => {
             </View>
           </Pressable>
         </Pressable>
-
         <AndroidNavSpacer />
       </Modal>
     </Screen>

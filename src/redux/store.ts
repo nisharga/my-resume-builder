@@ -4,13 +4,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import apiSlice from "./api-queries/api-slice";
 import authReducer from "./features/authSlice";
 import cvReducer from "./features/cvSlice";
+import { saveCV } from "@/utils/cvStorage";
 
-// Persist CV data to AsyncStorage on every cv/* action
+// Persist CV data on every cv/* action (legacy key + multi-CV store)
 const cvPersistMiddleware = (storeApi: any) => (next: any) => (action: any) => {
   const result = next(action);
   if (typeof action.type === "string" && action.type.startsWith("cv/")) {
     const state: RootState = storeApi.getState();
     AsyncStorage.setItem("@cv_data_v1", JSON.stringify(state.cv)).catch(() => {});
+    saveCV(state.cv).catch(() => {});
   }
   return result;
 };
