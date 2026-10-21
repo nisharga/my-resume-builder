@@ -3,8 +3,8 @@ import type { CVData, CVListItem } from "@/types/cv";
 
 // ─── Keys ────────────────────────────────────────────────────────────────────
 
-export const CV_LIST_KEY = "@cv_list_v1";
-const cvKey = (id: string) => `@cv_${id}`;
+export const CV_LIST_KEY = "@cv_list_v1"; // index of all CVs (preview fields only)
+const cvKey = (id: string) => `@cv_${id}`; // full CVData incl. achievements[], skills[], etc.
 
 // ─── ID generator ────────────────────────────────────────────────────────────
 

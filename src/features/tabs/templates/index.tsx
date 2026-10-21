@@ -4,13 +4,19 @@ import Sheet from "@/components/ui/Sheet";
 import { colors } from "@/styles/colors";
 import { ACCENT_COLORS } from "@/features/cv/constants";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { setAccent, setTemplate } from "@/redux/features/cvSlice";
+import {
+  setAccent,
+  setTemplate,
+  addAchievement,
+  toggleAchievement,
+  removeAchievement,
+} from "@/redux/features/cvSlice";
 import type { TemplateId } from "@/types/cv";
 import { Check, Plus, Trash2 } from "lucide-react-native";
 import { type ImageSourcePropType } from "react-native";
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
-import { AddFieldForm, TemplateCard, type AdditionalField } from "./components";
+import { AddFieldForm, TemplateCard } from "./components";
 
 // ─── data ─────────────────────────────────────────────────────────────────────
 
@@ -38,16 +44,8 @@ export default function TemplatesScreen() {
   const dispatch = useAppDispatch();
   const cv = useAppSelector((s) => s.cv);
 
-  const [fields, setFields] = useState<AdditionalField[]>([]);
-  const [sheetOpen, setSheetOpen] = useState(false);
-
-  function addField(field: Omit<AdditionalField, "id">) {
-    setFields((prev) => [...prev, { ...field, id: Date.now().toString() }]);
-  }
-
-  function removeField(id: string) {
-    setFields((prev) => prev.filter((f) => f.id !== id));
-  }
+  const [fieldSheetOpen, setFieldSheetOpen] = useState(false);
+  const [achSheetOpen, setAchSheetOpen] = useState(false);
 
   return (
     <Screen>
@@ -97,43 +95,87 @@ export default function TemplatesScreen() {
           </View>
         </View>
 
-        {/* Additional fields list */}
-        {fields.length > 0 && (
-          <View className="mb-4">
-            <Text
-              className="mb-3 text-xs tracking-widest text-muted-foreground"
-              style={{ fontFamily: "Poppins-SemiBold" }}
-            >
-              ADDITIONAL FIELDS
-            </Text>
-            <View className="overflow-hidden rounded-2xl bg-white">
-              {fields.map((field, i) => (
-                <View
-                  key={field.id}
-                  className={`flex-row items-start gap-3 px-4 py-3.5 ${i < fields.length - 1 ? "border-b border-border" : ""}`}
-                >
-                  <View className="mt-1.5 h-2 w-2 rounded-full bg-primary" />
-                  <View className="flex-1">
-                    <Text className="sm-semibold text-foreground">{field.title}</Text>
-                  </View>
-                  <Pressable onPress={() => removeField(field.id)} hitSlop={8}>
-                    <Trash2 size={15} color={colors.destructive} strokeWidth={2} />
-                  </Pressable>
-                </View>
-              ))}
-            </View>
-          </View>
-        )}
+        {/* ── Achievements & Rewards ─────────────────────────────────────────── */}
+        <View className="">
+          <Text
+            className="mb-3 text-xs tracking-widest text-muted-foreground"
+            style={{ fontFamily: "Poppins-SemiBold" }}
+          >
+            ADDITIONAL FIELDS
+          </Text>
 
-        {/* Add additional field */}
+          <View className="mb-3 overflow-hidden rounded-2xl bg-white">
+            {cv.achievements.map((item, i) => (
+              <View
+                key={item.id}
+                style={
+                  i < cv.achievements.length - 1
+                    ? { borderBottomWidth: 1, borderBottomColor: colors.border }
+                    : undefined
+                }
+                className="flex-row items-center gap-3 px-4 py-3.5"
+              >
+                {/* Dot indicator — colored when enabled */}
+                <View
+                  style={{ backgroundColor: item.enabled ? cv.accent : colors.border }}
+                  className="h-2 w-2 rounded-full"
+                />
+
+                {/* Name */}
+                <Text
+                  className="flex-1 text-sm"
+                  style={{
+                    fontFamily: item.enabled ? "Poppins-SemiBold" : "Poppins-Regular",
+                    color: item.enabled ? colors.foreground : colors.mutedForeground,
+                  }}
+                  numberOfLines={2}
+                >
+                  {item.name}
+                </Text>
+
+                {/* Enable / Disable toggle */}
+                <Pressable
+                  onPress={() => dispatch(toggleAchievement(item.id))}
+                  hitSlop={6}
+                  style={{
+                    paddingHorizontal: 10,
+                    paddingVertical: 4,
+                    borderRadius: 20,
+                    backgroundColor: item.enabled ? cv.accent : colors.border,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      fontFamily: "Poppins-SemiBold",
+                      color: item.enabled ? "#fff" : colors.mutedForeground,
+                    }}
+                  >
+                    {item.enabled ? "On" : "Off"}
+                  </Text>
+                </Pressable>
+
+                {/* Delete */}
+                <Pressable onPress={() => dispatch(removeAchievement(item.id))} hitSlop={8}>
+                  <Trash2 size={15} color={colors.destructive} strokeWidth={2} />
+                </Pressable>
+              </View>
+            ))}
+          </View>
+        </View>
+
+        {/* Add additional field — joins the same list with toggle + delete */}
         <Sheet
           title="Add Additional Field"
-          open={sheetOpen}
-          onOpen={() => setSheetOpen(true)}
-          onClose={() => setSheetOpen(false)}
-          trigger={<Additionalbutton label=" Add Additional Field"></Additionalbutton>}
+          open={fieldSheetOpen}
+          onOpen={() => setFieldSheetOpen(true)}
+          onClose={() => setFieldSheetOpen(false)}
+          trigger={<Additionalbutton label=" Add Additional Field" />}
         >
-          <AddFieldForm onAdd={addField} onClose={() => setSheetOpen(false)} />
+          <AddFieldForm
+            onAdd={(field) => dispatch(addAchievement({ name: field.title, enabled: true }))}
+            onClose={() => setFieldSheetOpen(false)}
+          />
         </Sheet>
       </View>
     </Screen>

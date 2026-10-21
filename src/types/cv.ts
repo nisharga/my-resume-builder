@@ -39,6 +39,12 @@ export interface CVListItem {
   updatedAt: number;
 }
 
+export interface Achievement {
+  id: string;
+  name: string;
+  enabled: boolean;
+}
+
 export interface CVData {
   id: string;
   updatedAt: number;
@@ -49,6 +55,7 @@ export interface CVData {
   experience: Experience[];
   education: Education[];
   skills: string[];
+  achievements: Achievement[];
 }
 
 export interface FieldDef {

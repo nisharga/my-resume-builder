@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { CVData, Education, Experience, TemplateId } from "@/types/cv";
+import type { Achievement, CVData, Education, Experience, TemplateId } from "@/types/cv";
 import { genCVId, getCV } from "@/utils/cvStorage";
 
 const LEGACY_KEY = "@cv_data_v1";
@@ -24,6 +24,7 @@ export const DEFAULT_CV: CVData = {
   experience: [],
   education: [],
   skills: [],
+  achievements: [{ id: "default_ach_1", name: "Achievement & Reward", enabled: false }],
 };
 
 // ─── thunks ───────────────────────────────────────────────────────────────────
@@ -107,6 +108,21 @@ const cvSlice = createSlice({
       state.skills = state.skills.filter((s) => s !== action.payload);
       state.updatedAt = Date.now();
     },
+    addAchievement(state, action: PayloadAction<Omit<Achievement, "id">>) {
+      state.achievements.push({ ...action.payload, id: Date.now().toString() });
+      state.updatedAt = Date.now();
+    },
+    toggleAchievement(state, action: PayloadAction<string>) {
+      const item = state.achievements.find((a) => a.id === action.payload);
+      if (item) {
+        item.enabled = !item.enabled;
+        state.updatedAt = Date.now();
+      }
+    },
+    removeAchievement(state, action: PayloadAction<string>) {
+      state.achievements = state.achievements.filter((a) => a.id !== action.payload);
+      state.updatedAt = Date.now();
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -118,6 +134,7 @@ const cvSlice = createSlice({
             id: action.payload.id ?? genCVId(),
             updatedAt: action.payload.updatedAt ?? Date.now(),
             personal: { ...DEFAULT_CV.personal, ...action.payload.personal },
+            achievements: action.payload.achievements ?? DEFAULT_CV.achievements,
           };
         }
         return state;
@@ -128,6 +145,7 @@ const cvSlice = createSlice({
             ...DEFAULT_CV,
             ...action.payload,
             personal: { ...DEFAULT_CV.personal, ...action.payload.personal },
+            achievements: action.payload.achievements ?? DEFAULT_CV.achievements,
           };
         }
         return state;
@@ -149,6 +167,9 @@ export const {
   removeEducation,
   addSkill,
   removeSkill,
+  addAchievement,
+  toggleAchievement,
+  removeAchievement,
 } = cvSlice.actions;
 
 export default cvSlice.reducer;
