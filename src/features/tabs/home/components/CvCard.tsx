@@ -1,4 +1,4 @@
-import { FileText, Pencil, Eye, Trash2, MoreVertical } from "lucide-react-native";
+import { FileText, Pencil, Eye, Trash2, MoreVertical, Copy } from "lucide-react-native";
 import { useState } from "react";
 import { Modal, Pressable, Text, View } from "react-native";
 import { colors } from "@/styles/colors";
@@ -19,6 +19,7 @@ interface CvCardProps extends CvCardData {
   onEdit?: (id: string) => void;
   onView?: (id: string) => void;
   onDelete?: (id: string) => void;
+  onDuplicate?: (id: string) => void;
 }
 
 const TEMPLATE_LABELS: Record<TemplateId, string> = {
@@ -37,6 +38,7 @@ export default function CvCard({
   onEdit,
   onView,
   onDelete,
+  onDuplicate,
 }: CvCardProps) {
   const [menuVisible, setMenuVisible] = useState(false);
 
@@ -44,14 +46,19 @@ export default function CvCard({
 
   const actions = [
     {
+      label: "View",
+      icon: <Eye size={16} color={colors.foreground} />,
+      onPress: () => onView?.(id),
+    },
+    {
       label: "Edit",
       icon: <Pencil size={16} color={colors.foreground} />,
       onPress: () => onEdit?.(id),
     },
     {
-      label: "View",
-      icon: <Eye size={16} color={colors.foreground} />,
-      onPress: () => onView?.(id),
+      label: "Duplicate",
+      icon: <Copy size={16} color={colors.foreground} />,
+      onPress: () => onDuplicate?.(id),
     },
     {
       label: "Delete",
@@ -63,7 +70,10 @@ export default function CvCard({
 
   return (
     <>
-      <View className="flex-row items-center gap-3 px-4 py-3">
+      <Pressable
+        className="flex-row items-center gap-3 px-4 py-3 active:bg-gray-50"
+        onPress={() => onView?.(id)}
+      >
         {/* CV thumbnail with accent color */}
         <View
           style={{ backgroundColor: `${accent}18` }}
@@ -108,11 +118,11 @@ export default function CvCard({
           </View>
         </View>
 
-        {/* Three-dot menu trigger */}
+        {/* Three-dot menu trigger — stops tap-to-view from firing */}
         <IconButton onPress={() => setMenuVisible(true)} className="p-2" hitSlop={8}>
           <MoreVertical size={18} color={colors.mutedForeground} />
         </IconButton>
-      </View>
+      </Pressable>
 
       {/* Action menu modal */}
       <Modal

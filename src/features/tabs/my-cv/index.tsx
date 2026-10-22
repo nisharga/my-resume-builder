@@ -4,7 +4,8 @@ import IconButton from "@/components/ui/IconButton";
 import { colors } from "@/styles/colors";
 import { useAppDispatch } from "@/redux/store";
 import { loadCVById, resetToNewCV } from "@/redux/features/cvSlice";
-import { getAllCVs, deleteCV, formatUpdatedAt } from "@/utils/cvStorage";
+import { getAllCVs, getCV, saveCV, genCVId, deleteCV, formatUpdatedAt } from "@/utils/cvStorage";
+import { toast } from "@/utils/toast";
 import type { CVListItem } from "@/types/cv";
 import { Check, Plus, Search, SlidersHorizontal, X } from "lucide-react-native";
 import { useCallback, useMemo, useState } from "react";
@@ -76,6 +77,17 @@ const MyCVScreen = () => {
         },
       },
     ]);
+  }
+
+  async function handleDuplicate(id: string) {
+    const cv = await getCV(id);
+    if (!cv) return;
+    const copy = { ...cv, id: genCVId(), updatedAt: Date.now() };
+    await saveCV(copy);
+    getAllCVs()
+      .then(setCvList)
+      .catch(() => {});
+    toast.success("CV duplicated successfully.");
   }
 
   function handleNewCV() {
@@ -180,6 +192,7 @@ const MyCVScreen = () => {
                 onEdit={handleEdit}
                 onView={handleView}
                 onDelete={handleDelete}
+                onDuplicate={handleDuplicate}
               />
               {i < filtered.length - 1 && <View className="mx-4 h-px bg-border" />}
             </View>
