@@ -2,7 +2,7 @@ import { Pressable, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Info } from "lucide-react-native";
 import ScaledPage from "@/features/cv/ScaledPage";
-import { TEMPLATES } from "@/features/cv/constants";
+import { ACCENT_COLOR_NAMES, TEMPLATES } from "@/features/cv/constants";
 import { colors } from "@/styles/colors";
 import type { CVData } from "@/types/cv";
 import { SectionHeaderAction } from "./SectionHeaderAction";
@@ -15,9 +15,10 @@ interface Props {
 export default function HeroCard({ cv, onPreview }: Props) {
   const router = useRouter();
   const THUMB_W = 88;
-  const CV_Number = "#1";
   const templateName = TEMPLATES.find((t) => t.id === cv.template)?.name ?? "Sidebar";
-  const templateColor = "Blue";
+
+  const templateColor =
+    ACCENT_COLOR_NAMES[cv.accent as keyof typeof ACCENT_COLOR_NAMES] ?? cv.accent;
 
   function goToTemplates() {
     router.push("/(tabs)/templates");
@@ -44,7 +45,6 @@ export default function HeroCard({ cv, onPreview }: Props) {
         {/* Info */}
         <View className="flex-1 justify-center gap-2.5">
           {/* Resume ID */}
-          <SectionHeaderAction label="CV No" value={CV_Number} onActionPress={goToTemplates} />
           <SectionHeaderAction
             label="Template"
             value={templateName}
