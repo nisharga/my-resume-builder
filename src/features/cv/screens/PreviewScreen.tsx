@@ -40,6 +40,9 @@ export default function PreviewScreen() {
       if (result === "saved") {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         toast.success(`PDF saved successfully.${iosSaveHint}`);
+        toast.success(
+          `Open your File Manager or Downloads folder to view your resume.${iosSaveHint}`,
+        );
       }
     } catch {
       toast.error("PDF export failed. Please try again.");
@@ -52,6 +55,9 @@ export default function PreviewScreen() {
       if (result === "saved") {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         toast.success(`Word document saved successfully.${iosSaveHint}`);
+        toast.success(
+          `Open your File Manager or Downloads folder to view your resume.${iosSaveHint}`,
+        );
       }
     } catch {
       toast.error("Docs export failed. Please try again.");
