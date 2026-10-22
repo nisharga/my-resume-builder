@@ -45,7 +45,7 @@ export default function Screen({
   }));
 
   return (
-    <Animated.View style={[{ flex: 1 }, animStyle]}>
+    <Animated.View style={[{ flex: 1, backgroundColor: "#f7f8fa" }, animStyle]}>
       <SafeAreaView style={{ flex: 1 }} edges={edges} className={`bg-background ${className}`}>
         <StatusBar style={statusBar} />
 
