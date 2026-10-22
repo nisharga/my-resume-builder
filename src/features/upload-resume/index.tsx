@@ -5,7 +5,7 @@ import { useAppDispatch } from "@/redux/store";
 import { colors } from "@/styles/colors";
 import type { CVData } from "@/types/cv";
 import { genCVId, saveCV } from "@/utils/cvStorage";
-import { sampleResume } from "@/data/sample-resume";
+import { parseResumeWithAI } from "@/services/api/geminiService";
 import { useRouter } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import { useRef, useState } from "react";
@@ -27,18 +27,20 @@ export default function UploadResumeScreen() {
   }
 
   async function handleAnalysisDone() {
-    // Log the real PDF data — swap sampleResume for API response when ready
-    console.log("PDF file ready to send to API:", {
-      name: fileRef.current?.name,
-      size: fileRef.current?.size ? `${(fileRef.current.size / 1024).toFixed(1)} KB` : "unknown",
-      base64Length: fileRef.current?.base64.length,
-    });
-    console.log("Parsed CV (static — replace with API response):", sampleResume);
+    const file = fileRef.current;
+    if (!file) return;
 
-    const cv: CVData = { ...sampleResume, id: genCVId(), updatedAt: Date.now() };
-    await saveCV(cv);
-    await dispatch(loadCVById(cv.id));
-    router.replace("/(tabs)/create-resume");
+    try {
+      const parsed = await parseResumeWithAI(file.base64);
+      console.log("Gemini parsed CV:", JSON.stringify(parsed, null, 2));
+
+      const cv: CVData = { ...parsed, id: genCVId(), updatedAt: Date.now() };
+      await saveCV(cv);
+      await dispatch(loadCVById(cv.id));
+      router.replace("/(tabs)/create-resume");
+    } catch (e) {
+      console.error("Failed to parse resume:", e);
+    }
   }
 
   return (
