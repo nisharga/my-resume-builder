@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Platform, Pressable, ScrollView, Text, View, useWindowDimensions } from "react-native";
+import { Pressable, ScrollView, Text, View, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ArrowLeft } from "lucide-react-native";
 import { useRouter } from "expo-router";
@@ -32,17 +32,17 @@ export default function PreviewScreen() {
   const zoom = ZOOM_LEVELS[zoomIdx]?.value ?? 1;
   const pageWidth = width - 32;
 
-  const iosSaveHint = Platform.OS === "ios" ? " Check Files app → On My iPhone." : "";
-
   async function handlePDF() {
     try {
       const result = await exportAsPDF(cv);
       if (result === "saved") {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        toast.success(`PDF saved successfully.${iosSaveHint}`);
-        toast.success(
-          `Open your File Manager or Downloads folder to view your resume.${iosSaveHint}`,
-        );
+        toast.success("PDF saved successfully.");
+        setTimeout(() => {
+          toast.success(
+            "Your file may take a moment to appear. Please check your Downloads folder or File Manager to view your resume.",
+          );
+        }, 2500);
       }
     } catch {
       toast.error("PDF export failed. Please try again.");
@@ -54,10 +54,12 @@ export default function PreviewScreen() {
       const result = await exportAsDocx(cv);
       if (result === "saved") {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        toast.success(`Word document saved successfully.${iosSaveHint}`);
-        toast.success(
-          `Open your File Manager or Downloads folder to view your resume.${iosSaveHint}`,
-        );
+        toast.success("Word document saved successfully.");
+        setTimeout(() => {
+          toast.success(
+            "Your file may take a moment to appear. Please check your Downloads folder or File Manager to view your resume.",
+          );
+        }, 2500);
       }
     } catch {
       toast.error("Docs export failed. Please try again.");

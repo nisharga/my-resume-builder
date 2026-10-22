@@ -22,8 +22,10 @@ const YEARS: string[] = Array.from({ length: THIS_YEAR - 1959 + 2 }, (_, i) =>
 function parse(value: string): { month: string; year: string } | "present" | null {
   if (value === "Present") return "present";
   const parts = value.trim().split(" ");
-  if (parts.length === 2 && MONTHS.includes(parts[0]) && /^\d{4}$/.test(parts[1])) {
-    return { month: parts[0], year: parts[1] };
+  const m = parts[0];
+  const y = parts[1];
+  if (parts.length === 2 && m && y && MONTHS.includes(m) && /^\d{4}$/.test(y)) {
+    return { month: m, year: y };
   }
   return null;
 }
@@ -215,7 +217,7 @@ const ss = StyleSheet.create({
     color: colors.subtleForeground,
   },
   backdrop: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: "rgba(0,0,0,0.4)",
   },
   sheet: {
