@@ -128,16 +128,7 @@ const MyCVScreen = () => {
     <Screen>
       {/* Search + Filter bar — sticky */}
       <StickyView sticky className="bg-secondary px-4 pt-2 pb-3">
-        <View className="mb-2 flex-row items-center justify-between">
-          <ScreenHeader title="My CVs" />
-          <Pressable
-            onPress={handleNewCV}
-            className="flex-row items-center gap-1.5 rounded-xl bg-primary px-3 py-2 active:opacity-80"
-          >
-            <Plus size={15} color="#fff" strokeWidth={2.5} />
-            <Text style={{ color: "#fff", fontSize: 13, fontWeight: "600" }}>New CV</Text>
-          </Pressable>
-        </View>
+        <ScreenHeader title="My CVs" className="mb-2" />
 
         {/* Search row */}
         <View className="flex-row items-center justify-center rounded-xl border border-border bg-white px-3">

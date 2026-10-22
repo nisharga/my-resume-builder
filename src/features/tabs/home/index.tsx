@@ -6,7 +6,7 @@ import IconButton from "@/components/ui/IconButton";
 import { colors } from "@/styles";
 import { useAppDispatch } from "@/redux/store";
 import { loadCVById, resetToNewCV } from "@/redux/features/cvSlice";
-import { getAllCVs, getCV, saveCV, genCVId, formatUpdatedAt } from "@/utils/cvStorage";
+import { getAllCVs, getCV, saveCV, genCVId, formatUpdatedAt, deleteCV } from "@/utils/cvStorage";
 import { toast } from "@/utils/toast";
 import type { CVListItem } from "@/types/cv";
 import { useCallback, useState } from "react";
@@ -36,6 +36,16 @@ const HomeScreen = () => {
   async function handleView(id: string) {
     await dispatch(loadCVById(id));
     router.push("/cv-preview");
+  }
+
+  async function handleDelete(id: string) {
+    await deleteCV(id);
+    getAllCVs()
+      .then((list) =>
+        setRecentCVs([...list].sort((a, b) => b.updatedAt - a.updatedAt).slice(0, MAX_RECENT)),
+      )
+      .catch(() => {});
+    toast.success("CV deleted.");
   }
 
   async function handleDuplicate(id: string) {
@@ -89,6 +99,7 @@ const HomeScreen = () => {
                   formattedDate={formatUpdatedAt(cv.updatedAt)}
                   onEdit={handleEdit}
                   onView={handleView}
+                  onDelete={handleDelete}
                   onDuplicate={handleDuplicate}
                 />
                 {i < recentCVs.length - 1 && <View className="mx-4 h-px bg-border" />}
