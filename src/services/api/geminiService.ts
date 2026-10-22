@@ -59,32 +59,46 @@ Rules:
 - Return ONLY the JSON, nothing else
 `;
 
+const RETRY_DELAYS_MS = [2000, 5000, 10000]; // 2s, 5s, 10s
+
+async function callGemini(base64Pdf: string): Promise<Response> {
+  const body = JSON.stringify({
+    contents: [
+      {
+        parts: [{ inlineData: { mimeType: "application/pdf", data: base64Pdf } }, { text: PROMPT }],
+      },
+    ],
+    generationConfig: { temperature: 0.1, responseMimeType: "application/json" },
+  });
+
+  for (let attempt = 0; attempt <= RETRY_DELAYS_MS.length; attempt++) {
+    const response = await fetch(GEMINI_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+    });
+
+    // Retry only on 503 (overloaded) or 429 (rate limit)
+    if ((response.status === 503 || response.status === 429) && attempt < RETRY_DELAYS_MS.length) {
+      const delay = RETRY_DELAYS_MS[attempt];
+      console.warn(
+        `Gemini ${response.status} — retrying in ${delay / 1000}s (attempt ${attempt + 1})`,
+      );
+      await new Promise((r) => setTimeout(r, delay));
+      continue;
+    }
+
+    return response;
+  }
+
+  // Unreachable but satisfies TypeScript
+  throw new Error("Gemini: max retries exceeded");
+}
+
 export async function parseResumeWithAI(
   base64Pdf: string,
 ): Promise<Omit<CVData, "id" | "updatedAt">> {
-  const response = await fetch(GEMINI_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: [
-        {
-          parts: [
-            {
-              inlineData: {
-                mimeType: "application/pdf",
-                data: base64Pdf,
-              },
-            },
-            { text: PROMPT },
-          ],
-        },
-      ],
-      generationConfig: {
-        temperature: 0.1,
-        responseMimeType: "application/json",
-      },
-    }),
-  });
+  const response = await callGemini(base64Pdf);
 
   if (!response.ok) {
     const err = await response.text();
@@ -94,7 +108,6 @@ export async function parseResumeWithAI(
   const json = await response.json();
   const text: string = json.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
 
-  // Strip markdown code fences if Gemini wraps the JSON anyway
   const clean = text
     .replace(/^```json\s*/i, "")
     .replace(/```\s*$/i, "")
