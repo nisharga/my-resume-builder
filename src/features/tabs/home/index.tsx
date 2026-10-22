@@ -1,6 +1,6 @@
 import { Icons, Screen } from "@/components";
-import { Text, Pressable, View } from "react-native";
-import { WelcomeGreeting, CreateCvBanner, CvCard, EmptyResume } from "./components";
+import { Text, View } from "react-native";
+import { WelcomeGreeting, CreateCvBanner, UploadCvBanner, CvCard, EmptyResume } from "./components";
 import { useRouter, useFocusEffect } from "expo-router";
 import IconButton from "@/components/ui/IconButton";
 import { colors } from "@/styles";
@@ -74,8 +74,13 @@ const HomeScreen = () => {
       </View>
 
       {/* Create CV banner */}
-      <View className="mb-4 px-4">
+      <View className="mb-3 px-4">
         <CreateCvBanner onPress={handleNewCV} />
+      </View>
+
+      {/* Upload / import banner */}
+      <View className="mb-4 px-4">
+        <UploadCvBanner onPress={() => router.push("/upload-resume")} />
       </View>
 
       {/* Recent CVs */}
