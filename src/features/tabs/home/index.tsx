@@ -1,4 +1,4 @@
-import { Icons, Screen } from "@/components";
+import { Carousel, Icons, Screen } from "@/components";
 import { Text, View } from "react-native";
 import { WelcomeGreeting, CreateCvBanner, UploadCvBanner, CvCard, EmptyResume } from "./components";
 import { useRouter, useFocusEffect } from "expo-router";
@@ -74,7 +74,12 @@ const HomeScreen = () => {
       </View>
 
       {/* Create CV banner */}
-      <View className="mb-3 px-4">
+      <View className="mb-4 px-4">
+        <Carousel />
+      </View>
+
+      {/* Create CV banner */}
+      <View className="mb-4 px-4">
         <CreateCvBanner onPress={handleNewCV} />
       </View>
 
