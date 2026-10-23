@@ -80,7 +80,7 @@ async function callGemini(base64Pdf: string): Promise<Response> {
 
     // Retry only on 503 (overloaded) or 429 (rate limit)
     if ((response.status === 503 || response.status === 429) && attempt < RETRY_DELAYS_MS.length) {
-      const delay = RETRY_DELAYS_MS[attempt];
+      const delay = RETRY_DELAYS_MS[attempt]!;
       console.warn(
         `Gemini ${response.status} — retrying in ${delay / 1000}s (attempt ${attempt + 1})`,
       );
