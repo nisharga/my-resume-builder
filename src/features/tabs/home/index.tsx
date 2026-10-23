@@ -1,6 +1,13 @@
 import { Carousel, Icons, Screen } from "@/components";
 import { Text, View } from "react-native";
-import { WelcomeGreeting, CreateCvBanner, UploadCvBanner, CvCard, EmptyResume } from "./components";
+import {
+  WelcomeGreeting,
+  CreateCvBanner,
+  UploadCvBanner,
+  CvCard,
+  EmptyResume,
+  StatsRow,
+} from "./components";
 import { useRouter, useFocusEffect } from "expo-router";
 import IconButton from "@/components/ui/IconButton";
 import { colors } from "@/styles";
@@ -8,23 +15,33 @@ import { useAppDispatch } from "@/redux/store";
 import { loadCVById, resetToNewCV } from "@/redux/features/cvSlice";
 import { getAllCVs, getCV, saveCV, genCVId, formatUpdatedAt, deleteCV } from "@/utils/cvStorage";
 import { shareCV } from "@/utils/shareCV";
+import { getExportHistory } from "@/utils/exportHistory";
 import { toast } from "@/utils/toast";
 import type { CVListItem } from "@/types/cv";
 import { useCallback, useState } from "react";
 
-const MAX_RECENT = 5;
+const MAX_RECENT = 3;
 
 const HomeScreen = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [recentCVs, setRecentCVs] = useState<CVListItem[]>([]);
+  const [totalCVs, setTotalCVs] = useState(0);
+  const [totalExports, setTotalExports] = useState(0);
+  const [lastEditTimestamp, setLastEditTimestamp] = useState<number | null>(null);
 
   useFocusEffect(
     useCallback(() => {
       getAllCVs()
-        .then((list) =>
-          setRecentCVs([...list].sort((a, b) => b.updatedAt - a.updatedAt).slice(0, MAX_RECENT)),
-        )
+        .then((list) => {
+          const sorted = [...list].sort((a, b) => b.updatedAt - a.updatedAt);
+          setTotalCVs(sorted.length);
+          setLastEditTimestamp(sorted[0]?.updatedAt ?? null);
+          setRecentCVs(sorted.slice(0, MAX_RECENT));
+        })
+        .catch(() => {});
+      getExportHistory()
+        .then((history) => setTotalExports(history.length))
         .catch(() => {});
     }, []),
   );
@@ -81,10 +98,12 @@ const HomeScreen = () => {
 
   return (
     <Screen>
-      {/* Greeting */}
+      {/* Stats header */}
       <View className="mb-4 px-4">
         <WelcomeGreeting
-          welcomeLabel="Nisharga Kabir"
+          totalCVs={totalCVs}
+          totalExports={totalExports}
+          lastEditTimestamp={lastEditTimestamp}
           onNotificationPress={handleNotificationPress}
         />
       </View>
@@ -92,6 +111,16 @@ const HomeScreen = () => {
       {/* Create CV banner */}
       <View className="mb-4 px-4">
         <Carousel />
+      </View>
+
+      {/* Create CV banner */}
+      {/* Stats */}
+      <View className="mb-4 px-4">
+        <StatsRow
+          totalCVs={totalCVs}
+          totalExports={totalExports}
+          lastEditTimestamp={lastEditTimestamp}
+        />
       </View>
 
       {/* Create CV banner */}

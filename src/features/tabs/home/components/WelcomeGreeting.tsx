@@ -1,84 +1,49 @@
-import React, { useEffect } from "react";
-import { Pressable, Text, View } from "react-native";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSequence,
-  withTiming,
-  withRepeat,
-  withDelay,
-} from "react-native-reanimated";
 import { colors } from "@/styles/colors";
 import { Icons } from "@/components";
 import IconButton from "@/components/ui/IconButton";
+import { Image, Text, View } from "react-native";
+import WavingHand from "./WavingHand";
 
 interface WelcomeGreetingProps {
-  welcomeLabel: string;
+  totalCVs: number;
+  totalExports: number;
+  lastEditTimestamp: number | null;
   onNotificationPress?: () => void;
-  notificationCount?: number;
 }
 
-const WelcomeGreeting = ({
-  welcomeLabel,
+export default function WelcomeGreeting({
+  totalCVs,
+  totalExports,
+  lastEditTimestamp,
   onNotificationPress,
-  notificationCount = 0,
-}: WelcomeGreetingProps) => {
-  const rotation = useSharedValue(0);
-
-  useEffect(() => {
-    // Initial 3-second delay, then repeat the wave + wait loop infinitely
-    rotation.value = withDelay(
-      3000,
-      withRepeat(
-        withSequence(
-          // 1. Waving motions
-          withTiming(18, { duration: 180 }),
-          withTiming(-18, { duration: 180 }),
-          withTiming(14, { duration: 180 }),
-          withTiming(-14, { duration: 180 }),
-          withTiming(0, { duration: 180 }),
-          // 2. Pause at rest (0deg) for 3 seconds before next shake
-          withDelay(3000, withTiming(0, { duration: 0 })),
-        ),
-        -1,
-        false,
-      ),
-    );
-  }, [rotation]);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${rotation.value}deg` }],
-  }));
-
+}: WelcomeGreetingProps) {
   return (
-    <View className="flex-row items-center py-3">
-      {/* Avatar */}
-      <View className="h-11 w-11 items-center justify-center rounded-full bg-accent">
-        <Icons.User size={22} color={colors.primary} strokeWidth={1.8} />
-      </View>
-
-      {/* Greeting text with waving emoji */}
-      <View className="ml-3 flex-1">
+    <View className="gap-3 py-2">
+      {/* Brand row */}
+      <View className="flex-row items-center justify-between">
         <View className="flex-row items-center">
-          <Text className="lg-medium">Welcome Back!</Text>
-          <Animated.View style={[{ marginLeft: 6, marginTop: -2 }, animatedStyle]}>
-            <Text className="text-lg">👋</Text>
-          </Animated.View>
+          <View className="-left-4">
+            <Image
+              source={require("../../../../../assets/adaptive-icon.png")}
+              style={{ width: 64, height: 64 }}
+              resizeMode="cover"
+            />
+          </View>
+          <View className="-ml-6">
+            <View className="flex-row items-center gap-1">
+              <Text className="lg-medium font-bold text-[#1a1f36]">Resume Builder</Text>
+              <View className="">
+                <WavingHand />
+              </View>
+            </View>
+            <Text className="xs-normal">Land your dream job in minutes</Text>
+          </View>
         </View>
 
-        <Text className="sm-gray">{welcomeLabel}</Text>
+        <IconButton onPress={onNotificationPress} className="h-10 w-10 rounded-full bg-accent">
+          <Icons.Bell size={20} color={colors.foreground} strokeWidth={1.8} />
+        </IconButton>
       </View>
-
-      {/* Notification bell */}
-      <IconButton
-        onPress={onNotificationPress}
-        badge={notificationCount > 0}
-        className="h-10 w-10 rounded-full bg-accent"
-      >
-        <Icons.Bell size={20} color={colors.foreground} strokeWidth={1.8} />
-      </IconButton>
     </View>
   );
-};
-
-export default WelcomeGreeting;
+}
