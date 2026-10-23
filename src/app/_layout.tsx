@@ -41,12 +41,14 @@ export default function RootLayout() {
     requestPermissions();
   }, []);
 
-  // Navigate to notifications screen when user taps an export notification
+  // Navigate based on notification type when user taps a notification
   useEffect(() => {
     const sub = Notifications.addNotificationResponseReceivedListener((response) => {
       const data = response.notification.request.content.data as Record<string, unknown>;
       if (data?.type === "cv_export") {
         router.push("/notifications");
+      } else if (data?.type === "weekly_reminder") {
+        router.push("/(tabs)");
       }
     });
     return () => sub.remove();

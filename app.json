@@ -49,7 +49,7 @@
         {
           "icon": "./assets/favicon.png",
           "color": "#4a6cf7",
-          "sounds": ["./assets/sounds/notification_sound.wav"]
+          "sounds": ["./assets/sounds/notification_sound.wav", "./assets/sounds/guiter.wav"]
         }
       ],
       "expo-sharing"

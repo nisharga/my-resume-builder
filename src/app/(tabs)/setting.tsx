@@ -19,8 +19,12 @@ import {
 } from "lucide-react-native";
 import {
   getNotificationsEnabled,
+  getWeeklyReminderEnabled,
   requestPermissions,
+  scheduleWeeklyReminder,
+  cancelWeeklyReminder,
   setNotificationsEnabled,
+  setWeeklyReminderEnabled,
 } from "@/utils/notifications";
 import { type ReactNode, useEffect, useState } from "react";
 import { Pressable, Switch, Text, View } from "react-native";
@@ -110,10 +114,14 @@ export default function ProfileScreen() {
   const { language, changeLanguage } = useLanguage();
   const { isDarkMode, toggleTheme } = useTheme();
   const [notificationsOn, setNotificationsOn] = useState(true);
+  const [weeklyReminderOn, setWeeklyReminderOn] = useState(false);
 
   useEffect(() => {
     getNotificationsEnabled()
       .then(setNotificationsOn)
+      .catch(() => {});
+    getWeeklyReminderEnabled()
+      .then(setWeeklyReminderOn)
       .catch(() => {});
   }, []);
 
@@ -121,6 +129,16 @@ export default function ProfileScreen() {
     setNotificationsOn(value);
     await setNotificationsEnabled(value);
     if (value) requestPermissions();
+  }
+
+  async function handleWeeklyReminderToggle(value: boolean) {
+    setWeeklyReminderOn(value);
+    await setWeeklyReminderEnabled(value);
+    if (value) {
+      await scheduleWeeklyReminder();
+    } else {
+      await cancelWeeklyReminder();
+    }
   }
 
   return (
@@ -183,6 +201,14 @@ export default function ProfileScreen() {
               right="toggle"
               toggled={notificationsOn}
               onToggle={handleNotificationToggle}
+            />
+            <SettingItem
+              icon={<Bell size={17} color={colors.foreground} strokeWidth={2} />}
+              title="Weekly Reminder"
+              subtitle="Get a nudge to update your resume"
+              right="toggle"
+              toggled={weeklyReminderOn}
+              onToggle={handleWeeklyReminderToggle}
             />
             <SettingItem
               icon={<Globe size={17} color={colors.foreground} strokeWidth={2} />}
