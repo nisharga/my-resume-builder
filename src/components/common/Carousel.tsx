@@ -137,7 +137,7 @@ export default function Carousel() {
                         height: di === activeIndex ? 8 : 7,
                         borderRadius: 4,
                         backgroundColor:
-                          di === activeIndex ? colors.primary : "rgba(74,108,247,0.35)",
+                          di === activeIndex ? colors.secondary : "rgba(74,108,247,0.75)",
                         marginBottom: 6,
                       }}
                     />
