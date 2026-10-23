@@ -13,8 +13,9 @@ import AccentColorPicker from "../components/AccentColorPicker";
 import { Accordion } from "@/components/ui/Accordion";
 import { toast } from "@/utils/toast";
 import { exportAsPDF, exportAsDocx } from "@/utils/cvExport";
+import { sendExportNotification } from "@/utils/notifications";
+import { addExportRecord } from "@/utils/exportHistory";
 import type { TemplateId } from "@/types/cv";
-import * as Haptics from "expo-haptics";
 
 const ZOOM_LEVELS = [
   { label: "Fit", value: 1 },
@@ -32,17 +33,15 @@ export default function PreviewScreen() {
   const zoom = ZOOM_LEVELS[zoomIdx]?.value ?? 1;
   const pageWidth = width - 32;
 
+  const cvName = cv.personal.name || "Your CV";
+
   async function handlePDF() {
     try {
       const result = await exportAsPDF(cv);
       if (result === "saved") {
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         toast.success("PDF saved successfully.");
-        setTimeout(() => {
-          toast.success(
-            "Your file may take a moment to appear. Please check your Downloads folder or File Manager to view your resume.",
-          );
-        }, 2500);
+        await addExportRecord(cv.id, cvName, "PDF");
+        await sendExportNotification(cv.id, cvName, "PDF");
       }
     } catch {
       toast.error("PDF export failed. Please try again.");
@@ -53,13 +52,9 @@ export default function PreviewScreen() {
     try {
       const result = await exportAsDocx(cv);
       if (result === "saved") {
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         toast.success("Word document saved successfully.");
-        setTimeout(() => {
-          toast.success(
-            "Your file may take a moment to appear. Please check your Downloads folder or File Manager to view your resume.",
-          );
-        }, 2500);
+        await addExportRecord(cv.id, cvName, "DOCX");
+        await sendExportNotification(cv.id, cvName, "DOCX");
       }
     } catch {
       toast.error("Docs export failed. Please try again.");

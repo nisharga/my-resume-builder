@@ -17,7 +17,12 @@ import {
   Shield,
   Zap,
 } from "lucide-react-native";
-import { type ReactNode, useState } from "react";
+import {
+  getNotificationsEnabled,
+  requestPermissions,
+  setNotificationsEnabled,
+} from "@/utils/notifications";
+import { type ReactNode, useEffect, useState } from "react";
 import { Pressable, Switch, Text, View } from "react-native";
 
 // ─── tiny helpers ────────────────────────────────────────────────────────────
@@ -104,6 +109,19 @@ function SettingItem({
 export default function ProfileScreen() {
   const { language, changeLanguage } = useLanguage();
   const { isDarkMode, toggleTheme } = useTheme();
+  const [notificationsOn, setNotificationsOn] = useState(true);
+
+  useEffect(() => {
+    getNotificationsEnabled()
+      .then(setNotificationsOn)
+      .catch(() => {});
+  }, []);
+
+  async function handleNotificationToggle(value: boolean) {
+    setNotificationsOn(value);
+    await setNotificationsEnabled(value);
+    if (value) requestPermissions();
+  }
 
   return (
     <Screen>
@@ -163,7 +181,8 @@ export default function ProfileScreen() {
               title="Notifications"
               subtitle="Manage push notifications"
               right="toggle"
-              toggled={false}
+              toggled={notificationsOn}
+              onToggle={handleNotificationToggle}
             />
             <SettingItem
               icon={<Globe size={17} color={colors.foreground} strokeWidth={2} />}

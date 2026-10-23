@@ -8,11 +8,14 @@ import { toastRef } from "@/utils/toast";
 import { CustomSplashScreen, OnboardingScreen } from "@/features/onboarding";
 import { OverlayProvider } from "@gluestack-ui/core/overlay/creator";
 import { ToastProvider } from "@gluestack-ui/core/toast/creator";
+import { useEffect } from "react";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
+import * as Notifications from "expo-notifications";
+import { requestPermissions } from "@/utils/notifications";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "../styles/global.css";
 import { useAppFlow } from "@/hooks";
@@ -28,6 +31,28 @@ SplashScreen.setOptions({ duration: 300, fade: true });
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts(useCustomFonts);
   const fontsReady = fontsLoaded || !!fontError;
+
+  // =================== Notifications Logic =================
+
+  const router = useRouter();
+
+  // Request notification permissions once on startup
+  useEffect(() => {
+    requestPermissions();
+  }, []);
+
+  // Navigate to notifications screen when user taps an export notification
+  useEffect(() => {
+    const sub = Notifications.addNotificationResponseReceivedListener((response) => {
+      const data = response.notification.request.content.data as Record<string, unknown>;
+      if (data?.type === "cv_export") {
+        router.push("/notifications");
+      }
+    });
+    return () => sub.remove();
+  }, [router]);
+
+  // =================== Notifications Logic End =================
 
   // All phase logic lives in useAppFlow — see src/app/useAppFlow.ts
   const { phase, handleSplashFinish, handleOnboardingComplete } = useAppFlow(fontsReady);
