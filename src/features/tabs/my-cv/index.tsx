@@ -5,6 +5,7 @@ import { colors } from "@/styles/colors";
 import { useAppDispatch } from "@/redux/store";
 import { loadCVById, resetToNewCV } from "@/redux/features/cvSlice";
 import { getAllCVs, getCV, saveCV, genCVId, deleteCV, formatUpdatedAt } from "@/utils/cvStorage";
+import { shareCV } from "@/utils/shareCV";
 import { toast } from "@/utils/toast";
 import type { CVListItem } from "@/types/cv";
 import { Check, Plus, Search, SlidersHorizontal, X } from "lucide-react-native";
@@ -77,6 +78,14 @@ const MyCVScreen = () => {
         },
       },
     ]);
+  }
+
+  async function handleShare(id: string) {
+    try {
+      await shareCV(id, "PDF");
+    } catch {
+      toast.error("Could not share the CV. Please try again.");
+    }
   }
 
   async function handleDuplicate(id: string) {
@@ -184,6 +193,7 @@ const MyCVScreen = () => {
                 onView={handleView}
                 onDelete={handleDelete}
                 onDuplicate={handleDuplicate}
+                onShare={handleShare}
               />
               {i < filtered.length - 1 && <View className="mx-4 h-px bg-border" />}
             </View>

@@ -1,4 +1,4 @@
-import { FileText, Pencil, Eye, Trash2, MoreVertical, Copy } from "lucide-react-native";
+import { FileText, Pencil, Eye, Trash2, MoreVertical, Copy, Share2 } from "lucide-react-native";
 import { useState } from "react";
 import { Modal, Pressable, Text, View } from "react-native";
 import { colors } from "@/styles/colors";
@@ -20,6 +20,7 @@ interface CvCardProps extends CvCardData {
   onView?: (id: string) => void;
   onDelete?: (id: string) => void;
   onDuplicate?: (id: string) => void;
+  onShare?: (id: string) => void;
 }
 
 const TEMPLATE_LABELS: Record<TemplateId, string> = {
@@ -39,6 +40,7 @@ export default function CvCard({
   onView,
   onDelete,
   onDuplicate,
+  onShare,
 }: CvCardProps) {
   const [menuVisible, setMenuVisible] = useState(false);
 
@@ -54,6 +56,11 @@ export default function CvCard({
       label: "Edit",
       icon: <Pencil size={16} color={colors.foreground} />,
       onPress: () => onEdit?.(id),
+    },
+    {
+      label: "Share",
+      icon: <Share2 size={16} color={colors.foreground} />,
+      onPress: () => onShare?.(id),
     },
     {
       label: "Duplicate",

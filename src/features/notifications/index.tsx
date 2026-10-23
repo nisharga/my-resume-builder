@@ -6,7 +6,9 @@ import { colors } from "@/styles";
 import { type ExportRecord, getExportHistory } from "@/utils/exportHistory";
 import { formatUpdatedAt } from "@/utils/cvStorage";
 import { useRouter, useFocusEffect } from "expo-router";
-import { ChevronLeft, FileText, FileType } from "lucide-react-native";
+import { shareCV } from "@/utils/shareCV";
+import { toast } from "@/utils/toast";
+import { ChevronLeft, FileText, FileType, Share2 } from "lucide-react-native";
 import { useCallback, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
@@ -26,6 +28,14 @@ export default function NotificationsScreen() {
   async function handleView(record: ExportRecord) {
     await dispatch(loadCVById(record.cvId));
     router.push("/cv-preview");
+  }
+
+  async function handleShare(record: ExportRecord) {
+    try {
+      await shareCV(record.cvId, record.format);
+    } catch {
+      toast.error("Could not share the file. Please try again.");
+    }
   }
 
   return (
@@ -75,16 +85,25 @@ export default function NotificationsScreen() {
                     </Text>
                   </View>
 
-                  {/* View button */}
-                  <Pressable
-                    onPress={() => handleView(record)}
-                    style={{ backgroundColor: colors.primary + "15" }}
-                    className="rounded-lg px-3 py-1.5 active:opacity-70"
-                  >
-                    <Text style={{ color: colors.primary }} className="sm-semibold">
-                      View
-                    </Text>
-                  </Pressable>
+                  {/* Action buttons */}
+                  <View className="flex-row gap-2">
+                    <Pressable
+                      onPress={() => handleShare(record)}
+                      style={{ backgroundColor: colors.primary + "15" }}
+                      className="h-8 w-8 items-center justify-center rounded-lg active:opacity-70"
+                    >
+                      <Share2 size={15} color={colors.primary} strokeWidth={2} />
+                    </Pressable>
+                    <Pressable
+                      onPress={() => handleView(record)}
+                      style={{ backgroundColor: colors.primary + "15" }}
+                      className="rounded-lg px-3 py-1.5 active:opacity-70"
+                    >
+                      <Text style={{ color: colors.primary }} className="sm-semibold">
+                        View
+                      </Text>
+                    </Pressable>
+                  </View>
                 </View>
 
                 {i < records.length - 1 && <View className="mx-4 h-px bg-border" />}
