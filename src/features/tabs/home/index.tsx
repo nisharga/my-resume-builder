@@ -66,11 +66,18 @@ const HomeScreen = () => {
     router.push("/(tabs)/create-resume");
   }
 
+  function handleNotificationPress() {
+    router.push("/notifications");
+  }
+
   return (
     <Screen>
       {/* Greeting */}
       <View className="mb-4 px-4">
-        <WelcomeGreeting welcomeLabel="Nisharga Kabir" />
+        <WelcomeGreeting
+          welcomeLabel="Nisharga Kabir"
+          onNotificationPress={handleNotificationPress}
+        />
       </View>
 
       {/* Create CV banner */}
