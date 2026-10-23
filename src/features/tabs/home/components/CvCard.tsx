@@ -4,6 +4,7 @@ import { Modal, Pressable, Text, View } from "react-native";
 import { colors } from "@/styles/colors";
 import IconButton from "@/components/ui/IconButton";
 import type { TemplateId } from "@/types/cv";
+import { AndroidNavSpacer } from "@/components";
 
 export interface CvCardData {
   id: string;
@@ -56,11 +57,6 @@ export default function CvCard({
       label: "Edit",
       icon: <Pencil size={16} color={colors.foreground} />,
       onPress: () => onEdit?.(id),
-    },
-    {
-      label: "Share",
-      icon: <Share2 size={16} color={colors.foreground} />,
-      onPress: () => onShare?.(id),
     },
     {
       label: "Duplicate",
@@ -125,6 +121,11 @@ export default function CvCard({
           </View>
         </View>
 
+        {/* Share button */}
+        <IconButton onPress={() => onShare?.(id)} className="p-2" hitSlop={8}>
+          <Share2 size={18} color={colors.mutedForeground} />
+        </IconButton>
+
         {/* Three-dot menu trigger — stops tap-to-view from firing */}
         <IconButton onPress={() => setMenuVisible(true)} className="p-2" hitSlop={8}>
           <MoreVertical size={18} color={colors.mutedForeground} />
@@ -179,6 +180,7 @@ export default function CvCard({
             </Pressable>
           </Pressable>
         </Pressable>
+        <AndroidNavSpacer />
       </Modal>
     </>
   );
