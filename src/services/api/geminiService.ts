@@ -8,8 +8,8 @@ You are a resume parser. Extract all information from this PDF resume and return
 
 Return exactly this structure (no markdown, no explanation, raw JSON only):
 {
-  "template": "sidebar",
-  "accent": "#2B5F75",
+  "template": "classic",
+  "accent": "#333A45",
   "personal": {
     "name": "",
     "title": "",

@@ -8,8 +8,8 @@ const LEGACY_KEY = "@cv_data_v1";
 export const DEFAULT_CV: CVData = {
   id: "default",
   updatedAt: Date.now(),
-  template: "sidebar",
-  accent: "#2B5F75",
+  template: "classic",
+  accent: "#333A45",
   personal: {
     name: "",
     title: "",
