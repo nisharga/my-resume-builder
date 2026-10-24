@@ -11,12 +11,7 @@ interface WelcomeGreetingProps {
   onNotificationPress?: () => void;
 }
 
-export default function WelcomeGreeting({
-  totalCVs,
-  totalExports,
-  lastEditTimestamp,
-  onNotificationPress,
-}: WelcomeGreetingProps) {
+export default function WelcomeGreeting({ onNotificationPress }: WelcomeGreetingProps) {
   return (
     <View className="gap-3 py-2">
       {/* Brand row */}
