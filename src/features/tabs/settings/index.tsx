@@ -1,16 +1,6 @@
 import { Screen, ScreenHeader } from "@/components";
 import { colors } from "@/styles/colors";
-import {
-  Bell,
-  ChevronDown,
-  Globe,
-  HelpCircle,
-  Mail,
-  Moon,
-  Shield,
-  FileText,
-  Zap,
-} from "lucide-react-native";
+import { Bell, FileText, Globe, HelpCircle, Mail, Moon, Shield, Zap } from "lucide-react-native";
 import {
   getNotificationsEnabled,
   getWeeklyReminderEnabled,
@@ -20,92 +10,13 @@ import {
   setNotificationsEnabled,
   setWeeklyReminderEnabled,
 } from "@/utils/notifications";
-import { type ReactNode, useEffect, useState } from "react";
-import { Linking, Switch, Text, View, Pressable } from "react-native";
-import { SettingItem } from "./components";
+import { useEffect, useState } from "react";
+import { Linking, Text, View } from "react-native";
+import { SettingItem, SectionLabel, UpcomingBadge, FaqContent } from "./components";
 
 const APP_VERSION = "1.0.0";
-
 const TERMS_URL = "https://myresumebuilder.app/terms";
 const PRIVACY_URL = "https://myresumebuilder.app/privacy";
-
-// ─── FAQ data ────────────────────────────────────────────────────────────────
-
-const FAQ_ITEMS = [
-  {
-    q: "How many resumes can I build?",
-    a: "Unlimited! Create as many resumes as you need, all stored safely in the app.",
-  },
-  {
-    q: "How many resumes can I import?",
-    a: "Unlimited. Import as many existing resumes as you like using the AI-powered import feature.",
-  },
-  {
-    q: "Can I send my resume directly to email?",
-    a: "Yes! Tap the Share button in the preview screen to send your resume directly via email or any messaging app.",
-  },
-  {
-    q: "Will my resume be saved if I close the app?",
-    a: "Your resume is only saved after you export it as a PDF or Google Doc. Always download before closing the app to avoid losing your work.",
-  },
-  {
-    q: "Does importing a resume require an internet connection?",
-    a: "Yes, the AI-powered import feature needs an active internet connection to read and fill in your resume data automatically.",
-  },
-];
-
-// ─── helpers ─────────────────────────────────────────────────────────────────
-
-function SectionLabel({ label }: { label: string }) {
-  return (
-    <Text
-      className="mb-2 px-1 text-xs tracking-widest text-muted-foreground"
-      style={{ fontFamily: "Poppins-SemiBold" }}
-    >
-      {label.toUpperCase()}
-    </Text>
-  );
-}
-
-const UpcomingBadge = () => (
-  <View className="flex-row items-center gap-2 py-1">
-    <View className="rounded-full bg-primary/10 px-3 py-1.5">
-      <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 12, color: colors.primary }}>
-        🚀 Coming Soon
-      </Text>
-    </View>
-    <Text className="caption flex-1">
-      We are working on this feature and will enable it in an upcoming update.
-    </Text>
-  </View>
-);
-
-const FaqContent = () => (
-  <View className="gap-3 py-1">
-    {FAQ_ITEMS.map((item, i) => (
-      <View
-        key={i}
-        className={`gap-1 ${i < FAQ_ITEMS.length - 1 ? "border-b border-border pb-3" : ""}`}
-      >
-        <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 13, color: colors.foreground }}>
-          {item.q}
-        </Text>
-        <Text
-          style={{
-            fontFamily: "Poppins-Regular",
-            fontSize: 12,
-            color: colors.mutedForeground,
-            lineHeight: 18,
-          }}
-        >
-          {item.a}
-        </Text>
-      </View>
-    ))}
-  </View>
-);
-
-// ─── main screen ─────────────────────────────────────────────────────────────
 
 export default function SettingScreen() {
   const [notificationsOn, setNotificationsOn] = useState(true);
