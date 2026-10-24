@@ -1,7 +1,16 @@
 import { Screen, ScreenHeader } from "@/components";
-import LogoutButton from "@/components/ui/LogoutButton";
 import { colors } from "@/styles/colors";
-import { Bell, ChevronDown, Globe, HelpCircle, Mail, Moon, Shield, Zap } from "lucide-react-native";
+import {
+  Bell,
+  ChevronDown,
+  Globe,
+  HelpCircle,
+  Mail,
+  Moon,
+  Shield,
+  FileText,
+  Zap,
+} from "lucide-react-native";
 import {
   getNotificationsEnabled,
   getWeeklyReminderEnabled,
@@ -12,7 +21,40 @@ import {
   setWeeklyReminderEnabled,
 } from "@/utils/notifications";
 import { type ReactNode, useEffect, useState } from "react";
-import { Switch, Text, View, Pressable } from "react-native";
+import { Linking, Switch, Text, View, Pressable } from "react-native";
+import { SettingItem } from "./components";
+
+const APP_VERSION = "1.0.0";
+
+const TERMS_URL = "https://myresumebuilder.app/terms";
+const PRIVACY_URL = "https://myresumebuilder.app/privacy";
+
+// ─── FAQ data ────────────────────────────────────────────────────────────────
+
+const FAQ_ITEMS = [
+  {
+    q: "How many resumes can I build?",
+    a: "Unlimited! Create as many resumes as you need, all stored safely in the app.",
+  },
+  {
+    q: "How many resumes can I import?",
+    a: "Unlimited. Import as many existing resumes as you like using the AI-powered import feature.",
+  },
+  {
+    q: "Can I send my resume directly to email?",
+    a: "Yes! Tap the Share button in the preview screen to send your resume directly via email or any messaging app.",
+  },
+  {
+    q: "Will my resume be saved if I close the app?",
+    a: "Your resume is only saved after you export it as a PDF or Google Doc. Always download before closing the app to avoid losing your work.",
+  },
+  {
+    q: "Does importing a resume require an internet connection?",
+    a: "Yes, the AI-powered import feature needs an active internet connection to read and fill in your resume data automatically.",
+  },
+];
+
+// ─── helpers ─────────────────────────────────────────────────────────────────
 
 function SectionLabel({ label }: { label: string }) {
   return (
@@ -38,63 +80,32 @@ const UpcomingBadge = () => (
   </View>
 );
 
-interface SettingItemProps {
-  icon: ReactNode;
-  title: string;
-  subtitle: string;
-  right?: "chevron" | "toggle";
-  toggled?: boolean;
-  onToggle?: (v: boolean) => void;
-  expandedContent?: ReactNode;
-  isLast?: boolean;
-}
-
-function SettingItem({
-  icon,
-  title,
-  subtitle,
-  right = "chevron",
-  toggled,
-  onToggle,
-  expandedContent,
-  isLast = false,
-}: SettingItemProps) {
-  const [open, setOpen] = useState(false);
-  const hasExpand = right === "chevron" && !!expandedContent;
-
-  return (
-    <View className={`${!isLast ? "border-b border-border" : ""}`}>
-      <Pressable
-        onPress={hasExpand ? () => setOpen((v) => !v) : undefined}
-        className="flex-row items-center gap-3 px-4 py-3.5 active:bg-secondary/60"
+const FaqContent = () => (
+  <View className="gap-3 py-1">
+    {FAQ_ITEMS.map((item, i) => (
+      <View
+        key={i}
+        className={`gap-1 ${i < FAQ_ITEMS.length - 1 ? "border-b border-border pb-3" : ""}`}
       >
-        <View className="h-9 w-9 items-center justify-center rounded-xl bg-secondary">{icon}</View>
+        <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 13, color: colors.foreground }}>
+          {item.q}
+        </Text>
+        <Text
+          style={{
+            fontFamily: "Poppins-Regular",
+            fontSize: 12,
+            color: colors.mutedForeground,
+            lineHeight: 18,
+          }}
+        >
+          {item.a}
+        </Text>
+      </View>
+    ))}
+  </View>
+);
 
-        <View className="flex-1">
-          <Text className="sm-semibold text-foreground">{title}</Text>
-          <Text className="caption mt-0.5">{subtitle}</Text>
-        </View>
-
-        {right === "toggle" ? (
-          <Switch
-            value={toggled}
-            onValueChange={onToggle}
-            trackColor={{ false: colors.border, true: colors.primary }}
-            thumbColor={colors.white}
-          />
-        ) : (
-          <View style={{ transform: [{ rotate: open ? "180deg" : "0deg" }] }}>
-            <ChevronDown size={18} color={colors.mutedForeground} strokeWidth={2} />
-          </View>
-        )}
-      </Pressable>
-
-      {hasExpand && open && (
-        <View className="border-t border-border bg-secondary/40 px-4 py-3">{expandedContent}</View>
-      )}
-    </View>
-  );
-}
+// ─── main screen ─────────────────────────────────────────────────────────────
 
 export default function SettingScreen() {
   const [notificationsOn, setNotificationsOn] = useState(true);
@@ -186,8 +197,8 @@ export default function SettingScreen() {
             <SettingItem
               icon={<HelpCircle size={17} color={colors.foreground} strokeWidth={2} />}
               title="FAQs"
-              subtitle="Get help and find answers"
-              expandedContent={<Text className="caption">FAQ content coming soon.</Text>}
+              subtitle="Frequently asked questions"
+              expandedContent={<FaqContent />}
             />
             <SettingItem
               icon={<Mail size={17} color={colors.foreground} strokeWidth={2} />}
@@ -196,24 +207,27 @@ export default function SettingScreen() {
               expandedContent={<Text className="caption">kabirnisharga@gmail.com</Text>}
             />
             <SettingItem
+              icon={<FileText size={17} color={colors.foreground} strokeWidth={2} />}
+              title="Terms & Conditions"
+              subtitle="Read our Terms of Service"
+              onPress={() => Linking.openURL(TERMS_URL)}
+            />
+            <SettingItem
               icon={<Shield size={17} color={colors.foreground} strokeWidth={2} />}
               title="Privacy Policy"
               subtitle="Read our Privacy Policy"
               isLast
-              expandedContent={<Text className="caption">Privacy policy content coming soon.</Text>}
+              onPress={() => Linking.openURL(PRIVACY_URL)}
             />
           </View>
         </View>
-
-        {/* ── Logout ───────────────────────────────────────────────── */}
-        <LogoutButton />
 
         {/* ── Footer ───────────────────────────────────────────────── */}
         <Text
           className="mt-2 text-center text-xs text-muted-foreground"
           style={{ fontFamily: "Poppins-Regular" }}
         >
-          AI CV Builder | Version 1.0.0
+          Resume Builder | Version {APP_VERSION}
         </Text>
       </View>
     </Screen>
