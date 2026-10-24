@@ -1,4 +1,4 @@
-import { Screen, ScreenHeader } from "@/components";
+import { Screen, ScreenHeader, SettingItem } from "@/components";
 import { colors } from "@/styles/colors";
 import { Bell, FileText, Globe, HelpCircle, Mail, Moon, Shield, Zap } from "lucide-react-native";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@/utils/notifications";
 import { useEffect, useState } from "react";
 import { Linking, Text, View } from "react-native";
-import { SettingItem, SectionLabel, UpcomingBadge, FaqContent } from "./components";
+import { SectionLabel, UpcomingBadge, FaqContent } from "./components";
 
 const APP_VERSION = "1.0.0";
 const TERMS_URL = "https://myresumebuilder.app/terms";
