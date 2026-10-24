@@ -12,6 +12,7 @@ import { Check, Plus, Search, SlidersHorizontal, X } from "lucide-react-native";
 import { useCallback, useMemo, useState } from "react";
 import { Alert, Modal, Pressable, Text, TextInput, View } from "react-native";
 import { CvCard, EmptyResume } from "../home/components";
+import { CvListSkeleton } from "./components";
 import { useFocusEffect, useRouter } from "expo-router";
 
 type SortOption = "newest" | "oldest" | "a_z" | "z_a";
@@ -41,6 +42,7 @@ const MyCVScreen = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [cvList, setCvList] = useState<CVListItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortOption>("newest");
   const [pendingSort, setPendingSort] = useState<SortOption>("newest");
@@ -49,9 +51,13 @@ const MyCVScreen = () => {
   // Reload list every time this tab gains focus
   useFocusEffect(
     useCallback(() => {
+      setLoading(true);
       getAllCVs()
-        .then(setCvList)
-        .catch(() => {});
+        .then((list) => {
+          setCvList(list);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
     }, []),
   );
 
@@ -179,8 +185,10 @@ const MyCVScreen = () => {
         </View>
       </StickyView>
 
-      {/* CV list or empty state */}
-      {filtered.length === 0 ? (
+      {/* CV list / skeleton / empty state */}
+      {loading ? (
+        <CvListSkeleton />
+      ) : filtered.length === 0 ? (
         <EmptyResume />
       ) : (
         <View className="mx-4 mt-1 overflow-hidden rounded-2xl bg-white">
