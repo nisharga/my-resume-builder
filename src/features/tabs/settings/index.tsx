@@ -56,6 +56,7 @@ export default function SettingScreen() {
           <SectionLabel label="App Settings" />
           <View className="overflow-hidden rounded-2xl bg-white">
             <SettingItem
+              index={0}
               icon={<Bell size={17} color={colors.foreground} strokeWidth={2} />}
               title="Notifications"
               subtitle="Manage push notifications"
@@ -64,6 +65,7 @@ export default function SettingScreen() {
               onToggle={handleNotificationToggle}
             />
             <SettingItem
+              index={1}
               icon={<Bell size={17} color={colors.foreground} strokeWidth={2} />}
               title="Weekly Reminder"
               subtitle="Get a nudge to update your resume"
@@ -72,12 +74,14 @@ export default function SettingScreen() {
               onToggle={handleWeeklyReminderToggle}
             />
             <SettingItem
+              index={2}
               icon={<Globe size={17} color={colors.foreground} strokeWidth={2} />}
               title="Language"
               subtitle="Choose your preferred language"
               expandedContent={<UpcomingBadge />}
             />
             <SettingItem
+              index={3}
               icon={<Moon size={17} color={colors.foreground} strokeWidth={2} />}
               title="Dark Mode"
               subtitle="Switch to a darker theme"
@@ -92,6 +96,7 @@ export default function SettingScreen() {
           <SectionLabel label="AI Settings" />
           <View className="overflow-hidden rounded-2xl bg-white">
             <SettingItem
+              index={4}
               icon={<Zap size={17} color={colors.foreground} strokeWidth={2} />}
               title="AI Usage / Credits"
               subtitle="View your AI credits and usage"
@@ -106,24 +111,36 @@ export default function SettingScreen() {
           <SectionLabel label="Support" />
           <View className="overflow-hidden rounded-2xl bg-white">
             <SettingItem
+              index={5}
               icon={<HelpCircle size={17} color={colors.foreground} strokeWidth={2} />}
               title="FAQs"
               subtitle="Frequently asked questions"
               expandedContent={<FaqContent />}
             />
             <SettingItem
+              index={6}
               icon={<Mail size={17} color={colors.foreground} strokeWidth={2} />}
               title="Contact Us"
               subtitle="We're here to help you"
+              isLast
               expandedContent={<Text className="caption">kabirnisharga@gmail.com</Text>}
             />
+          </View>
+        </View>
+
+        {/* ── Legal ────────────────────────────────────────────────── */}
+        <View>
+          <SectionLabel label="Legal" />
+          <View className="overflow-hidden rounded-2xl bg-white">
             <SettingItem
+              index={7}
               icon={<FileText size={17} color={colors.foreground} strokeWidth={2} />}
               title="Terms & Conditions"
               subtitle="Read our Terms of Service"
               onPress={() => Linking.openURL(TERMS_URL)}
             />
             <SettingItem
+              index={8}
               icon={<Shield size={17} color={colors.foreground} strokeWidth={2} />}
               title="Privacy Policy"
               subtitle="Read our Privacy Policy"
@@ -134,12 +151,7 @@ export default function SettingScreen() {
         </View>
 
         {/* ── Footer ───────────────────────────────────────────────── */}
-        <Text
-          className="mt-2 text-center text-xs text-muted-foreground"
-          style={{ fontFamily: "Poppins-Regular" }}
-        >
-          Resume Builder | Version {APP_VERSION}
-        </Text>
+        <Text className="xs-normal mt-2 text-center">Resume Builder | Version {APP_VERSION}</Text>
       </View>
     </Screen>
   );

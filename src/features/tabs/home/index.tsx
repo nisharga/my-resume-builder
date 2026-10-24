@@ -144,7 +144,7 @@ const HomeScreen = () => {
   return (
     <Screen>
       {/* Stats header */}
-      <View className="mb-4 px-4">
+      <View className="mb-2 px-4">
         <WelcomeGreeting
           totalCVs={totalCVs}
           totalExports={totalExports}
