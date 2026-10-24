@@ -52,7 +52,16 @@
           "sounds": ["./assets/sounds/notification_sound.wav", "./assets/sounds/guiter.wav"]
         }
       ],
-      "expo-sharing"
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "organization": "nisharga-sharetasking",
+          "project": "resume-builder"
+        }
+      ],
+      "expo-sharing",
+      "@sentry/react-native"
     ],
     "experiments": {
       "typedRoutes": true,
