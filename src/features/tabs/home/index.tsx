@@ -1,5 +1,5 @@
 import { Carousel, Icons, Screen } from "@/components";
-import { Text, View } from "react-native";
+import { Text, View, View as RNView } from "react-native";
 import {
   WelcomeGreeting,
   CreateCvBanner,
@@ -7,7 +7,9 @@ import {
   CvCard,
   EmptyResume,
   StatsRow,
+  shouldShowOverview,
 } from "./components";
+import SpotlightTour, { type ElementRect } from "./components/SpotlightTour";
 import { useRouter, useFocusEffect } from "expo-router";
 import IconButton from "@/components/ui/IconButton";
 import { colors } from "@/styles";
@@ -18,7 +20,7 @@ import { shareCV } from "@/utils/shareCV";
 import { getExportHistory } from "@/utils/exportHistory";
 import { toast } from "@/utils/toast";
 import type { CVListItem } from "@/types/cv";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const MAX_RECENT = 3;
 
@@ -29,6 +31,49 @@ const HomeScreen = () => {
   const [totalCVs, setTotalCVs] = useState(0);
   const [totalExports, setTotalExports] = useState(0);
   const [lastEditTimestamp, setLastEditTimestamp] = useState<number | null>(null);
+
+  // ====================================================
+  // ================== SpotLight Tour ==================
+  // ====================================================
+  const [showOverview, setShowOverview] = useState(false);
+
+  // refs for spotlight targets
+  const carouselRef = useRef<RNView>(null);
+  const statsRef = useRef<RNView>(null);
+  const createBannerRef = useRef<RNView>(null);
+  const importBannerRef = useRef<RNView>(null);
+
+  const [carouselRect, setCarouselRect] = useState<ElementRect | null>(null);
+  const [statsRect, setStatsRect] = useState<ElementRect | null>(null);
+  const [createBannerRect, setCreateBannerRect] = useState<ElementRect | null>(null);
+  const [importBannerRect, setImportBannerRect] = useState<ElementRect | null>(null);
+
+  useEffect(() => {
+    shouldShowOverview()
+      .then(setShowOverview)
+      .catch(() => {});
+  }, []);
+
+  // Measure spotlight targets once on mount, after layout settles
+  useEffect(() => {
+    const id = setTimeout(() => {
+      carouselRef.current?.measureInWindow((x, y, w, h) => {
+        if (w > 0) setCarouselRect({ x, y, w, h });
+      });
+      statsRef.current?.measureInWindow((x, y, w, h) => {
+        if (w > 0) setStatsRect({ x, y, w, h });
+      });
+      createBannerRef.current?.measureInWindow((x, y, w, h) => {
+        if (w > 0) setCreateBannerRect({ x, y, w, h });
+      });
+      importBannerRef.current?.measureInWindow((x, y, w, h) => {
+        if (w > 0) setImportBannerRect({ x, y, w, h });
+      });
+    }, 500);
+    return () => clearTimeout(id);
+  }, []);
+
+  // end tour
 
   useFocusEffect(
     useCallback(() => {
@@ -108,14 +153,13 @@ const HomeScreen = () => {
         />
       </View>
 
-      {/* Create CV banner */}
-      <View className="mb-4 px-4">
+      {/* Carousel */}
+      <View ref={carouselRef} collapsable={false} className="mb-4 px-4">
         <Carousel />
       </View>
 
-      {/* Create CV banner */}
-      {/* Stats */}
-      <View className="mb-4 px-4">
+      {/* Stats row */}
+      <View ref={statsRef} collapsable={false} className="mb-4 px-4">
         <StatsRow
           totalCVs={totalCVs}
           totalExports={totalExports}
@@ -124,12 +168,12 @@ const HomeScreen = () => {
       </View>
 
       {/* Create CV banner */}
-      <View className="mb-4 px-4">
+      <View ref={createBannerRef} collapsable={false} className="mb-4 px-4">
         <CreateCvBanner onPress={handleNewCV} />
       </View>
 
       {/* Upload / import banner */}
-      <View className="mb-4 px-4">
+      <View ref={importBannerRef} collapsable={false} className="mb-4 px-4">
         <UploadCvBanner onPress={() => router.push("/upload-resume")} />
       </View>
 
@@ -164,6 +208,16 @@ const HomeScreen = () => {
           </View>
         )}
       </View>
+
+      {/* SpotLight tour */}
+      <SpotlightTour
+        show={showOverview}
+        carouselRect={carouselRect}
+        statsRect={statsRect}
+        createBannerRect={createBannerRect}
+        importBannerRect={importBannerRect}
+        onDone={() => setShowOverview(false)}
+      />
     </Screen>
   );
 };

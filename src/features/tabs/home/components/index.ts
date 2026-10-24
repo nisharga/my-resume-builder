@@ -1,4 +1,5 @@
 export { default as WelcomeGreeting } from "./WelcomeGreeting";
+export { shouldShowOverview, markOverviewSeen } from "./SpotLightTourStorage";
 export { default as StatsRow } from "./StatsRow";
 export { default as CreateCvBanner } from "./CreateCvBanner";
 export { default as UploadCvBanner } from "./UploadCvBanner";
