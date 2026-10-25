@@ -1,23 +1,43 @@
 {
-  "cli": { "version": ">= 20.0.0", "appVersionSource": "remote" },
+  "cli": {
+    "version": ">= 20.0.0",
+    "appVersionSource": "remote"
+  },
   "build": {
     "development": {
       "developmentClient": true,
       "distribution": "internal",
+      "environment": "development",
       "channel": "development",
-      "env": { "APP_VARIANT": "development" }
+      "env": { "APP_VARIANT": "development" },
+      "android": { "buildType": "apk" },
+      "ios": { "simulator": true }
     },
     "preview": {
       "distribution": "internal",
+      "environment": "preview",
       "channel": "preview",
-      "env": { "APP_VARIANT": "preview" },
+      "autoIncrement": true,
+      "env": {
+        "APP_VARIANT": "preview",
+        "SENTRY_AUTH_TOKEN": "$SENTRY_AUTH_TOKEN"
+      },
       "android": { "buildType": "apk" }
     },
     "production": {
+      "environment": "production",
       "channel": "production",
       "autoIncrement": true,
-      "env": { "APP_VARIANT": "production" }
+      "env": {
+        "APP_VARIANT": "production",
+        "SENTRY_AUTH_TOKEN": "$SENTRY_AUTH_TOKEN"
+      },
+      "android": { "buildType": "app-bundle" }
     }
   },
-  "submit": { "production": {} }
+  "submit": {
+    "production": {
+      "android": {}
+    }
+  }
 }

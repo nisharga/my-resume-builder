@@ -13,8 +13,12 @@ import {
 import { useEffect, useState } from "react";
 import { Linking, Text, View } from "react-native";
 import { SectionLabel, UpcomingBadge, FaqContent } from "./components";
+import Constants from "expo-constants";
 
-const APP_VERSION = "1.0.0";
+// semver from app.json + native build number (auto-incremented by EAS)
+const semver = Constants.expoConfig?.version ?? "1.0.0";
+const buildNumber = Constants.nativeBuildVersion;
+const APP_VERSION = buildNumber ? `${semver} (${buildNumber})` : semver;
 const TERMS_URL = "https://myresumebuilder.app/terms";
 const PRIVACY_URL = "https://myresumebuilder.app/privacy";
 
