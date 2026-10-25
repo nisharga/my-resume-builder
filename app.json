@@ -56,12 +56,11 @@
         "@sentry/react-native/expo",
         {
           "url": "https://sentry.io/",
-          "organization": "nisharga-sharetasking",
-          "project": "resume-builder"
+          "organization": "bruskee",
+          "project": "my-resume-builder"
         }
       ],
-      "expo-sharing",
-      "@sentry/react-native"
+      "expo-sharing"
     ],
     "experiments": {
       "typedRoutes": true,
@@ -70,9 +69,13 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "0a741c77-9736-4a30-a912-f1977ab4755c"
+        "projectId": "68e2eb51-6599-4f38-8eb1-362644a28008"
       }
     },
-    "owner": "nisharga.sharetasking"
+    "owner": "nisharga.sharetasking",
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/68e2eb51-6599-4f38-8eb1-362644a28008"
+    }
   }
 }
