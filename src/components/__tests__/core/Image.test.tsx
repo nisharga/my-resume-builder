@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { render, screen, fireEvent } from "@testing-library/react-native";
 import { Image } from "@/components/core";
+import { describe, expect, it, jest } from "@jest/globals";
 
 // Replace expo-image with a plain View so we can inspect the props it receives
 // and fire onLoad / onError ourselves.
