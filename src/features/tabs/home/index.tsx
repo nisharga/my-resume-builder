@@ -7,9 +7,7 @@ import {
   CvCard,
   EmptyResume,
   StatsRow,
-  shouldShowOverview,
 } from "./components";
-import SpotlightTour, { type ElementRect } from "./components/SpotlightTour";
 import { useRouter, useFocusEffect } from "expo-router";
 import IconButton from "@/components/ui/IconButton";
 import { colors } from "@/styles";
@@ -21,6 +19,8 @@ import { getExportHistory } from "@/utils/exportHistory";
 import { toast } from "@/utils/toast";
 import type { CVListItem } from "@/types/cv";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useSpotlightTour } from "@/hooks/useAppFlow";
+import SpotlightTour, { ElementRect } from "@/features/onboarding/SpotlightTour";
 
 const MAX_RECENT = 3;
 
@@ -32,12 +32,9 @@ const HomeScreen = () => {
   const [totalExports, setTotalExports] = useState(0);
   const [lastEditTimestamp, setLastEditTimestamp] = useState<number | null>(null);
 
-  // ====================================================
-  // ================== SpotLight Tour ==================
-  // ====================================================
-  const [showOverview, setShowOverview] = useState(false);
+  // ── Spotlight tour ──────────────────────────────────────────────────────────
+  const { showTour, handleTourDone } = useSpotlightTour();
 
-  // refs for spotlight targets
   const carouselRef = useRef<RNView>(null);
   const statsRef = useRef<RNView>(null);
   const createBannerRef = useRef<RNView>(null);
@@ -47,12 +44,6 @@ const HomeScreen = () => {
   const [statsRect, setStatsRect] = useState<ElementRect | null>(null);
   const [createBannerRect, setCreateBannerRect] = useState<ElementRect | null>(null);
   const [importBannerRect, setImportBannerRect] = useState<ElementRect | null>(null);
-
-  useEffect(() => {
-    shouldShowOverview()
-      .then(setShowOverview)
-      .catch(() => {});
-  }, []);
 
   // Measure spotlight targets once on mount, after layout settles
   useEffect(() => {
@@ -211,12 +202,12 @@ const HomeScreen = () => {
 
       {/* SpotLight tour */}
       <SpotlightTour
-        show={showOverview}
+        show={showTour}
         carouselRect={carouselRect}
         statsRect={statsRect}
         createBannerRect={createBannerRect}
         importBannerRect={importBannerRect}
-        onDone={() => setShowOverview(false)}
+        onDone={handleTourDone}
       />
     </Screen>
   );
