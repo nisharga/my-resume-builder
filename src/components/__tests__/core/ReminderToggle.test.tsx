@@ -177,7 +177,7 @@ describe("ReminderToggle", () => {
       await user.press(screen.getByText("Notification Check"));
 
       await waitFor(() => expect(Notifications.scheduleNotificationAsync).toHaveBeenCalledTimes(1));
-      const [request] = jest.mocked(Notifications.scheduleNotificationAsync).mock.calls[0];
+      const [request] = jest.mocked(Notifications.scheduleNotificationAsync).mock.calls[0]!;
       expect(request.content.sound).toBeUndefined();
     });
   });
