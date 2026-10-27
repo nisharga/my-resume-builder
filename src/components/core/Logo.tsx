@@ -23,7 +23,12 @@ export default function Logo() {
 
   return (
     <Animated.View style={[animStyle, { alignItems: "center", marginTop: -20 }]}>
-      <Image source={logo} style={{ width: 120, height: 120 }} contentFit="contain" />
+      <Image
+        source={logo}
+        style={{ width: 120, height: 120 }}
+        contentFit="contain"
+        testID="logo-image"
+      />
       <View style={{ alignItems: "center", marginTop: -32 }}>
         <Text
           style={{
