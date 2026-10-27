@@ -113,7 +113,7 @@
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/src/__mocks__/styleMock.js",
       "^@/(.*)$": "<rootDir>/$1",
-      "@react-native-async-storage/async-storage": "@react-native-async-storage/async-storage/jest/async-storage-mock.js",
+      "^@react-native-async-storage/async-storage$": "@react-native-async-storage/async-storage/jest/async-storage-mock.js",
       "react-native-reanimated": "<rootDir>/src/__mocks__/react-native-reanimated.js",
       "lucide-react-native": "<rootDir>/node_modules/lucide-react-native/dist/cjs/lucide-react-native.js",
       "expo-notifications": "<rootDir>/src/__mocks__/expo-notifications.js",
