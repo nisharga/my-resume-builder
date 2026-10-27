@@ -1,8 +1,7 @@
 import { colors } from "@/styles/colors";
-import { Icons } from "@/components";
+import { Icons, WavingHand } from "@/components";
 import IconButton from "@/components/ui/IconButton";
 import { Image, Text, View } from "react-native";
-import WavingHand from "./WavingHand";
 
 interface WelcomeGreetingProps {
   totalCVs: number;
