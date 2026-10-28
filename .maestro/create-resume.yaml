@@ -1,0 +1,41 @@
+appId: com.nisharga.myresumebuilder
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    point: 47%,91%
+- tapOn: "Personal details"
+- tapOn: "e.g. Nusrat Jahan"
+- inputText: "Nisharga Kabir"
+- tapOn: "e.g. Product Designer"
+- inputText: "Full Stack Developer"
+- tapOn: "you@mail.com"
+- inputText: "nishargakabir@gmail.com"
+- tapOn: "+880 1711 000000"
+- inputText: "017746555873"
+- tapOn: "e.g. Dhaka, Bangladesh"
+- inputText: "Dhaka"
+- tapOn: "Go back"
+- tapOn: "Experience"
+- tapOn: " Add Job"
+- tapOn: "e.g. UI Designer"
+- inputText: "Full Stack Developer"
+- tapOn: "e.g. Acme Inc."
+- inputText: "Taqwa"
+- tapOn: "e.g. May 2021"
+- tapOn: "Jan"
+- tapOn: "2024"
+- tapOn: "Confirm"
+- tapOn: "e.g. Jul 2023"
+- tapOn: "Present / Current"
+- tapOn: "Confirm"
+- tapOn: "One achievement per line"
+- tapOn: "Save"
+- tapOn: "Done"
+- tapOn: "Preview CV"
+- tapOn:
+    point: 82%,92%
+- waitForAnimationToEnd:
+    timeout: 2000
+- assertVisible: "Nisharga Kabir has been saved as PDF."
+
