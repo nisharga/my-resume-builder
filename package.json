@@ -120,7 +120,7 @@
       "expo-router": "<rootDir>/src/__mocks__/expo-router.js"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|nativewind|react-native-css|@gluestack-ui/.*|lucide-react-native|standard-navigation|@legendapp)"
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|nativewind|react-native-css|@gluestack-ui/.*|lucide-react-native|standard-navigation|@legendapp|immer)"
     ]
   },
   "private": true,
