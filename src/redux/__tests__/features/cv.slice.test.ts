@@ -1,3 +1,4 @@
+import { afterEach, beforeEach, describe, expect, it, jest } from "@jest/globals";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { configureStore, type UnknownAction } from "@reduxjs/toolkit";
 
@@ -67,7 +68,7 @@ const makeStore = () => configureStore({ reducer: { cv: reducer } });
 
 // ─── setup ────────────────────────────────────────────────────────────────────
 
-let dateSpy: jest.SpyInstance;
+let dateSpy: ReturnType<typeof jest.spyOn>;
 
 beforeEach(async () => {
   dateSpy = jest.spyOn(Date, "now").mockReturnValue(NOW);
@@ -361,7 +362,7 @@ describe("cvSlice", () => {
         summary: "From storage",
         personal: { name: "Nisharga Kabir" },
       };
-      (getCV as jest.Mock).mockResolvedValue(stored);
+      jest.mocked(getCV).mockResolvedValue(stored as CVData);
       const store = makeStore();
 
       await store.dispatch(loadCVById("cv_42"));
@@ -375,7 +376,7 @@ describe("cvSlice", () => {
     });
 
     it("keeps the current state when the CV is not found", async () => {
-      (getCV as jest.Mock).mockResolvedValue(null);
+      jest.mocked(getCV).mockResolvedValue(null);
       const store = makeStore();
 
       await store.dispatch(loadCVById("missing"));
