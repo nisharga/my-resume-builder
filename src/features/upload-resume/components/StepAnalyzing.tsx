@@ -57,8 +57,11 @@ export default function StepAnalyzing({ onDone }: Props) {
   return (
     <View className="flex-1 items-center px-4 pt-4">
       <Text className="xl-bold mb-1 text-foreground">AI is reading your CV</Text>
-      <Text className="sm-normal mb-8 text-center text-muted-foreground">
+      <Text className="sm-normal mb-2 text-center text-foreground!">
         Sit tight while we extract all the details from your resume.
+      </Text>
+      <Text className="xs-normal mb-4 text-center text-foreground">
+        This might take a little longer than usual. Please stay patient!
       </Text>
 
       {/* Document with scan beam */}
