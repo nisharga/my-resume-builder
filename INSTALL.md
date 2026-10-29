@@ -1,9 +1,10 @@
 # INSTALL — Setup & Dependency Management
 
-This file covers two things:
+This file covers three things:
 
 1. **[Part 1 — Clone & configure as a new app](#part-1--clone--configure-as-a-new-app)** — how to use this project as a starting point for a brand-new app
-2. **[Part 2 — Keeping dependencies up to date](#part-2--keeping-dependencies-up-to-date)** — how to update packages after the SDK or individual libraries release new versions
+2. **[Part 2 — Releasing builds and OTA updates](#part-2--releasing-builds-and-ota-updates)** — how `versions.json` works and when to bump it
+3. **[Part 3 — Keeping dependencies up to date](#part-3--keeping-dependencies-up-to-date)** — how to update packages after the SDK or individual libraries release new versions
 
 ---
 
@@ -184,7 +185,89 @@ npx expo start
 
 ---
 
-## Part 2 — Keeping dependencies up to date
+## Part 2 — Releasing builds and OTA updates
+
+### How `versions.json` works
+
+`app.config.ts` reads `versions.json` and uses it to set two Expo fields:
+
+| `versions.json` field | Expo field                      | Controls                                             |
+| --------------------- | ------------------------------- | ---------------------------------------------------- |
+| `major`               | `version` (e.g. `2.0.0`)        | The version shown in the App Store / Play Store      |
+| `ota`                 | `runtimeVersion` (e.g. `3.0.0`) | Which native builds an OTA update is compatible with |
+
+`runtimeVersion` is the critical one. Expo only delivers an OTA update to devices whose native build has the **same** `runtimeVersion`. If you bump `ota`, devices on the old native build will no longer receive your OTA updates until they install the new build.
+
+---
+
+### The two release scripts
+
+Always use the npm scripts instead of running `eas` directly — the scripts bump `versions.json`, commit it, and then run the EAS command in one step.
+
+```bash
+# New native build (bumps major, commits, runs eas build)
+npm run build:preview
+npm run build:prod
+
+# OTA update (bumps ota, commits, runs eas update)
+npm run ota:preview
+npm run ota:prod
+```
+
+---
+
+### When to bump `ota` vs when NOT to
+
+**Do NOT bump `ota` (regular OTA — most common case)**
+
+A regular bug fix or JS-only change that is fully compatible with the existing native build. The current `runtimeVersion` stays the same so existing installs receive the update automatically.
+
+```bash
+# Wrong — bypasses the script, versions.json never updates
+APP_VARIANT=preview eas update --channel preview --environment preview --message "Fix resume preview text"
+
+# Correct — script bumps ota, commits, then runs eas update
+npm run ota:preview
+```
+
+If you want to pass a custom message, edit `scripts/release.js` line 34 temporarily, or just use the script as-is (it auto-generates the message from the `ota` version).
+
+**Do bump `ota` (new native build required)**
+
+You changed something that requires a new native build: added a new native module, changed a native config in `app.json`, updated `react-native` or `react-native-reanimated` to a new major. In this case run `npm run build:preview` which bumps `major`. The `ota` counter resets conceptually because the new build starts receiving its own OTA chain.
+
+> Rule of thumb: if `npx expo install --fix` changed any package that has native code, you need a new build — use `npm run build:*`. For pure JS changes, use `npm run ota:*`.
+
+---
+
+### Decision chart
+
+```
+Made a change →
+  ├── Changed native code / config / native package version?
+  │     └── YES → npm run build:preview / build:prod
+  └── Pure JS / TS change only?
+        └── YES → npm run ota:preview / ota:prod
+```
+
+---
+
+### What to do if you already ran `eas update` directly
+
+If you already sent an OTA without using the script (like running `eas update` manually), `versions.json` is now out of sync. Fix it by bumping `ota` manually and committing:
+
+```bash
+# 1. Edit versions.json — increment ota for the relevant profile by 1
+# 2. Commit it
+git add versions.json
+git commit -m "chore: sync preview OTA counter after manual eas update"
+```
+
+This keeps the file accurate for next time so the script doesn't re-use a version number.
+
+---
+
+## Part 3 — Keeping dependencies up to date
 
 ### The core rule: Expo drives everything
 

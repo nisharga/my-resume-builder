@@ -3,10 +3,11 @@ const { execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
-const [, , action, profile] = process.argv;
+const [, , action, profile, ...rest] = process.argv;
+const customMessage = rest.join(" ").trim();
 
 if (!["build", "ota"].includes(action) || !["preview", "production"].includes(profile)) {
-  console.error("Usage: node scripts/release.js <build|ota> <preview|production>");
+  console.error("Usage: node scripts/release.js <build|ota> <preview|production> [message]");
   process.exit(1);
 }
 
@@ -25,11 +26,13 @@ if (action === "build") {
   run(`git commit -m "chore: bump ${profile} to v${v.major}.0.0"`);
   run(`eas build --profile ${profile} --platform android --non-interactive`);
 } else {
-  // ota — bump ota to signal a new runtime-compatible OTA group, then publish
   v.ota += 1;
   fs.writeFileSync(versionsPath, JSON.stringify(versions, null, 2) + "\n");
-  console.log(`\n✓ ${profile}.ota → ${v.ota}.0.0\n`);
+  const message = customMessage || `OTA v${v.ota}.0.0`;
+  console.log(`\n✓ ${profile}.ota → ${v.ota}.0.0 — "${message}"\n`);
   run(`git add versions.json`);
   run(`git commit -m "chore: bump ${profile} OTA to v${v.ota}.0.0"`);
-  run(`eas update --branch ${profile} --message "OTA v${v.ota}.0.0" --non-interactive`);
+  run(
+    `APP_VARIANT=${profile} eas update --channel ${profile} --environment ${profile} --message "${message}" --non-interactive`,
+  );
 }

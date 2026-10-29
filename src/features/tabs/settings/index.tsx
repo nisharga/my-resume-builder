@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 import { Linking, Text, View } from "react-native";
 import { SectionLabel, UpcomingBadge, FaqContent } from "./components";
 import Constants from "expo-constants";
-import LogoutButton from "@/components/ui/LogoutButton";
 
 // semver from app.json + native build number (auto-incremented by EAS)
 const semver = Constants.expoConfig?.version ?? "1.0.0";
@@ -153,7 +152,6 @@ export default function SettingScreen() {
               onPress={() => Linking.openURL(PRIVACY_URL)}
             />
           </View>
-          <LogoutButton />
         </View>
 
         {/* ── Footer ───────────────────────────────────────────────── */}

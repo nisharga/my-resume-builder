@@ -97,7 +97,8 @@
     "build:preview": "node scripts/release.js build preview",
     "build:prod": "node scripts/release.js build production",
     "ota:preview": "node scripts/release.js ota preview",
-    "ota:prod": "node scripts/release.js ota production"
+    "ota:prod": "node scripts/release.js ota production",
+    "ota": "node scripts/release.js ota"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
