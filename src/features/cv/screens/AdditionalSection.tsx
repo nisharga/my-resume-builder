@@ -9,7 +9,6 @@ import LiveFab from "../LiveFab";
 export default function AdditionalSection() {
   const dispatch = useAppDispatch();
   const achievements = useAppSelector((s) => s.cv.achievements);
-  const accent = useAppSelector((s) => s.cv.accent);
 
   const enabled = achievements.filter((a) => a.enabled);
 

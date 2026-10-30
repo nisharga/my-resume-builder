@@ -2,7 +2,7 @@ import { Pressable, ScrollView, Text, View } from "react-native";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { addEducation } from "@/redux/features/cvSlice";
 import { formatDates } from "@/utils/cv";
-import { ChevronRight, Plus } from "lucide-react-native";
+import { ChevronRight } from "lucide-react-native";
 import { colors } from "@/styles/colors";
 import { useRouter } from "expo-router";
 import CVSectionScreen from "./CVSectionScreen";

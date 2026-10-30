@@ -1,6 +1,5 @@
 import { Pressable, Text, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Info } from "lucide-react-native";
 import ScaledPage from "@/features/cv/ScaledPage";
 import { ACCENT_COLOR_NAMES, TEMPLATES } from "@/features/cv/constants";
 import { colors } from "@/styles/colors";

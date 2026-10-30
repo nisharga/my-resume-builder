@@ -46,7 +46,7 @@ export const LanguageProvider = ({ children }: any) => {
 
   const contextValue = useMemo(
     () => ({ language, changeLanguage, t, translations }),
-    [language, translations],
+    [language, translations, t],
   );
 
   return <LanguageContext.Provider value={contextValue}>{children}</LanguageContext.Provider>;

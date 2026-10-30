@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Animated, Text, View } from "react-native";
 import type { SectionCompletion } from "@/utils/cv";
-import { completedCount } from "@/utils/cv";
 import { colors } from "@/styles/colors";
 
 interface Props {

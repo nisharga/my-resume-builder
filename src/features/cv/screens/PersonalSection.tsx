@@ -2,7 +2,6 @@ import { ScrollView } from "react-native";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { updatePersonal } from "@/redux/features/cvSlice";
 import { LabeledInput } from "@/components";
-import type { FieldDef } from "@/types/cv";
 import CVSectionScreen from "./CVSectionScreen";
 import LiveFab from "../LiveFab";
 import { PERSONAL_DETAILS_FIELDS } from "@/config";

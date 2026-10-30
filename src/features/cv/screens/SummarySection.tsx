@@ -1,7 +1,6 @@
-import { ScrollView, Text, TextInput, View } from "react-native";
+import { ScrollView } from "react-native";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { updateSummary } from "@/redux/features/cvSlice";
-import { colors } from "@/styles/colors";
 import CVSectionScreen from "./CVSectionScreen";
 import LiveFab from "../LiveFab";
 import { LabeledInput } from "@/components";

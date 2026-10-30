@@ -1,7 +1,6 @@
 import { Icons } from "@/components";
 import { colors } from "@/styles/colors";
 import { LinearGradient } from "expo-linear-gradient";
-import { ArrowRight, FileText } from "lucide-react-native";
 import { Pressable, Text, View } from "react-native";
 
 interface CreateCvBannerProps {

@@ -47,7 +47,7 @@ export default function CvListSkeleton() {
       -1,
       false,
     );
-  }, []);
+  }, [opacity]);
 
   return (
     <View className="mx-4 mt-1 overflow-hidden rounded-2xl bg-white">

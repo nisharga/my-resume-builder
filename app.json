@@ -1,17 +1,17 @@
 {
   "expo": {
-    "name": "Resume Builder",
-    "slug": "my-resume-builder",
+    "name": "Cute Cat",
+    "slug": "cute-cat",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "myresumebuilder",
+    "scheme": "cutecat",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "bundleIdentifier": "com.nisharga.myresumebuilder"
+      "bundleIdentifier": "com.nisharga.cutecat"
     },
     "android": {
-      "package": "com.nisharga.myresumebuilder",
+      "package": "com.nisharga.cutecat",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/adaptive-icon.png"
@@ -57,7 +57,7 @@
         {
           "url": "https://sentry.io/",
           "organization": "bruskee",
-          "project": "my-resume-builder"
+          "project": "cute-cat"
         }
       ],
       "expo-sharing"
@@ -69,13 +69,13 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "68e2eb51-6599-4f38-8eb1-362644a28008"
+        "projectId": "6b8ce49d-14e7-4fd5-986f-d9a560b355e4"
       }
     },
     "owner": "nisharga.sharetasking",
     "runtimeVersion": "1.0.0",
     "updates": {
-      "url": "https://u.expo.dev/68e2eb51-6599-4f38-8eb1-362644a28008"
+      "url": "https://u.expo.dev/6b8ce49d-14e7-4fd5-986f-d9a560b355e4"
     }
   }
 }

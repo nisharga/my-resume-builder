@@ -1,14 +1,14 @@
-import { AndroidNavSpacer, Icons, Screen, StickyView } from "@/components";
+import { AndroidNavSpacer, Screen, StickyView } from "@/components";
 import { ScreenHeader } from "@/components/common";
 import IconButton from "@/components/ui/IconButton";
 import { colors } from "@/styles/colors";
 import { useAppDispatch } from "@/redux/store";
-import { loadCVById, resetToNewCV } from "@/redux/features/cvSlice";
+import { loadCVById } from "@/redux/features/cvSlice";
 import { getAllCVs, getCV, saveCV, genCVId, deleteCV, formatUpdatedAt } from "@/utils/cvStorage";
 import { shareCV } from "@/utils/shareCV";
 import { toast } from "@/utils/toast";
 import type { CVListItem } from "@/types/cv";
-import { Check, Plus, Search, SlidersHorizontal, X } from "lucide-react-native";
+import { Check, Search, SlidersHorizontal, X } from "lucide-react-native";
 import { useCallback, useMemo, useState } from "react";
 import { Alert, Modal, Pressable, Text, TextInput, View } from "react-native";
 import { CvCard, EmptyResume } from "../home/components";
@@ -104,11 +104,6 @@ const MyCVScreen = () => {
       .then(setCvList)
       .catch(() => {});
     toast.success("CV duplicated successfully.");
-  }
-
-  function handleNewCV() {
-    dispatch(resetToNewCV());
-    router.push("/(tabs)/create-resume");
   }
 
   const filtered = useMemo(() => {

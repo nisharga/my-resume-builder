@@ -135,16 +135,6 @@ export default function Carousel() {
     [settleAt, startAutoPlay],
   );
 
-  const handleDragEnd = useCallback(
-    (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-      const x = e.nativeEvent.contentOffset.x;
-      const v = Math.round(x / CARD_W);
-      if (Math.abs(x - v * CARD_W) < 1) settleAt(v);
-      startAutoPlay();
-    },
-    [settleAt, startAutoPlay],
-  );
-
   return (
     <View style={{ height: CARD_H }}>
       <Animated.ScrollView

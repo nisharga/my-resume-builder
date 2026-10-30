@@ -5,7 +5,7 @@ import {
 } from "../../utils/notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
-import { Platform, StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
+import { Platform, Switch, Text, TouchableOpacity, View } from "react-native";
 import * as Notifications from "expo-notifications";
 
 const REMINDERS_KEY = "remindersEnabled";
@@ -64,12 +64,3 @@ export default function ReminderToggle() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 30,
-  },
-});

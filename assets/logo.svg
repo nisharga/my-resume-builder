@@ -2,19 +2,7 @@
   <defs>
     <!-- Background Gradient -->
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0F172A" />
-      <stop offset="100%" stop-color="#1E293B" />
-    </linearGradient>
-
-    <!-- Accent Gradient -->
-    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#3B82F6" />
-      <stop offset="100%" stop-color="#2563EB" />
-    </linearGradient>
-
-    <!-- Highlight Gradient -->
-    <linearGradient id="sparkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#60A5FA" />
+      <stop offset="0%" stop-color="#4F46E5" />
       <stop offset="100%" stop-color="#93C5FD" />
     </linearGradient>
 
@@ -26,38 +14,46 @@
   <!-- Canvas Background -->
   <rect width="512" height="512" rx="100" fill="url(#bgGrad)" />
 
-  <!-- Main Resume Document Card -->
+  <!-- Cat Face -->
   <g filter="url(#shadow)">
-    <rect x="128" y="96" width="220" height="300" rx="20" fill="#FFFFFF" />
-    
-    <!-- Header / Avatar Circle -->
-    <circle cx="176" cy="156" r="22" fill="url(#accentGrad)" opacity="0.2" />
-    <circle cx="176" cy="156" r="14" fill="url(#accentGrad)" />
+    <!-- Ears -->
+    <path d="M128 210 L146 92 L230 172 Z" fill="#F59E42" />
+    <path d="M384 210 L366 92 L282 172 Z" fill="#F59E42" />
+    <path d="M150 196 L160 124 L212 174 Z" fill="#FFAABE" />
+    <path d="M362 196 L352 124 L300 174 Z" fill="#FFAABE" />
 
-    <!-- Name & Title Lines -->
-    <rect x="212" y="144" width="100" height="10" rx="5" fill="#1E293B" />
-    <rect x="212" y="162" width="60" height="8" rx="4" fill="#94A3B8" />
-
-    <!-- Resume Content Placeholders -->
-    <rect x="160" y="204" width="156" height="8" rx="4" fill="#CBD5E1" />
-    <rect x="160" y="224" width="130" height="8" rx="4" fill="#CBD5E1" />
-    <rect x="160" y="244" width="144" height="8" rx="4" fill="#CBD5E1" />
-    
-    <rect x="160" y="280" width="156" height="8" rx="4" fill="#E2E8F0" />
-    <rect x="160" y="300" width="110" height="8" rx="4" fill="#E2E8F0" />
-    <rect x="160" y="320" width="138" height="8" rx="4" fill="#E2E8F0" />
+    <!-- Head -->
+    <ellipse cx="256" cy="286" rx="154" ry="138" fill="#F59E42" />
   </g>
 
-  <!-- Dynamic Builder Pen / Wand -->
-  <g filter="url(#shadow)">
-    <!-- Pen Body -->
-    <path d="M360 160 L390 130 C398 122 410 122 418 130 L422 134 C430 142 430 154 422 162 L392 192 Z" fill="url(#accentGrad)" />
-    <!-- Pen Nib -->
-    <path d="M360 160 L330 220 L392 192 Z" fill="#1D4ED8" />
-    <!-- Nib Tip -->
-    <path d="M330 220 L345 205 L355 215 Z" fill="#60A5FA" />
-  </g>
+  <!-- Forehead Stripes -->
+  <rect x="222" y="154" width="12" height="48" rx="6" fill="#D67828" />
+  <rect x="250" y="152" width="12" height="60" rx="6" fill="#D67828" />
+  <rect x="278" y="154" width="12" height="48" rx="6" fill="#D67828" />
 
-  <!-- Sparkle Accent -->
-  <path d="M320 120 L324 132 L336 136 L324 140 L320 152 L316 140 L304 136 L316 132 Z" fill="url(#sparkGrad)" />
+  <!-- Muzzle -->
+  <circle cx="220" cy="336" r="40" fill="#FFFAF5" />
+  <circle cx="292" cy="336" r="40" fill="#FFFAF5" />
+
+  <!-- Eyes -->
+  <ellipse cx="198" cy="268" rx="26" ry="31" fill="#6EC878" />
+  <ellipse cx="314" cy="268" rx="26" ry="31" fill="#6EC878" />
+  <ellipse cx="198" cy="268" rx="9" ry="26" fill="#1E1E28" />
+  <ellipse cx="314" cy="268" rx="9" ry="26" fill="#1E1E28" />
+  <circle cx="205" cy="256" r="6" fill="#FFFFFF" />
+  <circle cx="321" cy="256" r="6" fill="#FFFFFF" />
+
+  <!-- Nose & Mouth -->
+  <path d="M241 304 L271 304 L256 322 Z" fill="#FFAABE" />
+  <path d="M256 322 Q256 344 236 344 M256 322 Q256 344 276 344" fill="none" stroke="#1E1E28" stroke-width="6" stroke-linecap="round" />
+
+  <!-- Whiskers -->
+  <g stroke="#1E1E28" stroke-width="5" stroke-linecap="round">
+    <line x1="194" y1="326" x2="80" y2="306" />
+    <line x1="194" y1="338" x2="78" y2="340" />
+    <line x1="194" y1="350" x2="84" y2="374" />
+    <line x1="318" y1="326" x2="432" y2="306" />
+    <line x1="318" y1="338" x2="434" y2="340" />
+    <line x1="318" y1="350" x2="428" y2="374" />
+  </g>
 </svg>
