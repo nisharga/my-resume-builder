@@ -68,7 +68,7 @@ const CustomModal = ({
           borderColor: colors.border,
         },
         title: {
-          fontFamily: "Inter-Bold",
+          fontFamily: fontFamilyTheme.bold,
           fontSize: 18,
           marginBottom: 12,
           color: colors.text.primary,
@@ -109,7 +109,7 @@ const CustomModal = ({
         },
         cancelText: {
           color: colors.text.secondary,
-          fontFamily: "Inter-Medium",
+          fontFamily: fontFamilyTheme.medium,
           fontSize: 14,
         },
       }),

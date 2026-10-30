@@ -10,6 +10,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import { fontFamilyTheme } from "@/styles";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   message: {
-    fontFamily: "Inter-Medium",
+    fontFamily: fontFamilyTheme.medium,
     fontSize: 13,
     color: colors.foreground,
     lineHeight: 18,

@@ -52,7 +52,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           borderColor: colors.border,
         },
         title: {
-          fontFamily: "Inter-Bold",
+          fontFamily: fontFamilyTheme.bold,
           fontSize: 18,
           marginBottom: 12,
           color: colors.text.primary,
