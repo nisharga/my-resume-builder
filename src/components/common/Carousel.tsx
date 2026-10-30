@@ -25,12 +25,12 @@ interface CarouselItem {
 }
 
 const ITEMS: CarouselItem[] = [
-  { id: "1", image: require("../../../assets/carousel/1.jpeg") },
-  { id: "2", image: require("../../../assets/carousel/2.jpeg") },
-  { id: "3", image: require("../../../assets/carousel/3.jpeg") },
-  { id: "4", image: require("../../../assets/carousel/4.jpeg") },
-  { id: "5", image: require("../../../assets/carousel/5.jpeg") },
-  { id: "6", image: require("../../../assets/carousel/6.jpeg") },
+  { id: "1", image: { uri: "https://picsum.photos/seed/cv-1/1200/600" } },
+  { id: "2", image: { uri: "https://picsum.photos/seed/cv-2/1200/600" } },
+  { id: "3", image: { uri: "https://picsum.photos/seed/cv-3/1200/600" } },
+  { id: "4", image: { uri: "https://picsum.photos/seed/cv-4/1200/600" } },
+  { id: "5", image: { uri: "https://picsum.photos/seed/cv-5/1200/600" } },
+  { id: "6", image: { uri: "https://picsum.photos/seed/cv-6/1200/600" } },
 ];
 
 const N = ITEMS.length;
