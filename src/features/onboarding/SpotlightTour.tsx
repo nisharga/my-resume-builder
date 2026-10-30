@@ -1,3 +1,4 @@
+import { fontFamilyTheme } from "@/styles";
 import { markOverviewSeen } from "./SpotLightTourStorage";
 import { colors } from "@/styles/colors";
 import { useEffect, useState } from "react";
@@ -337,12 +338,20 @@ export default function SpotlightTour({
             style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}
           >
             <Text
-              style={{ fontFamily: "Poppins-SemiBold", fontSize: 16, color: colors.foreground }}
+              style={{
+                fontFamily: fontFamilyTheme.semiBold,
+                fontSize: 16,
+                color: colors.foreground,
+              }}
             >
               {current.title}
             </Text>
             <Text
-              style={{ fontFamily: "Poppins-Regular", fontSize: 12, color: colors.mutedForeground }}
+              style={{
+                fontFamily: fontFamilyTheme.regular,
+                fontSize: 12,
+                color: colors.mutedForeground,
+              }}
             >
               {safeStep + 1} / {STEPS.length}
             </Text>
@@ -351,7 +360,7 @@ export default function SpotlightTour({
           {/* Description */}
           <Text
             style={{
-              fontFamily: "Poppins-Regular",
+              fontFamily: fontFamilyTheme.regular,
               fontSize: 13,
               color: colors.mutedForeground,
               lineHeight: 21,
@@ -392,7 +401,7 @@ export default function SpotlightTour({
             >
               <Text
                 style={{
-                  fontFamily: "Poppins-SemiBold",
+                  fontFamily: fontFamilyTheme.semiBold,
                   fontSize: 14,
                   color: colors.mutedForeground,
                 }}
@@ -410,7 +419,7 @@ export default function SpotlightTour({
                 backgroundColor: colors.primary,
               }}
             >
-              <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 14, color: "#fff" }}>
+              <Text style={{ fontFamily: fontFamilyTheme.semiBold, fontSize: 14, color: "#fff" }}>
                 {isLast ? "Got it!" : "Next"}
               </Text>
             </Pressable>
@@ -429,7 +438,7 @@ export default function SpotlightTour({
           >
             <Text
               style={{
-                fontFamily: "Poppins-SemiBold",
+                fontFamily: fontFamilyTheme.semiBold,
                 fontSize: 14,
                 color: colors.mutedForeground,
               }}

@@ -1,3 +1,4 @@
+import { fontFamilyTheme } from "@/styles";
 import { useTheme } from "./ThemeContext";
 import React, { createContext, useContext, useState, useCallback, useMemo } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -51,14 +52,14 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           borderColor: colors.border,
         },
         title: {
-          fontFamily: "Poppins-Bold",
+          fontFamily: "Inter-Bold",
           fontSize: 18,
           marginBottom: 12,
           color: colors.text.primary,
           textAlign: "center",
         },
         message: {
-          fontFamily: "Poppins-Regular",
+          fontFamily: fontFamilyTheme.regular,
           fontSize: 15,
           color: colors.text.secondary,
           marginBottom: 24,
@@ -81,7 +82,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         },
         buttonText: {
           color: colors.text.white,
-          fontFamily: "Poppins-SemiBold",
+          fontFamily: fontFamilyTheme.semiBold,
           fontSize: 14,
         },
       }),

@@ -1,3 +1,4 @@
+import { fontFamilyTheme } from "@/styles";
 import { colors } from "@/styles/colors";
 import { Image } from "expo-image";
 import { useEffect } from "react";
@@ -33,7 +34,7 @@ export default function Logo() {
         <Text
           style={{
             fontSize: 22,
-            fontFamily: "Poppins-Bold",
+            fontFamily: fontFamilyTheme.bold,
             color: colors.primary,
             letterSpacing: -0.3,
           }}
@@ -43,7 +44,7 @@ export default function Logo() {
         <Text
           style={{
             fontSize: 12,
-            fontFamily: "Poppins-Regular",
+            fontFamily: fontFamilyTheme.regular,
             color: colors.mutedForeground,
             letterSpacing: 0.4,
             marginTop: -8,

@@ -1,3 +1,4 @@
+import { fontFamilyTheme } from "@/styles";
 import { colors } from "@/styles/colors";
 import * as WebBrowser from "expo-web-browser";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
@@ -13,6 +14,6 @@ export default WebUrl;
 const styles = StyleSheet.create({
   link: {
     fontSize: 12,
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: fontFamilyTheme.semiBold,
   },
 });

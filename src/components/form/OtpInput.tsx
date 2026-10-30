@@ -1,3 +1,4 @@
+import { fontFamilyTheme } from "@/styles";
 import { colors } from "@/styles/colors";
 import { useRef } from "react";
 import { Text, TextInput, View } from "react-native";
@@ -59,7 +60,7 @@ export function OtpInput({ value, onChange, length = 4, error }: Props) {
                 borderRadius: 12,
                 textAlign: "center",
                 fontSize: 22,
-                fontFamily: "Poppins-SemiBold",
+                fontFamily: fontFamilyTheme.semiBold,
                 color: colors.foreground,
                 borderColor: error ? colors.destructive : filled ? colors.primary : colors.border,
                 backgroundColor: filled ? colors.accent : colors.white,

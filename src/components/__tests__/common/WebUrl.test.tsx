@@ -3,6 +3,7 @@ import { render, screen, userEvent } from "@testing-library/react-native";
 import * as WebBrowser from "expo-web-browser";
 import { colors } from "@/styles/colors";
 import { WebUrl } from "@/components/common";
+import { fontFamilyTheme } from "@/styles";
 
 jest.mock("expo-web-browser", () => ({
   openBrowserAsync: jest.fn(),
@@ -40,7 +41,7 @@ describe("WebUrl", () => {
     expect(screen.getByText("Read our privacy policy")).toHaveStyle({
       color: colors.primary,
       fontSize: 12,
-      fontFamily: "Poppins-SemiBold",
+      fontFamily: fontFamilyTheme.semiBold,
     });
   });
 

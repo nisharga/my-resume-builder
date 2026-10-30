@@ -1,3 +1,4 @@
+import { fontFamilyTheme } from "@/styles";
 import { colors } from "@/styles/colors";
 import { FilePlus } from "lucide-react-native";
 import { useEffect } from "react";
@@ -57,13 +58,13 @@ export default function EmptyResume() {
       {/* Text */}
       <Text
         className="mb-2 text-center text-lg text-foreground"
-        style={{ fontFamily: "Poppins-SemiBold" }}
+        style={{ fontFamily: fontFamilyTheme.semiBold }}
       >
         No Resumes Yet
       </Text>
       <Text
         className="text-center text-sm text-muted-foreground"
-        style={{ fontFamily: "Poppins-Regular" }}
+        style={{ fontFamily: fontFamilyTheme.regular }}
       >
         Create your first resume and start building your professional career.
       </Text>

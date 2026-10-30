@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { colors } from "@/styles/colors";
 import { AndroidNavSpacer } from "../core";
+import { fontFamilyTheme } from "@/styles";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -242,7 +243,7 @@ const ss = StyleSheet.create({
   },
   sheetTitle: {
     fontSize: 16,
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: fontFamilyTheme.semiBold,
     color: colors.foreground,
     marginBottom: 16,
     textAlign: "center",
@@ -257,7 +258,7 @@ const ss = StyleSheet.create({
   },
   presentText: {
     fontSize: 14,
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: fontFamilyTheme.semiBold,
     color: colors.primary,
   },
   columns: {
@@ -270,7 +271,7 @@ const ss = StyleSheet.create({
   },
   colLabel: {
     fontSize: 12,
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: fontFamilyTheme.semiBold,
     color: colors.mutedForeground,
     textAlign: "center",
     marginBottom: 6,
@@ -302,7 +303,7 @@ const ss = StyleSheet.create({
   },
   itemActive: {
     color: colors.primary,
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: fontFamilyTheme.semiBold,
   },
   presentConfirm: {
     height: 200,
@@ -325,7 +326,7 @@ const ss = StyleSheet.create({
   },
   cancelText: {
     fontSize: 15,
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: fontFamilyTheme.semiBold,
     color: colors.foreground,
   },
   confirmBtn: {
@@ -333,7 +334,7 @@ const ss = StyleSheet.create({
   },
   confirmText: {
     fontSize: 15,
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: fontFamilyTheme.semiBold,
     color: "#fff",
   },
 });

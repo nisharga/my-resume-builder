@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   message: {
-    fontFamily: "Poppins-Medium",
+    fontFamily: "Inter-Medium",
     fontSize: 13,
     color: colors.foreground,
     lineHeight: 18,

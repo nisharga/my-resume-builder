@@ -1,6 +1,7 @@
 import { Pressable, Text, View, type StyleProp, type ViewStyle } from "react-native";
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from "react-native-reanimated";
 import { Plus } from "lucide-react-native";
+import { fontFamilyTheme } from "@/styles";
 
 type AdditionalButtonProps = {
   label: string;
@@ -41,7 +42,7 @@ export default function AdditionalButton({
       <View className="h-6 w-6 items-center justify-center rounded-full bg-primary">
         <Plus size={14} color="#fff" strokeWidth={2.5} />
       </View>
-      <Text className="text-sm text-primary" style={{ fontFamily: "Poppins-SemiBold" }}>
+      <Text className="text-sm text-primary" style={{ fontFamily: fontFamilyTheme.semiBold }}>
         {label}
       </Text>
     </>

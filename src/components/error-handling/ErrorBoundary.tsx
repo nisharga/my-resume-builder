@@ -1,3 +1,4 @@
+import { fontFamilyTheme } from "@/styles";
 import * as Sentry from "@sentry/react-native";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
@@ -61,7 +62,7 @@ export default class ErrorBoundary extends React.Component<Props, State> {
 
         <Text
           style={{
-            fontFamily: "Poppins-SemiBold",
+            fontFamily: fontFamilyTheme.semiBold,
             fontSize: 18,
             color: "#1a1f36",
             marginBottom: 8,
@@ -73,7 +74,7 @@ export default class ErrorBoundary extends React.Component<Props, State> {
 
         <Text
           style={{
-            fontFamily: "Poppins-Regular",
+            fontFamily: fontFamilyTheme.regular,
             fontSize: 13,
             color: "#6b7280",
             textAlign: "center",
@@ -94,7 +95,7 @@ export default class ErrorBoundary extends React.Component<Props, State> {
             borderRadius: 14,
           })}
         >
-          <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 14, color: "#fff" }}>
+          <Text style={{ fontFamily: fontFamilyTheme.semiBold, fontSize: 14, color: "#fff" }}>
             Try Again
           </Text>
         </Pressable>

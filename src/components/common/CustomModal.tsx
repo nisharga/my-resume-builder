@@ -1,4 +1,5 @@
 import { useTheme } from "@/context";
+import { fontFamilyTheme } from "@/styles";
 import React, { useMemo } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -67,14 +68,14 @@ const CustomModal = ({
           borderColor: colors.border,
         },
         title: {
-          fontFamily: "Poppins-Bold",
+          fontFamily: "Inter-Bold",
           fontSize: 18,
           marginBottom: 12,
           color: colors.text.primary,
           textAlign: "center",
         },
         message: {
-          fontFamily: "Poppins-Regular",
+          fontFamily: fontFamilyTheme.regular,
           fontSize: 15,
           color: colors.text.secondary,
           marginBottom: 24,
@@ -103,12 +104,12 @@ const CustomModal = ({
         },
         confirmText: {
           color: colors.text.white,
-          fontFamily: "Poppins-SemiBold",
+          fontFamily: fontFamilyTheme.semiBold,
           fontSize: 14,
         },
         cancelText: {
           color: colors.text.secondary,
-          fontFamily: "Poppins-Medium",
+          fontFamily: "Inter-Medium",
           fontSize: 14,
         },
       }),

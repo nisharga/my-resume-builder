@@ -1,3 +1,4 @@
+import { fontFamilyTheme } from "@/styles";
 import { colors } from "@/styles/colors";
 import { Text, View } from "react-native";
 
@@ -32,12 +33,14 @@ export default function FaqContent() {
           key={i}
           className={`gap-1 ${i < FAQ_ITEMS.length - 1 ? "border-b border-border pb-3" : ""}`}
         >
-          <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 13, color: colors.foreground }}>
+          <Text
+            style={{ fontFamily: fontFamilyTheme.semiBold, fontSize: 13, color: colors.foreground }}
+          >
             {item.q}
           </Text>
           <Text
             style={{
-              fontFamily: "Poppins-Regular",
+              fontFamily: fontFamilyTheme.regular,
               fontSize: 12,
               color: colors.mutedForeground,
               lineHeight: 18,

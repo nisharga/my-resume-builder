@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { AlertCircle } from "lucide-react-native";
 import { useTheme } from "@/context";
-import { fontFamily } from "@/styles/theme";
+import { fontFamilyTheme } from "@/styles/theme";
 
 interface ErrorMessageProps {
   error: any;
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   text: {
-    fontFamily: fontFamily.medium,
+    fontFamily: fontFamilyTheme.medium,
     fontSize: 14,
     textAlign: "center",
     marginTop: 10,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#FFF",
-    fontFamily: fontFamily.bold,
+    fontFamily: fontFamilyTheme.bold,
     fontSize: 14,
   },
 });

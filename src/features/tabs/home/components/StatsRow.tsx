@@ -1,3 +1,4 @@
+import { fontFamilyTheme } from "@/styles";
 import { colors } from "@/styles/colors";
 import { Clock, FileText, Upload } from "lucide-react-native";
 import { Text, View } from "react-native";
@@ -37,10 +38,14 @@ function StatCard({ icon, value, label, borderRight = false }: StatCardProps) {
       >
         {icon}
       </View>
-      <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: 16, color: colors.foreground }}>
+      <Text
+        style={{ fontFamily: fontFamilyTheme.semiBold, fontSize: 16, color: colors.foreground }}
+      >
         {value}
       </Text>
-      <Text style={{ fontFamily: "Poppins-Regular", fontSize: 11, color: colors.mutedForeground }}>
+      <Text
+        style={{ fontFamily: fontFamilyTheme.regular, fontSize: 11, color: colors.mutedForeground }}
+      >
         {label}
       </Text>
     </View>

@@ -14,6 +14,7 @@ import { Alert, Modal, Pressable, Text, TextInput, View } from "react-native";
 import { CvCard, EmptyResume } from "../home/components";
 import { CvListSkeleton } from "./components";
 import { useFocusEffect, useRouter } from "expo-router";
+import { fontFamilyTheme } from "@/styles";
 
 type SortOption = "newest" | "oldest" | "a_z" | "z_a";
 
@@ -155,7 +156,7 @@ const MyCVScreen = () => {
             placeholderTextColor={colors.mutedForeground}
             className="flex-1"
             style={{
-              fontFamily: "Poppins-Regular",
+              fontFamily: fontFamilyTheme.regular,
               fontSize: 14,
               color: colors.foreground,
               paddingVertical: 8,

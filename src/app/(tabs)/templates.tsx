@@ -1,5 +1,5 @@
-import { TemplatesScreen } from "@/features";
+import { Text } from "react-native";
 
 export default function MyCv() {
-  return <TemplatesScreen />;
+  return <Text>Template Screen</Text>;
 }
