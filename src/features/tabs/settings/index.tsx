@@ -19,8 +19,8 @@ import Constants from "expo-constants";
 const semver = Constants.expoConfig?.version ?? "1.0.0";
 const buildNumber = Constants.nativeBuildVersion;
 const APP_VERSION = buildNumber ? `${semver} (${buildNumber})` : semver;
-const TERMS_URL = "https://myresumebuilder.app/terms";
-const PRIVACY_URL = "https://myresumebuilder.app/privacy";
+const TERMS_URL = "https://www.termsfeed.com/live/2e99a0ae-d248-46ed-ae9b-9580c6bf11c3";
+const PRIVACY_URL = "https://www.termsfeed.com/live/2e99a0ae-d248-46ed-ae9b-9580c6bf11c3";
 
 export default function SettingScreen() {
   const [notificationsOn, setNotificationsOn] = useState(true);
