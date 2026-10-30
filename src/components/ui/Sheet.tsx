@@ -38,7 +38,11 @@ export default function Sheet({
   const isOpen = isControlled ? controlledOpen : internalOpen;
 
   const open = () => {
-    isControlled ? onOpen?.() : setInternalOpen(true);
+    if (isControlled) {
+      onOpen?.();
+    } else {
+      setInternalOpen(true);
+    }
   };
   const close = () => {
     setInternalOpen(false);

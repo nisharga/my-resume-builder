@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { getLanguage, saveLanguage } from "./contextStorage";
 import { getLanguageTranslations } from "../services/i18n";
 
@@ -22,27 +22,30 @@ export const LanguageProvider = ({ children }: any) => {
     saveLanguage(newLanguage);
   };
 
-  const t = (key: string, defaultValue?: string): string => {
-    if (!key) return defaultValue || "";
+  const t = useCallback(
+    (key: string, defaultValue?: string): string => {
+      if (!key) return defaultValue || "";
 
-    const trans = translations as Record<string, any>;
+      const trans = translations as Record<string, any>;
 
-    if (trans[key]) return trans[key];
+      if (trans[key]) return trans[key];
 
-    if (key.includes(".")) {
-      const keys = key.split(".");
-      let value: any = trans;
-      for (const k of keys) {
-        value = value?.[k];
-        if (!value) break;
+      if (key.includes(".")) {
+        const keys = key.split(".");
+        let value: any = trans;
+        for (const k of keys) {
+          value = value?.[k];
+          if (!value) break;
+        }
+        if (typeof value === "string") return value;
       }
-      if (typeof value === "string") return value;
-    }
 
-    if (defaultValue !== undefined) return defaultValue;
+      if (defaultValue !== undefined) return defaultValue;
 
-    return key;
-  };
+      return key;
+    },
+    [translations],
+  );
 
   const contextValue = useMemo(
     () => ({ language, changeLanguage, t, translations }),

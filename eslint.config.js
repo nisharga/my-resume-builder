@@ -15,4 +15,11 @@ module.exports = defineConfig([
       "react-hooks/immutability": "off",
     },
   },
+  {
+    files: ["**/__tests__/**/*.[jt]s?(x)", "**/*.test.[jt]s?(x)"],
+    rules: {
+      // jest.mock() factories are hoisted before imports so require() is the only option
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
 ]);
