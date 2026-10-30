@@ -17,6 +17,12 @@ git clone https://github.com/your-username/your-repo.git my-new-app
 cd my-new-app
 ```
 
+```bash
+.env
+.env.local (You can pull it)
+.expo-env-d.ts (Auto create)
+```
+
 ---
 
 ### Step 2 — Update `package.json`
