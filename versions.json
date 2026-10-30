@@ -1,0 +1,10 @@
+{
+  "preview": {
+    "major": 2,
+    "ota": 3
+  },
+  "production": {
+    "major": 1,
+    "ota": 1
+  }
+}

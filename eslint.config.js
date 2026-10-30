@@ -9,4 +9,10 @@ module.exports = defineConfig([
   {
     ignores: ["dist/*", "android/*", "ios/*", ".expo/*", "node_modules/*"],
   },
+  {
+    rules: {
+      // Reanimated shared values (.value mutations) are a false positive for this rule
+      "react-hooks/immutability": "off",
+    },
+  },
 ]);

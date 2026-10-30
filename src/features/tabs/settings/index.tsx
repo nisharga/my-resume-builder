@@ -1,0 +1,162 @@
+import { Screen, ScreenHeader, SettingItem } from "@/components";
+import { colors } from "@/styles/colors";
+import { Bell, FileText, Globe, HelpCircle, Mail, Moon, Shield, Zap } from "lucide-react-native";
+import {
+  getNotificationsEnabled,
+  getWeeklyReminderEnabled,
+  requestPermissions,
+  scheduleWeeklyReminder,
+  cancelWeeklyReminder,
+  setNotificationsEnabled,
+  setWeeklyReminderEnabled,
+} from "@/utils/notifications";
+import { useEffect, useState } from "react";
+import { Linking, Text, View } from "react-native";
+import { SectionLabel, UpcomingBadge, FaqContent } from "./components";
+import Constants from "expo-constants";
+
+// semver from app.json + native build number (auto-incremented by EAS)
+const semver = Constants.expoConfig?.version ?? "1.0.0";
+const buildNumber = Constants.nativeBuildVersion;
+const APP_VERSION = buildNumber ? `${semver} (${buildNumber})` : semver;
+const TERMS_URL = "https://www.termsfeed.com/live/2e99a0ae-d248-46ed-ae9b-9580c6bf11c3";
+const PRIVACY_URL = "https://www.termsfeed.com/live/2e99a0ae-d248-46ed-ae9b-9580c6bf11c3";
+
+export default function SettingScreen() {
+  const [notificationsOn, setNotificationsOn] = useState(true);
+  const [weeklyReminderOn, setWeeklyReminderOn] = useState(false);
+
+  useEffect(() => {
+    getNotificationsEnabled()
+      .then(setNotificationsOn)
+      .catch(() => {});
+    getWeeklyReminderEnabled()
+      .then(setWeeklyReminderOn)
+      .catch(() => {});
+  }, []);
+
+  async function handleNotificationToggle(value: boolean) {
+    setNotificationsOn(value);
+    await setNotificationsEnabled(value);
+    if (value) requestPermissions();
+  }
+
+  async function handleWeeklyReminderToggle(value: boolean) {
+    setWeeklyReminderOn(value);
+    await setWeeklyReminderEnabled(value);
+    if (value) {
+      await scheduleWeeklyReminder();
+    } else {
+      await cancelWeeklyReminder();
+    }
+  }
+
+  return (
+    <Screen>
+      <ScreenHeader title="Settings" className="mb-4" />
+      <View className="gap-5 px-4 pb-8">
+        {/* ── App Settings ─────────────────────────────────────────── */}
+        <View>
+          <SectionLabel label="App Settings" />
+          <View className="overflow-hidden rounded-2xl bg-white">
+            <SettingItem
+              index={0}
+              icon={<Bell size={17} color={colors.foreground} strokeWidth={2} />}
+              title="Notifications"
+              subtitle="Manage push notifications"
+              right="toggle"
+              toggled={notificationsOn}
+              onToggle={handleNotificationToggle}
+            />
+            <SettingItem
+              index={1}
+              icon={<Bell size={17} color={colors.foreground} strokeWidth={2} />}
+              title="Weekly Reminder"
+              subtitle="Get a nudge to update your resume"
+              right="toggle"
+              toggled={weeklyReminderOn}
+              onToggle={handleWeeklyReminderToggle}
+            />
+            <SettingItem
+              index={2}
+              icon={<Globe size={17} color={colors.foreground} strokeWidth={2} />}
+              title="Language"
+              subtitle="Choose your preferred language"
+              expandedContent={<UpcomingBadge />}
+            />
+            <SettingItem
+              index={3}
+              icon={<Moon size={17} color={colors.foreground} strokeWidth={2} />}
+              title="Dark Mode"
+              subtitle="Switch to a darker theme"
+              isLast
+              expandedContent={<UpcomingBadge />}
+            />
+          </View>
+        </View>
+
+        {/* ── AI Settings ──────────────────────────────────────────── */}
+        <View>
+          <SectionLabel label="AI Settings" />
+          <View className="overflow-hidden rounded-2xl bg-white">
+            <SettingItem
+              index={4}
+              icon={<Zap size={17} color={colors.foreground} strokeWidth={2} />}
+              title="AI Usage / Credits"
+              subtitle="View your AI credits and usage"
+              isLast
+              expandedContent={<Text className="caption">Credits dashboard coming soon.</Text>}
+            />
+          </View>
+        </View>
+
+        {/* ── Support ──────────────────────────────────────────────── */}
+        <View>
+          <SectionLabel label="Support" />
+          <View className="overflow-hidden rounded-2xl bg-white">
+            <SettingItem
+              index={5}
+              icon={<HelpCircle size={17} color={colors.foreground} strokeWidth={2} />}
+              title="FAQs"
+              subtitle="Frequently asked questions"
+              expandedContent={<FaqContent />}
+            />
+            <SettingItem
+              index={6}
+              icon={<Mail size={17} color={colors.foreground} strokeWidth={2} />}
+              title="Contact Us"
+              subtitle="We're here to help you"
+              isLast
+              expandedContent={<Text className="caption">kabirnisharga@gmail.com</Text>}
+            />
+          </View>
+        </View>
+
+        {/* ── Legal ────────────────────────────────────────────────── */}
+        <View>
+          <SectionLabel label="Legal" />
+          <View className="overflow-hidden rounded-2xl bg-white">
+            <SettingItem
+              index={7}
+              icon={<FileText size={17} color={colors.foreground} strokeWidth={2} />}
+              title="Terms & Conditions"
+              subtitle="Read our Terms of Service"
+              onPress={() => Linking.openURL(TERMS_URL)}
+            />
+            <SettingItem
+              index={8}
+              icon={<Shield size={17} color={colors.foreground} strokeWidth={2} />}
+              title="Privacy Policy"
+              subtitle="Read our Privacy Policy"
+              isLast
+              onPress={() => Linking.openURL(PRIVACY_URL)}
+            />
+          </View>
+        </View>
+
+        {/* ── Footer ───────────────────────────────────────────────── */}
+        <Text className="xs-normal mt-2 text-center">Resume Builder | Version {APP_VERSION}</Text>
+      </View>
+    </Screen>
+  );
+}

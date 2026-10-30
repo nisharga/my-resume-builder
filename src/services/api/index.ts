@@ -1,1 +1,1 @@
-// custom api
+export * from "./geminiService";

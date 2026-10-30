@@ -1,0 +1,18 @@
+# EAS installs node_modules on the build server — never upload yours
+node_modules/
+
+# EAS generates native directories via prebuild — exclude local copies
+android/
+ios/
+
+# Other unnecessary files
+.expo/
+.expo-shared/
+.git/
+.github/
+.vscode/
+.idea/
+*.md
+*.log
+*.bak
+*.tmp

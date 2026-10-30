@@ -6,16 +6,24 @@ import { Provider } from "react-redux";
 import AppToast from "@/components/ui/AppToast";
 import { toastRef } from "@/utils/toast";
 import { CustomSplashScreen, OnboardingScreen } from "@/features/onboarding";
+import { ErrorBoundary, initSentry } from "@/components/error-handling";
 import { OverlayProvider } from "@gluestack-ui/core/overlay/creator";
 import { ToastProvider } from "@gluestack-ui/core/toast/creator";
+import { useEffect } from "react";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
+import * as Notifications from "expo-notifications";
+import { requestPermissions } from "@/utils/notifications";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import * as Sentry from "@sentry/react-native";
 import "../styles/global.css";
 import { useAppFlow } from "@/hooks";
+
+// Initialise Sentry before any component renders
+initSentry();
 
 export const unstable_settings = {
   initialRouteName: "(tabs)",
@@ -25,9 +33,33 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 SplashScreen.setOptions({ duration: 300, fade: true });
 
-export default function RootLayout() {
+function RootLayout() {
   const [fontsLoaded, fontError] = useFonts(useCustomFonts);
   const fontsReady = fontsLoaded || !!fontError;
+
+  // =================== Notifications Logic =================
+
+  const router = useRouter();
+
+  // Request notification permissions once on startup
+  useEffect(() => {
+    requestPermissions();
+  }, []);
+
+  // Navigate based on notification type when user taps a notification
+  useEffect(() => {
+    const sub = Notifications.addNotificationResponseReceivedListener((response) => {
+      const data = response.notification.request.content.data as Record<string, unknown>;
+      if (data?.type === "cv_export") {
+        router.push("/notifications");
+      } else if (data?.type === "weekly_reminder") {
+        router.push("/(tabs)");
+      }
+    });
+    return () => sub.remove();
+  }, [router]);
+
+  // =================== Notifications Logic End =================
 
   // All phase logic lives in useAppFlow — see src/app/useAppFlow.ts
   const { phase, handleSplashFinish, handleOnboardingComplete } = useAppFlow(fontsReady);
@@ -61,25 +93,29 @@ export default function RootLayout() {
   // Full provider tree + Stack navigator.
   // app/index.tsx decides whether to redirect to (auth) or (tabs).
   return (
-    <Provider store={store}>
-      <GestureHandlerRootView className="flex-1 bg-background">
-        <OverlayProvider>
-          <ToastProvider>
-            <ThemeProvider>
-              <LanguageProvider>
-                <StatusBar style="auto" />
-                <Stack
-                  screenOptions={{
-                    headerShown: false,
-                    contentStyle: { backgroundColor: "transparent" },
-                  }}
-                />
-                <AppToast ref={toastRef} />
-              </LanguageProvider>
-            </ThemeProvider>
-          </ToastProvider>
-        </OverlayProvider>
-      </GestureHandlerRootView>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <GestureHandlerRootView className="flex-1 bg-background">
+          <OverlayProvider>
+            <ToastProvider>
+              <ThemeProvider>
+                <LanguageProvider>
+                  <StatusBar style="auto" />
+                  <Stack
+                    screenOptions={{
+                      headerShown: false,
+                      contentStyle: { backgroundColor: "transparent" },
+                    }}
+                  />
+                  <AppToast ref={toastRef} />
+                </LanguageProvider>
+              </ThemeProvider>
+            </ToastProvider>
+          </OverlayProvider>
+        </GestureHandlerRootView>
+      </Provider>
+    </ErrorBoundary>
   );
 }
+
+export default Sentry.wrap(RootLayout);

@@ -1,0 +1,14 @@
+appId: com.nisharga.myresumebuilder
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    text: "Resume Builder"
+    index: 1 
+- tapOn: "Close"
+- assertVisible: "Build Your CV"
+- assertVisible: "Create stunning professional resumes in minutes with our easy-to-use builder."
+- tapOn: "Next"
+- tapOn: "Next"
+- tapOn: "Get Started"
+

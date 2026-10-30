@@ -1,10 +1,10 @@
 import { colors } from "@/styles/colors";
 import { Tabs } from "expo-router";
-import { FileText, Home, LayoutTemplate, LucideIcon, Plus, User } from "lucide-react-native";
+import { FileText, Home, LayoutTemplate, LucideIcon, Plus, Settings } from "lucide-react-native";
 import { Pressable, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const CONTENT_HEIGHT = 58;
+const CONTENT_HEIGHT = 64;
 
 function NoRippleTabButton(props: any) {
   return <Pressable {...props} android_ripple={null} style={props.style} />;
@@ -29,8 +29,8 @@ export const TABS: TabConfig[] = [
   { name: "index", title: "Home", icon: Home },
   { name: "templates", title: "Templates", icon: LayoutTemplate },
   { name: "create-resume", title: "", isCenter: true },
-  { name: "resumes", title: "My CV", icon: FileText },
-  { name: "profile", title: "Profile", icon: User },
+  { name: "my-cv", title: "My CV", icon: FileText },
+  { name: "setting", title: "Settings", icon: Settings },
 ];
 
 export default function TabsLayout() {

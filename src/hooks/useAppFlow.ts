@@ -1,12 +1,14 @@
 import { initContextStorage } from "@/context/contextStorage";
 import { isAuthenticated } from "@/features/auth/authStorage";
 import { checkOnboardingStatus } from "@/features/onboarding/storageOnboarding";
+import { shouldShowOverview, markOverviewSeen } from "@/features/onboarding/SpotLightTourStorage";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 
 export const ENABLE_CUSTOM_SPLASH = true;
 export const ENABLE_ONBOARDING = true;
-export const ENABLE_AUTH = true;
+export const ENABLE_AUTH = false;
+export const ENABLE_HOME_SPOTLIGHT_TOUR = true;
 
 // ─── Phase ────────────────────────────────────────────────────────────────────
 // loading    → fonts/storage initialising; native splash stays visible
@@ -70,6 +72,32 @@ export function useAppFlow(fontsReady: boolean) {
   }
 
   return { phase, handleSplashFinish, handleOnboardingComplete };
+}
+
+// ─── useSpotlightTour ─────────────────────────────────────────────────────────
+// Drives home-screen spotlight tour visibility.
+// handleTourDone is called on both complete AND cancel — marks seen so it never
+// auto-shows again.
+
+export function useSpotlightTour() {
+  const [showTour, setShowTour] = useState(false);
+
+  useEffect(() => {
+    if (!ENABLE_HOME_SPOTLIGHT_TOUR) return;
+    shouldShowOverview()
+      .then(setShowTour)
+      .catch(() => {});
+  }, []);
+
+  async function handleTourDone() {
+    setShowTour(false);
+    await markOverviewSeen().catch(() => {});
+  }
+
+  return {
+    showTour: ENABLE_HOME_SPOTLIGHT_TOUR && showTour,
+    handleTourDone,
+  };
 }
 
 // ─── useAuthTarget ────────────────────────────────────────────────────────────

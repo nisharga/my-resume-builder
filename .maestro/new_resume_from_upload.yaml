@@ -1,0 +1,24 @@
+appId: com.nisharga.myresumebuilder
+---
+- launchApp:
+    clearState: true
+- tapOn: "Import Existing CV"
+- tapOn: "Choose your PDF resume"
+- tapOn: "alex_johnson_cv (1).pdf" 
+- assertVisible: "alex_johnson_cv (1).pdf" 
+- tapOn: "Analyze with AI"
+- waitForAnimationToEnd:
+    timeout: 15000
+- assertVisible: "Preview CV"
+- tapOn: "Preview CV"
+- tapOn: "Customize"
+- scrollUntilVisible:
+    element: "Classic"
+    direction: DOWN
+- tapOn: "Classic"
+- tapOn: "Docs"
+- waitForAnimationToEnd:
+    timeout: 2000
+- assertVisible: "Alex Johnson has been saved as DOCX."
+
+

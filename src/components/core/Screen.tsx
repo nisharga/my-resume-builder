@@ -45,7 +45,7 @@ export default function Screen({
   }));
 
   return (
-    <Animated.View style={[{ flex: 1 }, animStyle]}>
+    <Animated.View style={[{ flex: 1, backgroundColor: "#f7f8fa" }, animStyle]}>
       <SafeAreaView style={{ flex: 1 }} edges={edges} className={`bg-background ${className}`}>
         <StatusBar style={statusBar} />
 
@@ -55,7 +55,7 @@ export default function Screen({
         >
           <ScrollView
             style={{ flex: 1 }}
-            contentContainerStyle={{ flexGrow: 1 }}
+            contentContainerStyle={{ flexGrow: 1, paddingBottom: 32 }}
             stickyHeaderIndices={stickyIndices.length > 0 ? stickyIndices : undefined}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"

@@ -48,10 +48,19 @@
         "expo-notifications",
         {
           "icon": "./assets/favicon.png",
-          "color": "#DC3173",
-          "sounds": ["./assets/sounds/notification_sound.wav"]
+          "color": "#4a6cf7",
+          "sounds": ["./assets/sounds/notification_sound.wav", "./assets/sounds/guiter.wav"]
         }
-      ]
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "organization": "bruskee",
+          "project": "my-resume-builder"
+        }
+      ],
+      "expo-sharing"
     ],
     "experiments": {
       "typedRoutes": true,
@@ -60,9 +69,13 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "0a741c77-9736-4a30-a912-f1977ab4755c"
+        "projectId": "68e2eb51-6599-4f38-8eb1-362644a28008"
       }
     },
-    "owner": "nisharga.sharetasking"
+    "owner": "nisharga.sharetasking",
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/68e2eb51-6599-4f38-8eb1-362644a28008"
+    }
   }
 }

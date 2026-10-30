@@ -1,7 +1,7 @@
 import {
-  cancelMealReminders,
+  cancelWeeklyReminder,
   requestPermissions,
-  scheduleMealReminders,
+  scheduleWeeklyReminder,
 } from "../../utils/notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
@@ -24,9 +24,9 @@ export default function ReminderToggle() {
     if (value) {
       const granted = await requestPermissions();
       if (!granted) return;
-      await scheduleMealReminders();
+      await scheduleWeeklyReminder();
     } else {
-      await cancelMealReminders();
+      await cancelWeeklyReminder();
     }
     setEnabled(value);
     await AsyncStorage.setItem(REMINDERS_KEY, value.toString());
