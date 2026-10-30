@@ -4,7 +4,7 @@
     "ota": 3
   },
   "production": {
-    "major": 1,
+    "major": 2,
     "ota": 1
   }
 }
