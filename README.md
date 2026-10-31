@@ -208,6 +208,24 @@ npx expo start
 
 ### The two release scripts
 
+Before build please add all project env on the expo dev cloude
+
+```bash
+https://expo.dev/accounts/nisharga.sharetasking/projects/cute-cat/environment-variables
+```
+
+```bash
+eas env:list --environment preview
+eas env:list --environment production
+```
+
+SENTRY_AUTH_TOKEN if not set then you have to set it. its because eas.json need as variable SENTRY_AUTH_TOKEN thats why its need.
+
+```bash
+eas env:create --name SENTRY_AUTH_TOKEN --value "inside_bracket_token_peast" --visibility secret --environment preview
+eas env:create --name SENTRY_AUTH_TOKEN --value "inside_bracket_token_peast" --visibility secret --environment production
+```
+
 Always use the npm scripts instead of running `eas` directly — the scripts bump `versions.json`, commit it, and then run the EAS command in one step.
 
 ```bash
