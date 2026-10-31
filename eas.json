@@ -22,7 +22,8 @@
         "APP_VARIANT": "preview",
         "SENTRY_AUTH_TOKEN": "$SENTRY_AUTH_TOKEN"
       },
-      "android": { "buildType": "apk" }
+      "android": { "buildType": "apk" },
+      "ios": { "simulator": true }
     },
     "production": {
       "environment": "production",

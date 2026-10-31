@@ -3,8 +3,12 @@ const { execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
-const [, , action, profile, ...rest] = process.argv;
-const customMessage = rest.join(" ").trim();
+const [, , action, profile, platformOrMessage, ...rest] = process.argv;
+const platforms = ["android", "ios", "all"];
+const platform = platforms.includes(platformOrMessage) ? platformOrMessage : "all";
+const customMessage = platforms.includes(platformOrMessage)
+  ? rest.join(" ").trim()
+  : [platformOrMessage, ...rest].filter(Boolean).join(" ").trim();
 
 if (!["build", "ota"].includes(action) || !["preview", "production"].includes(profile)) {
   console.error("Usage: node scripts/release.js <build|ota> <preview|production> [message]");
@@ -24,7 +28,7 @@ if (action === "build") {
   console.log(`\n✓ ${profile}.major → ${v.major}.0.0\n`);
   run(`git add versions.json`);
   run(`git commit -m "chore: bump ${profile} to v${v.major}.0.0"`);
-  run(`eas build --profile ${profile} --platform android --non-interactive`);
+  run(`eas build --profile ${profile} --platform ${platform} --non-interactive`);
 } else {
   v.ota += 1;
   fs.writeFileSync(versionsPath, JSON.stringify(versions, null, 2) + "\n");

@@ -136,6 +136,7 @@ const HomeScreen = () => {
     <Screen>
       {/* Stats header */}
       <View className="mb-2 px-4">
+        <Text>New App</Text>
         <WelcomeGreeting
           totalCVs={totalCVs}
           totalExports={totalExports}
